@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    build: tab
+    build: .
     container_name: backend
     expose:
       - 8080
