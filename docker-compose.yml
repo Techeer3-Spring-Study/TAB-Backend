@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    build: tab
+    container_name: backend
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: 
+      SPRING_DATASOURCE_USER: 
+      SPRING_DATASOURCE_PASSWORD: 
+    depends_on:
+      - mysql
