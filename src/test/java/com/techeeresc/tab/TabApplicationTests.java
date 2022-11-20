@@ -1,10 +1,10 @@
-package member;
+package com.techeeresc.tab;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class TabApplicationTests {
 
 	@Test
 	void contextLoads() {
