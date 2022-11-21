@@ -4,3 +4,14 @@ spring:
     url: jdbc:mysql://mysql2:3306/tab?useSSL=false
     username: root
     password: tab
+
+  jpa:
+    hibernate:
+      ddl-auto : create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging.level:
+  org.hivernate.SQL : debug
