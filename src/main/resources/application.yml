@@ -1,8 +1,6 @@
 spring:
-  h2:
-
   datasource:
-
-  jpa:
-
-  redis:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql2:3306/tab?useSSL=false
+    username: root
+    password: tab
