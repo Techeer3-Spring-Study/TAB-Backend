@@ -3,9 +3,11 @@
 - edit application.yml
 
     ```java
-    # local 실행 시 주석 지우고 실행
-    #  profiles:
-    #    default: local
+    spring:
+      datasource:
+        include:
+    #      - docker
+          - local
     ```
 
 

@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  mysql2:
+  mysql:
     container_name: mysql
     image: mysql:latest
     ports:
-      - "3308:3306"
+      - "3306:3306"
     restart: always
     environment:
       MYSQL_DATABASE: tab
@@ -14,8 +14,6 @@ services:
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./data/mysql/:/var/lib/mysql
 
   backend:
     build: .
@@ -25,8 +23,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab?useSSL=false
-      SPRING_DATASOURCE_USER: tab
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
+      SPRING_DATASOURCE_USER: root
       SPRING_DATASOURCE_PASSWORD: tab
     depends_on:
-      - mysql2
+      - mysql
