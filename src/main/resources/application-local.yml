@@ -1,13 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/tab?useSSL=false
+    url: jdbc:mysql://localhost:3308/tab
     username: root
     password: tab
 
-  # local 실행 시
-  profiles:
-    default: local
+  config:
+    activate:
+      on-profile: local
 
   jpa:
     hibernate:
