@@ -1,8 +1,20 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+spring:
+  datasource:
+    include:
+      - docker
+#      - local
+
+  jpa:
+    hibernate:
+      ddl-auto : create
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
+    show_sql: true
+
+logging:
+  level:
+    org:
+      hibernate: info
+
