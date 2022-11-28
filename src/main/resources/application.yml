@@ -11,10 +11,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        use_sql_comments: true    # 실행되는 JPQL을 보고싶다면 다음과 같이 추가한다.
     show_sql: true
 
 logging:
   level:
     org:
       hibernate: info
-
