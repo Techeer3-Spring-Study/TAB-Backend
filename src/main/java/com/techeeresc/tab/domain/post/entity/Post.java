@@ -1,13 +1,19 @@
 package com.techeeresc.tab.domain.post.entity;
 
 import com.techeeresc.tab.global.common.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
+@NoArgsConstructor   // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
+@AllArgsConstructor
 @Getter
-@Entity
+@Builder
+// @Builder @NoArgsConstructor 를 함께 사용하려면 @AllArgsConstructor 나 모든 필드를 가지는 생성자를 직접 만들어줘야한다.
+@Entity   // @Entity 어노테이션을 사용하면 이 클래스는 테이블과 매핑할 클래스라는 것을 명시해준다.
 @Table(name = "post")
 public class Post extends Timestamp {
     @Id
@@ -39,8 +45,8 @@ public class Post extends Timestamp {
     @Column(name = "is_anonymous", nullable = false)
     private boolean isAnonymous;
 
-    @Column(name = "like_number", nullable = false)
-    private int likeNumber;
+    @Column(name = "like_numbers", nullable = false)
+    private int likeNumbers;
 
     @Column(name = "views", nullable = false)
     private int views;
