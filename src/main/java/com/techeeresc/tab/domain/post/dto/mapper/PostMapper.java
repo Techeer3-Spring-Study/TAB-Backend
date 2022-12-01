@@ -3,9 +3,6 @@ package com.techeeresc.tab.domain.post.dto.mapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor   // postRepository 의 생성자를 위해 선언
 public class PostMapper {
     public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto) {
         return Post.builder()
@@ -16,7 +13,7 @@ public class PostMapper {
                 .file(postCreateRequestDto.getFile())
                 .image(postCreateRequestDto.getImage())
                 .hashtags(postCreateRequestDto.getHashtags())
-                .isAnonymous(postCreateRequestDto.getIsAnonymous())
+                .isAnonymous(postCreateRequestDto.isAnonymous())
                 .likeNumbers(postCreateRequestDto.getLikeNumbers())
                 .views(postCreateRequestDto.getViews())
                 .build();
@@ -32,7 +29,8 @@ public class PostMapper {
                 .file(post.getFile())
                 .image(post.getImage())
                 .hashtags(post.getHashtags())
-                .isAnonymous(post.getIsAnonymous())   // 여기 왜 인식이 안되지..?
+                .isAnonymous(post.isAnonymous())
+                // 오류 해결! boolean 타입의 변수인 경우 getXXX가 아니라 isXXX 이름으로 getter를 생성한다!
                 .build();
     }
 }
