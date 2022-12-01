@@ -12,11 +12,11 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor   // postRepository 의 생성자를 위해 선언
 @Service
 public class PostService {
-    private final PostRepository POST_REPOSITORY;
-    private final PostMapper POST_MAPPER;
+    private final PostRepository REPOSITORY;
+    private final PostMapper MAPPER;
 
     @Transactional
     public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
-        Post post = POST_REPOSITORY.save(POST_MAPPER)
+        return REPOSITORY.save(MAPPER.saveDataToEntity(postCreateRequestDto));
     }
 }

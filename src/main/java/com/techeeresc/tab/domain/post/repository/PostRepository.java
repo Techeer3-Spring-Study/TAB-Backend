@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    // 직접적으로 데이터베이스와 소통하는 Dao
+
 }
