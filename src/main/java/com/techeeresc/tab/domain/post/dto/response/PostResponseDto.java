@@ -1,8 +1,10 @@
 package com.techeeresc.tab.domain.post.dto.response;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter     // 없으면 406 오류가 발생한다. 데이터는 정상적으로 들어가지만 응답을 하지 못해 postman에서 406 오류 발생
 public class PostResponseDto {
     private Long id;
 

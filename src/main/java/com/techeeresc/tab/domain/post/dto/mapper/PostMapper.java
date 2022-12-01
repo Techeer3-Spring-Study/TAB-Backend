@@ -3,7 +3,9 @@ package com.techeeresc.tab.domain.post.dto.mapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostMapper {
     public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto) {
         return Post.builder()

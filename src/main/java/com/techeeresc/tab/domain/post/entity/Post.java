@@ -45,6 +45,8 @@ public class Post extends Timestamp {
     @Column(name = "is_anonymous", nullable = false)
     private boolean isAnonymous;
 
+    // TODO: 아래 필드는 default 값으로 0을 주고, 업데이트 시 증가하도록 해야한다.
+
     @Column(name = "like_numbers", nullable = false)
     private int likeNumbers;
 

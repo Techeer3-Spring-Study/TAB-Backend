@@ -1,8 +1,10 @@
 package com.techeeresc.tab.domain.post.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class PostCreateRequestDto {
     private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요
 

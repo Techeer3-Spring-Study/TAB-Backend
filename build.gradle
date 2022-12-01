@@ -28,7 +28,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'   // 해당 옵션으로 바꿨더니 동작하는 이유는?
+	annotationProcessor 'org.projectlombok:lombok'   // gradle 5 이상부터는 이처럼 설정해주어야한다.
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
