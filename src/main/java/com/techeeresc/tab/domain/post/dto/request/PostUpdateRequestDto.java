@@ -1,10 +1,12 @@
 package com.techeeresc.tab.domain.post.dto.request;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class PostUpdateRequestDto {
-    private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요
+    private Long id;
 
     private String category;
 
@@ -20,7 +22,7 @@ public class PostUpdateRequestDto {
 
     private boolean isAnonymous;
 
-    private int likeNumber;
+    private int likeNumbers;
 
     private int views;
 }

@@ -32,8 +32,7 @@ public class PostMapper {
                 .file(post.getFile())
                 .image(post.getImage())
                 .hashtags(post.getHashtags())
-                .isAnonymous(post.isAnonymous())
-                // 오류 해결! boolean 타입의 변수인 경우 getXXX가 아니라 isXXX 이름으로 getter를 생성한다!
+                .isAnonymous(post.isAnonymous())   // boolean 타입의 변수인 경우 getXXX가 아니라 isXXX 이름으로 getter를 생성한다!
                 .build();
     }
 }

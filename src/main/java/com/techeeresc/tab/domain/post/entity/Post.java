@@ -1,10 +1,12 @@
 package com.techeeresc.tab.domain.post.entity;
 
+import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.global.common.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -34,7 +36,7 @@ public class Post extends Timestamp {
     private String content;
 
     @Column(name = "file")
-    private String file;
+    private String file;    // TODO: 파일도 여러개 올리도록 해야할지?
 
     @Column(name = "image")
     private String image;
@@ -48,8 +50,35 @@ public class Post extends Timestamp {
     // TODO: 아래 필드는 default 값으로 0을 주고, 업데이트 시 증가하도록 해야한다.
 
     @Column(name = "like_numbers", nullable = false)
+    @ColumnDefault("0")
     private int likeNumbers;
 
     @Column(name = "views", nullable = false)
+    @ColumnDefault("0")
     private int views;
+
+    public Post updatePost(PostUpdateRequestDto postUpdateRequestDto) {
+        this.category = postUpdateRequestDto.getCategory();
+        this.title = postUpdateRequestDto.getTitle();
+        this.content = postUpdateRequestDto.getContent();
+        this.file = postUpdateRequestDto.getFile();
+        this.image = postUpdateRequestDto.getImage();
+        this.hashtags = postUpdateRequestDto.getHashtags();
+        this.isAnonymous = postUpdateRequestDto.isAnonymous();
+        this.views = postUpdateRequestDto.getViews();
+
+        return this;
+    }
+
+    public Post increaseLikeNumbers(int likeNumbers) {
+        this.likeNumbers = ++likeNumbers;
+
+        return this;
+    }
+
+    public Post increaseViews(int views) {
+        this.views = ++views;
+
+        return this;
+    }
 }
