@@ -65,7 +65,6 @@ public class Post extends Timestamp {
         this.image = postUpdateRequestDto.getImage();
         this.hashtags = postUpdateRequestDto.getHashtags();
         this.isAnonymous = postUpdateRequestDto.isAnonymous();
-        this.views = postUpdateRequestDto.getViews();
 
         return this;
     }

@@ -21,8 +21,4 @@ public class PostUpdateRequestDto {
     private String hashtags;    // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
 
     private boolean isAnonymous;
-
-    private int likeNumbers;
-
-    private int views;
 }

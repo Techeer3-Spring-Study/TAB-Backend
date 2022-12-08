@@ -17,8 +17,6 @@ public class PostMapper {
                 .image(postCreateRequestDto.getImage())
                 .hashtags(postCreateRequestDto.getHashtags())
                 .isAnonymous(postCreateRequestDto.isAnonymous())
-                .likeNumbers(postCreateRequestDto.getLikeNumbers())
-                .views(postCreateRequestDto.getViews())
                 .build();
     }
 
@@ -32,6 +30,8 @@ public class PostMapper {
                 .file(post.getFile())
                 .image(post.getImage())
                 .hashtags(post.getHashtags())
+                .likeNumbers(post.getLikeNumbers())
+                .views(post.getViews())
                 .isAnonymous(post.isAnonymous())   // boolean 타입의 변수인 경우 getXXX가 아니라 isXXX 이름으로 getter를 생성한다!
                 .build();
     }

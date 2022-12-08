@@ -3,7 +3,6 @@ package com.techeeresc.tab.domain.post.service;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
-import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.exception.NotFoundException;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
