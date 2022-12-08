@@ -38,6 +38,7 @@ public class PostService {
         } catch(NotFoundException exception) {
             System.out.println("게시물이 존재하지 않습니다.");
         }
+
         return null;
     }
 
@@ -45,8 +46,32 @@ public class PostService {
     public Post increaseLikeNumbers(Long id) {
         try {
             Post post = isPostExisted(id);
-            System.out.println(post);
             return post.increaseLikeNumbers(post.getLikeNumbers());
+        } catch(NotFoundException exception) {
+            System.out.println("게시물이 존재하지 않습니다.");
+        }
+
+        return null;
+    }
+
+    @Transactional
+    public List<Post> deletePost(Long id) {
+        try {
+            Post post = isPostExisted(id);
+            POST_REPOSITORY.deleteById(post.getId());
+        } catch (NotFoundException exception) {
+            System.out.println("게시물이 존재하지 않습니다.");
+        }
+
+        return readAllPost();
+    }
+
+    @Transactional
+    public Post findPostByIdAndIncreaseViews(Long id) {
+        try {
+            Post post = isPostExisted(id);
+            post = increaseViews(post);
+            return post;
         } catch(NotFoundException exception) {
             System.out.println("게시물이 존재하지 않습니다.");
         }
@@ -54,18 +79,10 @@ public class PostService {
     }
 
     @Transactional
-    public List<Post> deletePost(Long id) {
-        POST_REPOSITORY.deleteById(id);
-        return readAllPost();
-    }
-
-    @Transactional
-    public PostResponseDto findPostByIdAndIncreaseViews(Long id) {
+    public Post findPostById(Long id) {
         try {
             Post post = isPostExisted(id);
-            post = increaseViews(post);
-            System.out.println(post);
-            return POST_MAPPER.getDataFromEntity(post);
+            return post;
         } catch(NotFoundException exception) {
             System.out.println("게시물이 존재하지 않습니다.");
         }
@@ -79,6 +96,7 @@ public class PostService {
     private Post isPostExisted(Long id) {
         Post post = POST_REPOSITORY.findById(id).orElseThrow(() ->
                 new NotFoundException("게시물이 존재하지 않습니다."));
+
         return post;
     }
 }

@@ -71,13 +71,15 @@ public class Post extends Timestamp {
     }
 
     public Post increaseLikeNumbers(int likeNumbers) {
-        this.likeNumbers = ++likeNumbers;
+        likeNumbers++;
+        this.likeNumbers = likeNumbers;
 
         return this;
     }
 
     public Post increaseViews(int views) {
-        this.views = ++views;
+        views++;
+        this.views = views;
 
         return this;
     }

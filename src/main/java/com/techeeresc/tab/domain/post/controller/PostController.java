@@ -43,7 +43,8 @@ public class PostController {
 
     @GetMapping("/{id}")
     public PostResponseDto readPost(@PathVariable Long id) {
-        return POST_SERVICE.findPostByIdAndIncreaseViews(id);
+        Post post = POST_SERVICE.findPostByIdAndIncreaseViews(id);
+        return POST_MAPPER.getDataFromEntity(post);
     }
 
     @PostMapping("/{id}")
