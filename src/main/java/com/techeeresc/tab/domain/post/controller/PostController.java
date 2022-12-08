@@ -38,7 +38,17 @@ public class PostController {
     @DeleteMapping("/{id}")
     public List<Post> deletePost(@PathVariable Long id) {
         List<Post> posts = POST_SERVICE.deletePost(id);
-
         return posts;
+    }
+
+    @GetMapping("/{id}")
+    public PostResponseDto readPost(@PathVariable Long id) {
+        return POST_SERVICE.findPostByIdAndIncreaseViews(id);
+    }
+
+    @PostMapping("/{id}")
+    public PostResponseDto increaseLikeNumbers(@PathVariable Long id) {
+        Post post = POST_SERVICE.increaseLikeNumbers(id);
+        return POST_MAPPER.getDataFromEntity(post);
     }
 }

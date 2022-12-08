@@ -3,9 +3,11 @@ package com.techeeresc.tab.domain.post.service;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
+import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.exception.NotFoundException;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,45 +38,47 @@ public class PostService {
         } catch(NotFoundException exception) {
             System.out.println("게시물이 존재하지 않습니다.");
         }
-
         return null;
     }
 
     @Transactional
-    public Post increaseLikeNumbers(PostUpdateRequestDto postUpdateRequestDto) {
+    public Post increaseLikeNumbers(Long id) {
         try {
-            Post post = isPostExisted(postUpdateRequestDto.getId());
-            return post.increaseLikeNumbers(postUpdateRequestDto.getLikeNumbers());
+            Post post = isPostExisted(id);
+            System.out.println(post);
+            return post.increaseLikeNumbers(post.getLikeNumbers());
         } catch(NotFoundException exception) {
             System.out.println("게시물이 존재하지 않습니다.");
         }
-
-        return null;
-    }
-
-    @Transactional
-    public Post increaseViews(PostUpdateRequestDto postUpdateRequestDto) {
-        try {
-            Post post = isPostExisted(postUpdateRequestDto.getId());
-            return post.increaseViews(postUpdateRequestDto.getViews());
-        } catch(NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
-        }
-
         return null;
     }
 
     @Transactional
     public List<Post> deletePost(Long id) {
         POST_REPOSITORY.deleteById(id);
-
         return readAllPost();
+    }
+
+    @Transactional
+    public PostResponseDto findPostByIdAndIncreaseViews(Long id) {
+        try {
+            Post post = isPostExisted(id);
+            post = increaseViews(post);
+            System.out.println(post);
+            return POST_MAPPER.getDataFromEntity(post);
+        } catch(NotFoundException exception) {
+            System.out.println("게시물이 존재하지 않습니다.");
+        }
+        return null;
+    }
+
+    private Post increaseViews(Post post) {
+        return post.increaseViews(post.getViews());
     }
 
     private Post isPostExisted(Long id) {
         Post post = POST_REPOSITORY.findById(id).orElseThrow(() ->
                 new NotFoundException("게시물이 존재하지 않습니다."));
-
         return post;
     }
 }
