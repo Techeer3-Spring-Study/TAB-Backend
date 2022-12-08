@@ -29,8 +29,16 @@ public class PostController {
         return POST_SERVICE.readAllPost();
     }
 
-//    @PutMapping
-//    public PostResponseDto updatePost(@RequestBody PostUpdateRequestDto postUpdateRequestDto) {
-//
-//    }
+    @PutMapping
+    public PostResponseDto updatePost(@RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+        Post updatePostResult = POST_SERVICE.updatePost(postUpdateRequestDto);
+        return POST_MAPPER.getDataFromEntity(updatePostResult);
+    }
+
+    @DeleteMapping("/{id}")
+    public List<Post> deletePost(@PathVariable Long id) {
+        List<Post> posts = POST_SERVICE.deletePost(id);
+
+        return posts;
+    }
 }

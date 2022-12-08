@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class PostCreateRequestDto {
-    private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요
+    private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요, 토큰에서 받아온다.
 
     private String category;
 

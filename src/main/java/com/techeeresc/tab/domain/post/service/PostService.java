@@ -64,6 +64,13 @@ public class PostService {
         return null;
     }
 
+    @Transactional
+    public List<Post> deletePost(Long id) {
+        POST_REPOSITORY.deleteById(id);
+
+        return readAllPost();
+    }
+
     private Post isPostExisted(Long id) {
         Post post = POST_REPOSITORY.findById(id).orElseThrow(() ->
                 new NotFoundException("게시물이 존재하지 않습니다."));
