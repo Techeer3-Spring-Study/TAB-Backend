@@ -1,14 +1,23 @@
 package com.techeeresc.tab.domain.bookmark.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.techeeresc.tab.domain.bookmark.dto.mapper.BookmarkMapper;
+import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
+import com.techeeresc.tab.domain.bookmark.dto.response.BookmarkResponseDto;
+import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
+import com.techeeresc.tab.domain.bookmark.service.BookmarkService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequiredArgsConstructor
+@RequestMapping("/api/bookmark")
 public class BookmarkController {
-    @GetMapping
-    public String hello() {
-        return "success";
+    private final BookmarkService bookmarkService;
+    private final BookmarkMapper bookmarkMapper;
+    @PostMapping
+    public BookmarkResponseDto createPost(@RequestBody BookmarkCreateRequestDto bookmarkCreateRequestDto) {
+        Bookmark insertBookmarkResult = bookmarkService.save(bookmarkCreateRequestDto);
+        return bookmarkMapper.fromEntity(insertBookmarkResult);
     }
+
 }

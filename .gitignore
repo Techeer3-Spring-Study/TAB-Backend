@@ -6,7 +6,6 @@ build/
 !**/src/test/**/build/
 data/
 application-*.yml
-.env
 
 ### STS ###
 .apt_generated
