@@ -4,7 +4,7 @@ import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
-import com.techeeresc.tab.domain.post.exception.NotFoundException;
+import com.techeeresc.tab.domain.post.exception.PostNotFoundException;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -34,11 +34,9 @@ public class PostService {
         try {
             Post post = isPostExisted(postUpdateRequestDto.getId());
             return post.updatePost(postUpdateRequestDto);
-        } catch(NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
+        } catch(NullPointerException exception) {
+            throw new PostNotFoundException("The Post is not found.");
         }
-
-        return null;
     }
 
     @Transactional
@@ -46,11 +44,9 @@ public class PostService {
         try {
             Post post = isPostExisted(id);
             return post.increaseLikeNumbers(post.getLikeNumbers());
-        } catch(NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
+        } catch(NullPointerException exception) {
+            throw new PostNotFoundException("The Post is not found.");
         }
-
-        return null;
     }
 
     @Transactional
@@ -58,8 +54,8 @@ public class PostService {
         try {
             Post post = isPostExisted(id);
             POST_REPOSITORY.deleteById(post.getId());
-        } catch (NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
+        } catch (NullPointerException exception) {
+            throw new PostNotFoundException("The Post is not found.");
         }
 
         return readAllPost();
@@ -71,10 +67,9 @@ public class PostService {
             Post post = isPostExisted(id);
             post = increaseViews(post);
             return post;
-        } catch(NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
+        } catch(NullPointerException exception) {
+            throw new PostNotFoundException("The Post is not found.");
         }
-        return null;
     }
 
     @Transactional
@@ -82,10 +77,9 @@ public class PostService {
         try {
             Post post = isPostExisted(id);
             return post;
-        } catch(NotFoundException exception) {
-            System.out.println("게시물이 존재하지 않습니다.");
+        } catch(NullPointerException exception) {
+            throw new PostNotFoundException("The Post is not found.");
         }
-        return null;
     }
 
     private Post increaseViews(Post post) {
@@ -94,7 +88,7 @@ public class PostService {
 
     private Post isPostExisted(Long id) {
         Post post = POST_REPOSITORY.findById(id).orElseThrow(() ->
-                new NotFoundException("게시물이 존재하지 않습니다."));
+                new NullPointerException());
 
         return post;
     }
