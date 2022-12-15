@@ -8,6 +8,7 @@ import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,43 +20,38 @@ public class PostController {
     private final PostMapper POST_MAPPER;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PostResponseDto createPost(@RequestBody PostCreateRequestDto postCreateRequestDto) {
+    // @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostCreateRequestDto postCreateRequestDto) {
         Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
-        return POST_MAPPER.getDataFromEntity(insertPostResult);
+        return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Post> readAllPost() {
-        return POST_SERVICE.readAllPost();
+    public ResponseEntity<List<Post>> readAllPost() {
+        return new ResponseEntity<>(POST_SERVICE.readAllPost(), HttpStatus.OK);
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PostResponseDto updatePost(@RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+    public ResponseEntity<PostResponseDto> updatePost(@RequestBody PostUpdateRequestDto postUpdateRequestDto) {
         Post updatePostResult = POST_SERVICE.updatePost(postUpdateRequestDto);
-        return POST_MAPPER.getDataFromEntity(updatePostResult);
+        return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(updatePostResult), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Post> deletePost(@PathVariable Long id) {
+    public ResponseEntity<List<Post>> deletePost(@PathVariable Long id) {
         List<Post> posts = POST_SERVICE.deletePost(id);
-        return posts;
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public PostResponseDto findPost(@PathVariable Long id) {
-        Post post = POST_SERVICE.findPostByIdAndIncreaseViews(id);
-        return POST_MAPPER.getDataFromEntity(post);
+    public ResponseEntity<PostResponseDto> findPost(@PathVariable Long id) {
+        Post findPostResult = POST_SERVICE.findPostByIdAndIncreaseViews(id);
+        return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(findPostResult), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PostResponseDto increaseLikeNumbers(@PathVariable Long id) {
-        Post post = POST_SERVICE.increaseLikeNumbers(id);
-        return POST_MAPPER.getDataFromEntity(post);
+    public ResponseEntity<PostResponseDto> increaseLikeNumbers(@PathVariable Long id) {
+        Post clickLikePost = POST_SERVICE.increaseLikeNumbers(id);
+        return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(clickLikePost), HttpStatus.CREATED);
     }
 }
