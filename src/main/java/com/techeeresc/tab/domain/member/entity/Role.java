@@ -1,4 +1,15 @@
 package com.techeeresc.tab.domain.member.entity;
 
-public class Role {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public enum Role {
+
+    USER("ROLE_USER"),
+    ADMIN("ROLE_ADMIN");
+
+    private String value;
+
 }
