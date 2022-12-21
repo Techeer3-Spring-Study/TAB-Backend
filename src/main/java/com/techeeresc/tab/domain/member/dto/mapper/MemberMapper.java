@@ -12,7 +12,7 @@ public class MemberMapper {
                 .name(memberCreateRequestDto.getName())
                 .password(memberCreateRequestDto.getPassword())
                 .email(memberCreateRequestDto.getEmail())
-                .role(memberCreateRequestDto.isRole())
+                .role(memberCreateRequestDto.getRole())
                 .isActive(memberCreateRequestDto.isActive())
                 .build();
     }
@@ -23,7 +23,7 @@ public class MemberMapper {
                 .name(member.getName())
                 .password(member.getPassword())
                 .email(member.getEmail())
-                .role(member.isRole())
+                .role(member.getRole())
                 .isActive(member.isActive())
                 .build();
     }

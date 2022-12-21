@@ -1,5 +1,6 @@
 package com.techeeresc.tab.domain.member.dto.response;
 
+import com.techeeresc.tab.domain.member.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class MemberResponseDto {
 
     private String name;
 
-    private boolean role;
+    private Role role;
 
     private boolean isActive;
 }

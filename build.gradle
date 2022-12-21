@@ -69,3 +69,7 @@ configurations {   // compileClassPath extends
 compileQuerydsl {   // option for compile
 	options.annotationProcessorPath = configurations.querydsl
 }
+
+bootJar {
+	mainClass = 'com.example.ExampleApplication'
+}
