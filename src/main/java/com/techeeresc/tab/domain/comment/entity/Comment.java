@@ -1,7 +1,7 @@
 package com.techeeresc.tab.domain.comment.entity;
 
 import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
-import com.techeeresc.tab.domain.member.entity.Member;
+//import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.post.entity.Post;
 import lombok.*;
 

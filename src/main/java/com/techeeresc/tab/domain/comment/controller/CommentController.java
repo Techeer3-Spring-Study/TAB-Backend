@@ -8,6 +8,7 @@ import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -19,16 +20,24 @@ public class CommentController {
     private final CommentMapper COMMENT_MAPPER;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CommentResponseDto createComment(@RequestBody CommentCreateRequestDto CommentCreateRequestDto) {
         Comment insertCommentResult = COMMENT_SERVICE.insertComment(CommentCreateRequestDto);
         return COMMENT_MAPPER.getDataFromEntity(insertCommentResult);
     }
 
-    //responseentity는 http 리스펀스도 추가해야한다..! 좀 찾아보고 수정해 둘 것!
-//    @GetMapping
-//    public ResponseEntity<List<Comment>> readAllComment() {
-//        return new ResponseEntity<>(COMMENT_SERVICE.readAllComment(), HttpStatus.OK);
-//    }
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Comment> readAllComment() {
+        return COMMENT_SERVICE.readAllComment();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentResponseDto findComment(@PathVariable Long id) {
+        Comment comment = COMMENT_SERVICE.findCommentById(id);
+        return COMMENT_MAPPER.getDataFromEntity(comment);
+    }
 
     @PutMapping
     public CommentResponseDto updateComment(@RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
@@ -37,6 +46,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public List<Comment> deleteComment(@PathVariable Long id) {
         List<Comment> comments = COMMENT_SERVICE.deleteComment(id);
 

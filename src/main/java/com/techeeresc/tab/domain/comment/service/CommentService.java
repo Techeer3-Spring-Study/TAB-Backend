@@ -4,7 +4,6 @@ import com.techeeresc.tab.domain.comment.dto.mapper.CommentMapper;
 import com.techeeresc.tab.domain.comment.dto.request.CommentCreateRequestDto;
 import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.techeeresc.tab.domain.comment.entity.Comment;
-//import com.techeeresc.tab.domain.comment.exception.CommentNotFoundException;
 import com.techeeresc.tab.domain.comment.exception.CommentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class CommentService {
     }
     private Comment isCommentExisted(Long id) {
         Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() ->
-                new NullPointerException());
+                new CommentNotFoundException("The comment is not found."));
 
         return comment;
     }
