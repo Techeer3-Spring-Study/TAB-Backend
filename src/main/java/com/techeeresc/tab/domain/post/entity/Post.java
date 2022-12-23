@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 
 @NoArgsConstructor   // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
@@ -22,37 +21,25 @@ public class Post extends Timestamp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //MySQL의 자동 생성 방식
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
-
     @Column(name = "member_id", nullable = false)
     private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요
-
     @Column(name = "category", nullable = false)
     private String category;
-
     @Column(name = "title", nullable = false)
     private String title;
-
     @Column(name = "content", nullable = false)
     private String content;
-
     @Column(name = "file")
     private String file;    // TODO: 파일도 여러개 올리도록 해야할지?
-
     @Column(name = "image")
     private String image;
-
     @Column(name = "hashtags")
     private String hashtags;    // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
-
     @Column(name = "is_anonymous", nullable = false)
     private boolean isAnonymous;
-
-    // TODO: 아래 필드는 default 값으로 0을 주고, 업데이트 시 증가하도록 해야한다.
-
     @Column(name = "like_numbers", nullable = false)
     @ColumnDefault("0")
     private int likeNumbers;
-
     @Column(name = "views", nullable = false)
     @ColumnDefault("0")
     private int views;
