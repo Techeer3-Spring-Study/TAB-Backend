@@ -8,9 +8,9 @@ services:
       - "3306:3306"
     restart: always
     environment:
-      MYSQL_DATABASE: tab
+      MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_HOST: '%'
-      MYSQL_ROOT_PASSWORD: tab
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -25,6 +25,6 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
       SPRING_DATASOURCE_USER: root
-      SPRING_DATASOURCE_PASSWORD: tab
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - mysql
