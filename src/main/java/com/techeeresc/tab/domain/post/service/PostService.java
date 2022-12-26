@@ -1,10 +1,13 @@
 package com.techeeresc.tab.domain.post.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
+import com.techeeresc.tab.domain.post.entity.QPost;
 import com.techeeresc.tab.domain.post.exception.PostNotFoundException;
+import com.techeeresc.tab.domain.post.repository.PostQueryDslRepository;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,9 +18,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class PostService {
+public class PostService implements PostQueryDslRepository {
     private final PostRepository POST_REPOSITORY;
     private final PostMapper POST_MAPPER;
+    private final JPAQueryFactory JPA_QUERY_FACTORY;
 
     @Transactional
     public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
@@ -79,6 +83,19 @@ public class PostService {
             return post;
         } catch(NullPointerException exception) {
             throw new PostNotFoundException("The Post is not found.");
+        }
+    }
+
+    @Transactional
+    public List<Post> findByTitleContainsWordWithQueryDsl(String word) {
+        QPost qPost = QPost.post;
+
+        try {
+            List<Post> postSearchResults = JPA_QUERY_FACTORY.selectFrom(qPost)
+                    .where(qPost.title.contains(word)).fetch();
+            return postSearchResults;
+        } catch (NullPointerException exception) {
+            throw new PostNotFoundException("검색 결과가 없습니다.");
         }
     }
 

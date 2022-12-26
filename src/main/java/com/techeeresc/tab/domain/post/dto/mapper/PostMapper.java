@@ -11,7 +11,7 @@ public class PostMapper {
         return Post.builder()
                 .memberId(postCreateRequestDto.getMemberId())
                 .category(postCreateRequestDto.getCategory())
-                .title(postCreateRequestDto.getCategory())
+                .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
                 .file(postCreateRequestDto.getFile())
                 .image(postCreateRequestDto.getImage())

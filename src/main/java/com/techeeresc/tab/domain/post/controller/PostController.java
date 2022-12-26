@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -20,7 +23,6 @@ public class PostController {
     private final PostMapper POST_MAPPER;
 
     @PostMapping
-    // @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostResponseDto> createPost(@RequestBody PostCreateRequestDto postCreateRequestDto) {
         Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
         return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
@@ -53,5 +55,12 @@ public class PostController {
     public ResponseEntity<PostResponseDto> increaseLikeNumbers(@PathVariable Long id) {
         Post clickLikePost = POST_SERVICE.increaseLikeNumbers(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(clickLikePost), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/search/{word:.+}")
+    public ResponseEntity<List<Post>> findPostSearchResult(@PathVariable String word) {
+        List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
+
+        return new ResponseEntity<>(postSearchResults, HttpStatus.OK);
     }
 }
