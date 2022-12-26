@@ -10,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -29,7 +26,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> readAllPost() {
+    public ResponseEntity<List<Post>> findAllPosts() {
         return new ResponseEntity<>(POST_SERVICE.readAllPost(), HttpStatus.OK);
     }
 
@@ -46,7 +43,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> findPost(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDto> findPostAndIncreaseViews(@PathVariable Long id) {
         Post findPostResult = POST_SERVICE.findPostByIdAndIncreaseViews(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(findPostResult), HttpStatus.OK);
     }
@@ -57,10 +54,9 @@ public class PostController {
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(clickLikePost), HttpStatus.CREATED);
     }
 
-    @GetMapping("/search/{word:.+}")
-    public ResponseEntity<List<Post>> findPostSearchResult(@PathVariable String word) {
+    @GetMapping("/search/{word:.+}")   /* PathVariable에 특수문자 허용 */
+    public ResponseEntity<List<Post>> findPostSearchResults(@PathVariable String word) {
         List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
-
         return new ResponseEntity<>(postSearchResults, HttpStatus.OK);
     }
 }
