@@ -1,13 +1,13 @@
 spring:
   datasource:
     include:
-      - docker
-#      - local
+#     - docker
+      - local
 
   jpa:
     hibernate:
       ddl-auto : create
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
         format_sql: true
