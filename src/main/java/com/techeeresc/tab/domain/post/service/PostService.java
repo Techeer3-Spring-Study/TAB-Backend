@@ -6,9 +6,11 @@ import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.entity.QPost;
-import com.techeeresc.tab.domain.post.exception.PostNotFoundException;
 import com.techeeresc.tab.domain.post.repository.PostQueryDslRepository;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
+import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
+import com.techeeresc.tab.global.status.StatusCodes;
+import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -20,7 +22,6 @@ public class PostService implements PostQueryDslRepository {
     private final PostRepository POST_REPOSITORY;
     private final PostMapper POST_MAPPER;
     private final JPAQueryFactory JPA_QUERY_FACTORY;
-    private final String ERROR_MESSAGE = "The Post is not found.";
 
     @Transactional
     public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
@@ -38,7 +39,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(postUpdateRequestDto.getId());
             return post.updatePost(postUpdateRequestDto);
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -48,7 +49,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             return post.increaseLikeNumbers(post.getLikeNumbers());
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -58,7 +59,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             POST_REPOSITORY.deleteById(post.getId());
         } catch (NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
 
         return findAllPost();
@@ -71,7 +72,7 @@ public class PostService implements PostQueryDslRepository {
             post = increaseViews(post);
             return post;
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -81,7 +82,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             return post;
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -92,12 +93,9 @@ public class PostService implements PostQueryDslRepository {
         try {
             List<Post> postSearchResults = JPA_QUERY_FACTORY.selectFrom(qPost)
                     .where(qPost.title.contains(word)).fetch();
-
-            isPostResultsExisted(postSearchResults);
-
             return postSearchResults;
         } catch (NullPointerException exception) {
-            throw new PostNotFoundException(ERROR_MESSAGE);
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -110,11 +108,5 @@ public class PostService implements PostQueryDslRepository {
                 new NullPointerException());
 
         return post;
-    }
-
-    private void isPostResultsExisted(List<Post> postSearchResult) {
-        if (postSearchResult.size() == 0) {
-            throw new NullPointerException();
-        }
     }
 }
