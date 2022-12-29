@@ -1,7 +1,11 @@
 package com.techeeresc.tab.domain.member.controller;
 
+import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
+import com.techeeresc.tab.domain.comment.dto.response.CommentResponseDto;
+import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
+import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
 import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.member.service.MemberService;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,7 +41,21 @@ public class MemberController {
         return MEMBER_SERVICE.findById(id);
     }
 
-    //로그인
+    //회원 정보 수정
+    @PutMapping
+    public MemberResponseDto updateMember(@RequestBody MemberUpdateRequestDto MemberUpdateRequestDto) {
+        Member updateMemberResult = MEMBER_SERVICE.updateMember(MemberUpdateRequestDto);
+        return MEMBER_MAPPER.getDataFromEntity(updateMemberResult);
+    }
+
+    //회원 삭제
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Member> deleteMember(@PathVariable Long id) {
+        List<Member> members = MEMBER_SERVICE.deleteMember(id);
+
+        return members;
+    }
 
 
 }

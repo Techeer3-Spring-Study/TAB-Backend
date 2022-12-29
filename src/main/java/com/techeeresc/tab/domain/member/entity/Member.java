@@ -1,5 +1,6 @@
 package com.techeeresc.tab.domain.member.entity;
 
+import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
 import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import lombok.*;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -45,4 +46,12 @@ public class Member extends Timestamp{
         this.name = name;
     }
 
+    public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {
+        this.email = memberUpdateRequestDto.getEmail();
+        this.password = memberUpdateRequestDto.getPassword();
+        this.name = memberUpdateRequestDto.getName();
+        this.role = memberUpdateRequestDto.getRole();
+
+        return this;
+    }
 }

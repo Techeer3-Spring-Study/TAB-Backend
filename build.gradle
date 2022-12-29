@@ -37,8 +37,6 @@ dependencies {
 	implementation 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.projectlombok:lombok'
-	annotationProcessor('org.projectlombok:lombok')
-	testAnnotationProcessor('org.projectlombok:lombok')
 
 	// QueryDSL dependencies
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -70,8 +68,4 @@ configurations {   // compileClassPath extends
 
 compileQuerydsl {   // option for compile
 	options.annotationProcessorPath = configurations.querydsl
-}
-
-bootJar {
-	mainClass = 'com.example.ExampleApplication'
 }

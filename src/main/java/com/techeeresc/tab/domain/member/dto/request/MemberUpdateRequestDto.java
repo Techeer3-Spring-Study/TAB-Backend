@@ -8,6 +8,8 @@ import lombok.Getter;
 @Builder
 public class MemberUpdateRequestDto {
 
+    private Long id;
+
     private String email;
 
     private String password;
