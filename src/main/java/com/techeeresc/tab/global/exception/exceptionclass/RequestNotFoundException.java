@@ -1,4 +1,4 @@
-package com.techeeresc.tab.global.exception.customexception;
+package com.techeeresc.tab.global.exception.exceptionclass;
 
 import com.techeeresc.tab.global.status.StatusCodes;
 import org.springframework.http.HttpStatus;

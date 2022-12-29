@@ -6,12 +6,6 @@ import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.service.PostService;
-import com.techeeresc.tab.global.exception.customexception.BadRequestBodyException;
-import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
-import com.techeeresc.tab.global.exception.handler.GlobalExceptionHandler;
-import com.techeeresc.tab.global.exception.response.ErrorResponse;
-import com.techeeresc.tab.global.status.StatusCodes;
-import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +18,6 @@ import java.util.List;
 public class PostController {
     private final PostService POST_SERVICE;
     private final PostMapper POST_MAPPER;
-    private final GlobalExceptionHandler GLOBAL_EXCEPTION_HANDLER;
 
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(@RequestBody PostCreateRequestDto postCreateRequestDto) {

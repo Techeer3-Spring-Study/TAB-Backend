@@ -1,7 +1,7 @@
 package com.techeeresc.tab.global.exception.handler;
 
-import com.techeeresc.tab.global.exception.customexception.BadRequestBodyException;
-import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.exceptionclass.BadRequestBodyException;
+import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
