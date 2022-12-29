@@ -9,10 +9,8 @@ import com.techeeresc.tab.domain.post.entity.QPost;
 import com.techeeresc.tab.domain.post.exception.PostNotFoundException;
 import com.techeeresc.tab.domain.post.repository.PostQueryDslRepository;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -22,6 +20,7 @@ public class PostService implements PostQueryDslRepository {
     private final PostRepository POST_REPOSITORY;
     private final PostMapper POST_MAPPER;
     private final JPAQueryFactory JPA_QUERY_FACTORY;
+    private final String ERROR_MESSAGE = "The Post is not found.";
 
     @Transactional
     public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
@@ -29,7 +28,7 @@ public class PostService implements PostQueryDslRepository {
     }
 
     @Transactional
-    public List<Post> readAllPost() {
+    public List<Post> findAllPost() {
         return POST_REPOSITORY.findAll();
     }
 
@@ -39,7 +38,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(postUpdateRequestDto.getId());
             return post.updatePost(postUpdateRequestDto);
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException("The Post is not found.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
     }
 
@@ -49,7 +48,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             return post.increaseLikeNumbers(post.getLikeNumbers());
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException("The Post is not found.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
     }
 
@@ -59,10 +58,10 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             POST_REPOSITORY.deleteById(post.getId());
         } catch (NullPointerException exception) {
-            throw new PostNotFoundException("The Post is not found.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
 
-        return readAllPost();
+        return findAllPost();
     }
 
     @Transactional
@@ -72,7 +71,7 @@ public class PostService implements PostQueryDslRepository {
             post = increaseViews(post);
             return post;
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException("The Post is not found.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
     }
 
@@ -82,7 +81,7 @@ public class PostService implements PostQueryDslRepository {
             Post post = isPostExisted(id);
             return post;
         } catch(NullPointerException exception) {
-            throw new PostNotFoundException("The Post is not found.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
     }
 
@@ -93,9 +92,12 @@ public class PostService implements PostQueryDslRepository {
         try {
             List<Post> postSearchResults = JPA_QUERY_FACTORY.selectFrom(qPost)
                     .where(qPost.title.contains(word)).fetch();
+
+            isPostResultsExisted(postSearchResults);
+
             return postSearchResults;
         } catch (NullPointerException exception) {
-            throw new PostNotFoundException("검색 결과가 없습니다.");
+            throw new PostNotFoundException(ERROR_MESSAGE);
         }
     }
 
@@ -108,5 +110,11 @@ public class PostService implements PostQueryDslRepository {
                 new NullPointerException());
 
         return post;
+    }
+
+    private void isPostResultsExisted(List<Post> postSearchResult) {
+        if (postSearchResult.size() == 0) {
+            throw new NullPointerException();
+        }
     }
 }

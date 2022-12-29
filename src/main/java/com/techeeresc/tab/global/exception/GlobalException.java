@@ -1,4 +1,4 @@
-package com.tcheeresc.tab.global.exception;
+package com.techeeresc.tab.global.exception;
 
 public class GlobalException {
 }
