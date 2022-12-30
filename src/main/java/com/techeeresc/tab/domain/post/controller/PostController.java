@@ -6,16 +6,10 @@ import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.service.PostService;
-import com.techeeresc.tab.global.exception.exceptionclass.BadRequestBodyException;
-import com.techeeresc.tab.global.status.StatusCodes;
-import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 

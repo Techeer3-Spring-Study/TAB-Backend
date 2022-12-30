@@ -1,7 +1,6 @@
 package com.techeeresc.tab.global.exception.handler;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
-import com.techeeresc.tab.global.exception.exceptionclass.BadRequestBodyException;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
 import com.techeeresc.tab.global.status.StatusCodes;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(ValueInstantiationException.class)
-    public ResponseEntity<ErrorResponse> badRequestHandler(ValueInstantiationException exception) {
+    public ResponseEntity<ErrorResponse> badRequestByParameterMissingHandler(ValueInstantiationException exception) {
         ErrorResponse errorResponse = new ErrorResponse(StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_PARAMETER_MISSING);
         return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
     }
