@@ -1,5 +1,6 @@
 package com.techeeresc.tab.global.exception.handler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
@@ -24,5 +25,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> notFoundRequestHandler(RequestNotFoundException exception) {
         ErrorResponse errorResponse = new ErrorResponse(StatusCodes.NOT_FOUND, StatusMessage.NOT_FOUND);
         return new ResponseEntity(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ErrorResponse> badRequestByInvalidFormatHandler(InvalidFormatException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_TYPE_MISMATCH);
+        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
