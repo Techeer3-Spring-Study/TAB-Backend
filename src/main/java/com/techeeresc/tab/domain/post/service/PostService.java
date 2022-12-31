@@ -114,14 +114,14 @@ public class PostService implements PostQueryDslRepository {
     }
 
 
-    public Post isPostExistedById(Long id) {
+    private Post isPostExistedById(Long id) {
         Post post = POST_REPOSITORY.findById(id).orElseThrow(() ->
                 new NullPointerException());
 
         return post;
     }
 
-    public void isPostExistedByList(List<Post> postSearchResults) {
+    private void isPostExistedByList(List<Post> postSearchResults) {
         if (postSearchResults.size() == NULL_SIZE) {
             throw new NullPointerException();
         }
