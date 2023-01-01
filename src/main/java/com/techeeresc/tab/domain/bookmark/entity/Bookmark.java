@@ -21,6 +21,7 @@ public class Bookmark extends Timestamp {
     private Long memberId;
     @Column(name = "post_id", nullable = false, columnDefinition = "INT UNSIGNED")
     private Long postId;
+
     @Builder
     public Bookmark(Long memberId, Long postId) {
         this.memberId = memberId;

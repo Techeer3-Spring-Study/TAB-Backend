@@ -3,8 +3,8 @@ package com.techeeresc.tab.domain.shareinfo.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Builder
+@Getter
 public class ShareInfoResponseDto {
     private Long id;
     private String title;

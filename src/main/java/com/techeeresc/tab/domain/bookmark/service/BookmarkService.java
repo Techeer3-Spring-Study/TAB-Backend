@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @Service
 public class BookmarkService {
@@ -24,32 +23,36 @@ public class BookmarkService {
             Bookmark bookmark = isBookmarkExisted(id);
             return bookmark;
         } catch(NullPointerException exception) {
-            throw new BookmarkNotFoundException("The comment is not found.");
+            throw new BookmarkNotFoundException("The Bookmark  is not found.");
         }
     }
+
     private Bookmark isBookmarkExisted(Long id) {
         Bookmark bookmark = REPOSITORY.findById(id).orElseThrow(() ->
-                new BookmarkNotFoundException("The comment is not found."));
+                new BookmarkNotFoundException("The Bookmark is not found."));
 
         return bookmark;
     }
+
     @Transactional
     public Bookmark save(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
-        return REPOSITORY.save(MAPPER.saveDataEntity(bookmarkCreateRequestDto));
+        return REPOSITORY.save(MAPPER.saveDataToEntity(bookmarkCreateRequestDto));
     }
+
     @Transactional
-    public List<Bookmark> readAllComment() {
+    public List<Bookmark> findAllBookmark() {
         return REPOSITORY.findAll();
     }
+
     @Transactional
     public List<Bookmark> deleteBookmark(Long id) {
         try{
             Bookmark bookmark = isBookmarkExisted(id);
             REPOSITORY.deleteById(bookmark.getId());
         } catch(NullPointerException exception) {
-            throw new BookmarkNotFoundException("The comment is not found.");
+            throw new BookmarkNotFoundException("The Bookmark is not found.");
         }
-        return readAllComment();
+        return findAllBookmark();
     }
 
 

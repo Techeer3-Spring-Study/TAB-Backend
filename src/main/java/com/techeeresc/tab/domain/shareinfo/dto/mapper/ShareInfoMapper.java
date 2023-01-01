@@ -1,6 +1,7 @@
 package com.techeeresc.tab.domain.shareinfo.dto.mapper;
 
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoCreateRequestDto;
+import com.techeeresc.tab.domain.shareinfo.dto.response.ShareInfoResponseDto;
 import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,9 @@ public class ShareInfoMapper {
                 .hashtag(shareInfoCreateRequestDto.getHashtag())
                 .build();
     }
-    public ShareInfoCreateRequestDto getDataFromEntity(ShareInfo shareInfo) {    //Entity로 부터 값을 받아오는 방식이다.
-        return ShareInfoCreateRequestDto.builder()
+    public ShareInfoResponseDto getDataFromEntity(ShareInfo shareInfo) {    //Entity로 부터 값을 받아오는 방식이다.
+        return ShareInfoResponseDto.builder()
+                .id(shareInfo.getId())
                 .title(shareInfo.getTitle())
                 .content(shareInfo.getContent())
                 .link(shareInfo.getLink())

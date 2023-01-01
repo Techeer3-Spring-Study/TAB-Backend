@@ -16,39 +16,46 @@ import java.util.List;
 @Service
 public class ShareInfoService {
     private final ShareInfoRepository REPOSITORY;
+
     private final ShareInfoMapper MAPPER;
+
     @Transactional
     public ShareInfo findShareInfoById(Long id) {
         try {
             ShareInfo shareInfo = isShareInfoExisted(id);
             return shareInfo;
         } catch(NullPointerException exception) {
-            throw new ShareInfoNotFoundException("The comment is not found.");
+            throw new ShareInfoNotFoundException("The ShareInfo is not found.");
         }
     }
+
     private ShareInfo isShareInfoExisted(Long id) {
         ShareInfo shareInfo = REPOSITORY.findById(id).orElseThrow(() ->
-                new ShareInfoNotFoundException("The comment is not found."));
+                new ShareInfoNotFoundException("The ShareInfo is not found."));
 
         return shareInfo;
     }
+
     @Transactional
     public ShareInfo insertShareInfo(ShareInfoCreateRequestDto shareInfoCreateRequestDto) {
         return REPOSITORY.save(MAPPER.saveDataToEntity(shareInfoCreateRequestDto));
     }
+
     @Transactional
     public ShareInfo updateShareInfo(ShareInfoUpdateRequestDto shareInfoUpdateRequestDto) {
         try {
             ShareInfo shareInfo = isShareInfoExisted(shareInfoUpdateRequestDto.getId());
             return shareInfo.updateShareInfo(shareInfoUpdateRequestDto);
         } catch(NullPointerException exception) {
-            throw new ShareInfoNotFoundException("The comment is not found.");
+            throw new ShareInfoNotFoundException("The ShareInfo is not found.");
         }
     }
+
     @Transactional
-    public List<ShareInfo> readAllShareInfo() {
+    public List<ShareInfo> findAllShareInfo() {
         return REPOSITORY.findAll();
     }
+
     @Transactional
     public List<ShareInfo> deleteShareInfo(Long id) {
         try{
@@ -57,6 +64,6 @@ public class ShareInfoService {
         } catch(NullPointerException exception) {
             throw new ShareInfoNotFoundException("The comment is not found.");
         }
-        return readAllShareInfo();
+        return findAllShareInfo();
     }
 }
