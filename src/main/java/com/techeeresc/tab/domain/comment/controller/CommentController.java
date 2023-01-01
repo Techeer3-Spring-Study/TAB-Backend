@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/comment")
+@RequestMapping("/api/v1/posts/{postId}/comments")
 public class CommentController {
     private final CommentService COMMENT_SERVICE;
     private final CommentMapper COMMENT_MAPPER;
@@ -39,7 +39,7 @@ public class CommentController {
         return COMMENT_MAPPER.getDataFromEntity(comment);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public CommentResponseDto updateComment(@RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
         Comment updateCommentResult = COMMENT_SERVICE.updateComment(commentUpdateRequestDto);
         return COMMENT_MAPPER.getDataFromEntity(updateCommentResult);
@@ -52,8 +52,5 @@ public class CommentController {
 
         return comments;
     }
-
-
-
 
 }
