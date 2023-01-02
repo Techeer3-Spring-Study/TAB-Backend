@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,14 +21,14 @@ public class PostController {
     private final PostMapper POST_MAPPER;
 
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostCreateRequestDto postCreateRequestDto) {
+    public ResponseEntity<PostResponseDto> createPost(@RequestBody @Valid PostCreateRequestDto postCreateRequestDto) {
         Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
         return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Post>> findAllPosts() {
-        return new ResponseEntity<>(POST_SERVICE.readAllPost(), HttpStatus.OK);
+        return new ResponseEntity<>(POST_SERVICE.findAllPost(), HttpStatus.OK);
     }
 
     @PutMapping

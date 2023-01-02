@@ -1,5 +1,8 @@
-package com.techeeresc.tab.global.statuscode;
+package com.techeeresc.tab.global.status;
 
+import lombok.Getter;
+
+@Getter
 public enum StatusCodes {
     OK("OK", 200),
     CREATED("CREATED", 201),
