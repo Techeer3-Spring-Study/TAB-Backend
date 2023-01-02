@@ -7,6 +7,7 @@ import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.service.PostService;
+import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -44,9 +45,9 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<List<Post>> deletePost(@PathVariable Long id) {
-        List<Post> posts = POST_SERVICE.deletePost(id);
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+        POST_SERVICE.deletePost(id);
+        return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
