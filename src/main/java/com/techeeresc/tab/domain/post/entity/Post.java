@@ -1,9 +1,5 @@
 package com.techeeresc.tab.domain.post.entity;
 
-<<<<<<< HEAD
-
-public class Post  {
-=======
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.global.common.Timestamp;
 import lombok.AllArgsConstructor;
@@ -73,5 +69,4 @@ public class Post extends Timestamp {
 
         return this;
     }
->>>>>>> main
 }

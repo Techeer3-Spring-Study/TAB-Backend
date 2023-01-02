@@ -23,7 +23,6 @@ public class MemberService {
     public Member isMemberExisted(Long id) {
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
                 -> new MemberNotFoundException("The member is not found."));
-
         return member;
     }
 
@@ -33,13 +32,18 @@ public class MemberService {
     }
 
     @Transactional
-    public List<Member> deleteMember(Long id) {
-        try {
-            Member member = isMemberExisted(id);
-            MEMBER_REPOSITORY.deleteById(member.getId());
-        } catch(NullPointerException exception) {
-            throw new MemberNotFoundException("The member is not found.");
-        }
+    public Member deleteMember(Long id) {
+//        try {
+//            Member member = isMemberExisted(id);
+//            MEMBER_REPOSITORY.deleteById(member.getId());
+//        } catch(NullPointerException exception) {
+//            throw new MemberNotFoundException("The member is not found.");
+//        }
+        Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
+                -> new MemberNotFoundException("The member is not found."));
+        MEMBER_REPOSITORY.deleteById(member.getId());
+
+        return member;
     }
 
     @Transactional
@@ -53,14 +57,6 @@ public class MemberService {
     }
 
 
-    //    public MemberResponseDto findById(Long id) {
-//        try {
-//            Member member = isMemberExisted(id);
-//            return member;
-//        } catch (NullPointerException exception) {
-//            throw new MemberNotFoundException("Member is not found.");
-//        }
-//    }
     @Transactional
     public MemberResponseDto findById(Long id){
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()

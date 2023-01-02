@@ -50,7 +50,7 @@ public class Member extends Timestamp{
         this.email = memberUpdateRequestDto.getEmail();
         this.password = memberUpdateRequestDto.getPassword();
         this.name = memberUpdateRequestDto.getName();
-        this.role = memberUpdateRequestDto.getRole();
+        //this.role = memberUpdateRequestDto.getRole();
 
         return this;
     }
