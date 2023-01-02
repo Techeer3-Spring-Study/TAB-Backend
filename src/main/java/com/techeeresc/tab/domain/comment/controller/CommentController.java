@@ -21,8 +21,8 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentResponseDto createComment(@RequestBody CommentCreateRequestDto CommentCreateRequestDto) {
-        Comment insertCommentResult = COMMENT_SERVICE.insertComment(CommentCreateRequestDto);
+    public CommentResponseDto createComment(@PathVariable Long postId, @RequestBody CommentCreateRequestDto CommentCreateRequestDto) {
+        Comment insertCommentResult = COMMENT_SERVICE.insertComment(postId, CommentCreateRequestDto);
         return COMMENT_MAPPER.getDataFromEntity(insertCommentResult);
     }
 

@@ -13,6 +13,7 @@ public class CommentMapper {
         return Comment.builder()
                 .memberId(commentCreateRequestDto.getMemberId())
                 .postId(commentCreateRequestDto.getPostId())
+//                .post(commentCreateRequestDto.getPost())
                 .commentId(commentCreateRequestDto.getCommentId())
                 .content(commentCreateRequestDto.getContent())
                 .layer(commentCreateRequestDto.getLayer())
@@ -22,9 +23,10 @@ public class CommentMapper {
 
     public CommentResponseDto getDataFromEntity(Comment comment) {
         return CommentResponseDto.builder()
-                .id(comment.getId()) //id로 하면 안 되나..?
+                .id(comment.getId())
                 .memberId(comment.getMemberId())
                 .postId(comment.getPostId())
+//                .postId(comment.getPost().getId())
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
                 .layer(comment.getLayer())
