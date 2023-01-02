@@ -5,6 +5,8 @@ import com.techeeresc.tab.domain.comment.dto.request.CommentCreateRequestDto;
 import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.comment.exception.CommentNotFoundException;
+import com.techeeresc.tab.domain.post.entity.Post;
+import com.techeeresc.tab.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.techeeresc.tab.domain.comment.repository.CommentRepository;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 public class CommentService {
     private final CommentRepository COMMENT_REPOSITORY;
+    private final PostRepository POST_REPOSITORY;
     private final CommentMapper COMMENT_MAPPER;
 
     @Transactional
@@ -35,7 +38,11 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment insertComment(CommentCreateRequestDto commentCreateRequestDto) {
+    public Comment insertComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
+
+        Post post =  POST_REPOSITORY.findById(postId).orElseThrow(() ->
+                new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음"));
+
         return COMMENT_REPOSITORY.save(COMMENT_MAPPER.saveDataToEntity(commentCreateRequestDto));
     }
 
@@ -65,7 +72,6 @@ public class CommentService {
 
         return readAllComment();
     }
-
 
 
 }
