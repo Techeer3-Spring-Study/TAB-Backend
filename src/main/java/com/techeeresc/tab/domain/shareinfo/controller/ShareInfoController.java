@@ -1,6 +1,5 @@
 package com.techeeresc.tab.domain.shareinfo.controller;
 
-import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.shareinfo.dto.mapper.ShareInfoMapper;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoCreateRequestDto;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoUpdateRequestDto;
@@ -45,7 +44,7 @@ public class ShareInfoController {
         return new ResponseEntity<>(SHAREINFO_MAPPER.getDataFromEntity(updateShareInfoResult), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")//여기서부터 수정 진행 해주세요!
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<ShareInfo> deleteShareInfo(@PathVariable Long id) {
         List<ShareInfo> shareInfos = SHAREINFO_SERVICE.deleteShareInfo(id);

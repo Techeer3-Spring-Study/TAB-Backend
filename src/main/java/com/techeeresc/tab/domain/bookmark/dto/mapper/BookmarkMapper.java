@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BookmarkMapper {
 
+
     public Bookmark saveDataToEntity(BookmarkCreateRequestDto bookmarkCreateRequestDto) { //요청받은 값을 DTO->RequestDto 로부터 Entity로 값을 제공해준다
         return Bookmark.builder()
                 .memberId(bookmarkCreateRequestDto.getMemberId())
@@ -24,4 +25,5 @@ public class BookmarkMapper {
                 .postId(bookmark.getPostId())
                 .build();
     }
+
 }

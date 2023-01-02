@@ -1,4 +1,4 @@
-package com.tcheeresc.tab.global.resttemplate;
+package com.techeeresc.tab.global.resttemplate;
 
 public class TemplateErrorHandler {
 }

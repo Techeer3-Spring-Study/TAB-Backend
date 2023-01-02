@@ -6,6 +6,9 @@ import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoUpdateRequestDto
 import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
 import com.techeeresc.tab.domain.shareinfo.exception.ShareInfoNotFoundException;
 import com.techeeresc.tab.domain.shareinfo.repository.ShareInfoRepository;
+import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
+import com.techeeresc.tab.global.status.StatusCodes;
+import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +22,9 @@ public class ShareInfoService {
 
     private final ShareInfoMapper MAPPER;
 
-    @Transactional
-    public ShareInfo findShareInfoById(Long id) {
-        try {
-            ShareInfo shareInfo = isShareInfoExisted(id);
-            return shareInfo;
-        } catch(NullPointerException exception) {
-            throw new ShareInfoNotFoundException("The ShareInfo is not found.");
-        }
-    }
-
     private ShareInfo isShareInfoExisted(Long id) {
         ShareInfo shareInfo = REPOSITORY.findById(id).orElseThrow(() ->
-                new ShareInfoNotFoundException("The ShareInfo is not found."));
+                new NullPointerException());
 
         return shareInfo;
     }
@@ -47,7 +40,7 @@ public class ShareInfoService {
             ShareInfo shareInfo = isShareInfoExisted(shareInfoUpdateRequestDto.getId());
             return shareInfo.updateShareInfo(shareInfoUpdateRequestDto);
         } catch(NullPointerException exception) {
-            throw new ShareInfoNotFoundException("The ShareInfo is not found.");
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -62,8 +55,18 @@ public class ShareInfoService {
             ShareInfo shareInfo = isShareInfoExisted(id);
             REPOSITORY.deleteById(shareInfo.getId());
         } catch(NullPointerException exception) {
-            throw new ShareInfoNotFoundException("The comment is not found.");
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
         return findAllShareInfo();
+    }
+
+    @Transactional
+    public ShareInfo findShareInfoById(Long id) {
+        try {
+            ShareInfo shareInfo = isShareInfoExisted(id);
+            return shareInfo;
+        } catch(NullPointerException exception) {
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
     }
 }

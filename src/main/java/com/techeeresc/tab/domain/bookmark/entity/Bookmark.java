@@ -4,14 +4,15 @@ import com.techeeresc.tab.global.common.Timestamp;
 import lombok.*;
 
 import javax.persistence.*;
-@Getter
-@Setter
+
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@Getter
 @Table(name = "Bookmark")
+
 public class Bookmark extends Timestamp {
     @Id //PK를 의미
     @GeneratedValue(strategy = GenerationType.IDENTITY) //MariaDB에서 사용하게된다
