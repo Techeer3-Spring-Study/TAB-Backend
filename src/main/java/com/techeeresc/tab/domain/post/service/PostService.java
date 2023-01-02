@@ -8,10 +8,13 @@ import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.entity.QPost;
 import com.techeeresc.tab.domain.post.repository.PostQueryDslRepository;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
-import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -107,6 +110,18 @@ public class PostService implements PostQueryDslRepository {
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
+    }
+
+    @Transactional
+    public PageImpl<Post> findAllPostListWithQueryDsl(Pageable pageable) {
+        QPost qPost = QPost.post;
+
+        List<Post> posts = JPA_QUERY_FACTORY.selectFrom(qPost)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(posts, pageable, posts.size());
     }
 
     private Post increaseViews(Post post) {
