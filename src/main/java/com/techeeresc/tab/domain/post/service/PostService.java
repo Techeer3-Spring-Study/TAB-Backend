@@ -8,10 +8,12 @@ import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.entity.QPost;
 import com.techeeresc.tab.domain.post.repository.PostQueryDslRepository;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
-import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,17 +29,6 @@ public class PostService implements PostQueryDslRepository {
     @Transactional
     public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
         return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
-    }
-
-    @Transactional
-    public List<Post> findAllPost() {
-        List<Post> posts = POST_REPOSITORY.findAll();
-        try {
-            isPostExistedByList(posts);
-            return posts;
-        } catch(NullPointerException exception) {
-            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
-        }
     }
 
     @Transactional
@@ -61,15 +52,13 @@ public class PostService implements PostQueryDslRepository {
     }
 
     @Transactional
-    public List<Post> deletePost(Long id) {
+    public void deletePost(Long id) {
         try {
             Post post = isPostExistedById(id);
             POST_REPOSITORY.deleteById(post.getId());
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-
-        return findAllPost();
     }
 
     @Transactional
@@ -77,16 +66,6 @@ public class PostService implements PostQueryDslRepository {
         try {
             Post post = isPostExistedById(id);
             post = increaseViews(post);
-            return post;
-        } catch(NullPointerException exception) {
-            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
-        }
-    }
-
-    @Transactional
-    public Post findPostById(Long id) {
-        try {
-            Post post = isPostExistedById(id);
             return post;
         } catch(NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
@@ -103,7 +82,25 @@ public class PostService implements PostQueryDslRepository {
 
             isPostExistedByList(postSearchResults);
 
-            return postSearchResults;
+            return postSearchResults;   // TODO: 페이징 결과를 리턴하도록 해야한다.
+        } catch (NullPointerException exception) {
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
+    }
+
+    @Transactional
+    public PageImpl<Post> findAllPostListWithQueryDsl(Pageable pageable) {
+        QPost qPost = QPost.post;
+
+        try {
+            List<Post> posts = JPA_QUERY_FACTORY.selectFrom(qPost)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetch();
+
+            isPostExistedByList(posts);
+
+            return new PageImpl<>(posts, pageable, posts.size());
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
