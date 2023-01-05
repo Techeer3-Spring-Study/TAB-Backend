@@ -40,8 +40,8 @@ public class CommentController {
     }
 
     @PutMapping
-    public CommentResponseDto updateComment(@RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
-        Comment updateCommentResult = COMMENT_SERVICE.updateComment(commentUpdateRequestDto);
+    public CommentResponseDto updateComment(@PathVariable Long postId, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
+        Comment updateCommentResult = COMMENT_SERVICE.updateComment(postId, commentUpdateRequestDto);
         return COMMENT_MAPPER.getDataFromEntity(updateCommentResult);
     }
 

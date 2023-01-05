@@ -13,6 +13,7 @@ import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.techeeresc.tab.domain.comment.repository.CommentRepository;
+import com.techeeresc.tab.domain.post.service.PostService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -28,14 +29,15 @@ public class CommentService {
     public Comment insertComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
 
         Post post =  POST_REPOSITORY.findById(postId).orElseThrow(() ->
-                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
-                //new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음"));
+                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND)
+                //new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음") //만들어주면 수정해두기!
+         );
 
         return COMMENT_REPOSITORY.save(COMMENT_MAPPER.saveDataToEntity(commentCreateRequestDto));
     }
 
     @Transactional
-    public Comment updateComment(CommentUpdateRequestDto commentUpdateRequestDto) {
+    public Comment updateComment(Long postId, CommentUpdateRequestDto commentUpdateRequestDto) {
         try {
             Comment comment = isCommentExisted(commentUpdateRequestDto.getId());
             return comment.updateComment(commentUpdateRequestDto);
@@ -72,7 +74,7 @@ public class CommentService {
     }
     private Comment isCommentExisted(Long id) {
         Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() ->
-                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
 
         return comment;
     }
