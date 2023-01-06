@@ -26,7 +26,7 @@ public class CommentService {
     private final CommentMapper COMMENT_MAPPER;
 
     @Transactional
-    public Comment insertComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
+    public Comment createComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
 
         Post post =  POST_REPOSITORY.findById(postId).orElseThrow(() ->
                 new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND)
