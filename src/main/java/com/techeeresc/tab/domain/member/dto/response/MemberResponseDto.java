@@ -17,7 +17,8 @@ public class MemberResponseDto {
 
     private String name;
 
-    private Role role;
+    //private Role role;
+    private boolean role;
 
     private boolean isActive;
 }

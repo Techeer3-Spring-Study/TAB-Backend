@@ -26,21 +26,21 @@ public class MemberController {
     private final MemberService MEMBER_SERVICE;
     private final MemberMapper MEMBER_MAPPER;
 
-    //회원가입하기 - 예외처리 필요!
+    //회원가입하기
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberResponseDto signupMember(@RequestBody MemberCreateRequestDto MemberCreateRequestDto) {
-        Member insertMemberResult = MEMBER_SERVICE.createMember(MemberCreateRequestDto);
+        Member insertMemberResult = MEMBER_SERVICE.signupMember(MemberCreateRequestDto);
         return MEMBER_MAPPER.getDataFromEntity(insertMemberResult);
     }
 
     //로그인
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto MemberLoginRequestDto) {
-//
-//
-//    }
+    public MemberResponseDto loginMember(@RequestBody MemberLoginRequestDto MemberLoginRequestDto) {
+        Member loginMemberResult = MEMBER_SERVICE.loginMember(MemberLoginRequestDto);
+        return MEMBER_MAPPER.getDataFromEntity(loginMemberResult);
+    }
 
 //    @PostMapping("/signin")
 //    public ResponseEntity<LoginTokenResponseDto> login(@RequestBody Map<String, String> user) {
@@ -50,9 +50,17 @@ public class MemberController {
 //        return new ResponseEntity<>(responseDto, HttpStatus.OK);
 //    }
 
+    //모든 회원 정보 가져오기
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Member> readAllMember() {
+        return MEMBER_SERVICE.readAllMember();
+    }
 
-        //회원 정보 가져오기
+
+    //회원 정보 가져오기
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public MemberResponseDto findById(@PathVariable Long id){
         return MEMBER_SERVICE.findById(id);
     }
@@ -64,24 +72,18 @@ public class MemberController {
         return MEMBER_MAPPER.getDataFromEntity(updateMemberResult);
     }
 
-    //회원 삭제 - 탈퇴처리하면 deactive -> 알 수 없는 사용자
+    //회원 삭제 - 우선 delete처리함! security 적용 후 비활성화 처리하기
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Member> deleteMember(@PathVariable Long id) {
-        //List<Member> members = (List<Member>) MEMBER_SERVICE.deleteMember(id);
+        List<Member> members = (List<Member>) MEMBER_SERVICE.deleteMember(id);
 
-        //return members;
-        return null;
+        return members;
+
+
     }
 
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Member deleteMember(@PathVariable Long id) {
-//        Member members = MEMBER_SERVICE.deleteMember(id);
-//
-//        return members;
-//    }
 
-    //logout <- 토큰 필요
+    //logout - 토큰 필요 -> 추후 개발할 것!
 
 }

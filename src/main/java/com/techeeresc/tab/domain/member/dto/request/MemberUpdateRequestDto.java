@@ -16,7 +16,8 @@ public class MemberUpdateRequestDto {
 
     private String name;
 
-    private Role role;
+    //private Role role;
+    private boolean role;
 
     private boolean isActive;
 
