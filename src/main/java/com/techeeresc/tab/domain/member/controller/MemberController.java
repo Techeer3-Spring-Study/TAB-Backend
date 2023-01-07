@@ -1,6 +1,7 @@
 package com.techeeresc.tab.domain.member.controller;
 
 
+import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
@@ -39,16 +40,12 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public MemberResponseDto loginMember(@RequestBody MemberLoginRequestDto MemberLoginRequestDto) {
         Member loginMemberResult = MEMBER_SERVICE.loginMember(MemberLoginRequestDto);
-        return MEMBER_MAPPER.getDataFromEntity(loginMemberResult);
+        if(loginMemberResult != null){
+            return MEMBER_MAPPER.getDataFromEntity(loginMemberResult);
+        }else{
+            return null;
+        }
     }
-
-//    @PostMapping("/signin")
-//    public ResponseEntity<LoginTokenResponseDto> login(@RequestBody Map<String, String> user) {
-//        userPw = user.get("password");
-//
-//        LoginTokenResponseDto responseDto = accountService.login(user.get("userId"), user.get("password"));
-//        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-//    }
 
     //모든 회원 정보 가져오기
     @GetMapping
@@ -56,7 +53,6 @@ public class MemberController {
     public List<Member> readAllMember() {
         return MEMBER_SERVICE.readAllMember();
     }
-
 
     //회원 정보 가져오기
     @GetMapping("/{id}")
@@ -79,10 +75,7 @@ public class MemberController {
         List<Member> members = (List<Member>) MEMBER_SERVICE.deleteMember(id);
 
         return members;
-
-
     }
-
 
     //logout - 토큰 필요 -> 추후 개발할 것!
 

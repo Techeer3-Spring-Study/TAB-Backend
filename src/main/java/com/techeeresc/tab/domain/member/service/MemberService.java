@@ -7,11 +7,13 @@ import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
 import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.member.exception.EmailDuplicateException;
 import com.techeeresc.tab.domain.member.exception.MemberNotFoundException;
 import com.techeeresc.tab.domain.member.respository.MemberRepository;
 import com.techeeresc.tab.domain.post.entity.Post;
-import com.techeeresc.tab.global.exception.exceptionclass.BadRequestBodyException;
-import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.customexception.BadRequestBodyException;
+import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.handler.GlobalExceptionHandler;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,25 +32,31 @@ public class MemberService {
     @Transactional
     public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {
         if(MEMBER_REPOSITORY.findByEmail(memberCreateRequestDto.getEmail()).isPresent()){
-                throw new BadRequestBodyException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
+                throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
         }
         return MEMBER_REPOSITORY.save(MEMBER_MAPPER.saveDataToEntity(memberCreateRequestDto));
     }
 
     @Transactional
     public Member loginMember(MemberLoginRequestDto memberLoginRequestDto) {
-        return null;
-    }
 
+        Optional<Member> findByEmail = MEMBER_REPOSITORY.findByEmail(memberLoginRequestDto.getEmail());
+        if(findByEmail.isPresent()) {
+            //해당 이메일 존재
+            Member member = findByEmail.get();
+            if(!member.getPassword().equals(memberLoginRequestDto.getPassword())){
+                //비밀번호 틀렸을 때
+                throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            }
+        } else{
+            //해당 이메일 존재하지 않음
+             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
+        return null; //나중에 토큰으로 수정하기!
+    }
 
     @Transactional
     public Member deleteMember(Long id) {
-//        try {
-//            Member member = isMemberExisted(id);
-//            MEMBER_REPOSITORY.deleteById(member.getId());
-//        } catch(NullPointerException exception) {
-//            throw new MemberNotFoundException("The member is not found.");
-//        }
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
                 -> new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         MEMBER_REPOSITORY.deleteById(member.getId());
@@ -82,7 +91,5 @@ public class MemberService {
                 -> new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         return member;
     }
-
-
 
 }
