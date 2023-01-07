@@ -12,10 +12,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name = "Bookmark")
-
 public class Bookmark extends Timestamp {
-    @Id //PK를 의미
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //MariaDB에서 사용하게된다
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
     @Column(name = "member_id", nullable = false, columnDefinition = "INT UNSIGNED")

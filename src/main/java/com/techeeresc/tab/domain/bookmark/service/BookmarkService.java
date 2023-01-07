@@ -9,6 +9,8 @@ import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundExcepti
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,12 +23,6 @@ public class BookmarkService {
     public final BookmarkMapper MAPPER;
 
 
-    private Bookmark isBookmarkExisted(Long id) {
-        Bookmark bookmark = REPOSITORY.findById(id).orElseThrow(() ->
-                new NullPointerException());
-
-        return bookmark;
-    }
 
     @Transactional
     public Bookmark save(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
@@ -58,4 +54,13 @@ public class BookmarkService {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
+
+    private Bookmark isBookmarkExisted(Long id) {
+        Bookmark bookmark = REPOSITORY.findById(id).orElseThrow(() ->
+                new NullPointerException());
+
+        return bookmark;
+    }
+
+
 }

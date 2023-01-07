@@ -4,7 +4,6 @@ import com.techeeresc.tab.domain.shareinfo.dto.mapper.ShareInfoMapper;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoCreateRequestDto;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoUpdateRequestDto;
 import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
-import com.techeeresc.tab.domain.shareinfo.exception.ShareInfoNotFoundException;
 import com.techeeresc.tab.domain.shareinfo.repository.ShareInfoRepository;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
