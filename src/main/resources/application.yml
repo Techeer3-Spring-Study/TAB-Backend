@@ -7,10 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto : create
-<<<<<<< HEAD
     #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-=======
->>>>>>> 4719b56aa861c1ae6ed95a34390651458402cba0
     properties:
       hibernate:
         format_sql: true
