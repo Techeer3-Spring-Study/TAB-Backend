@@ -45,7 +45,8 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	// flyway library dependency
-	implementation 'org.flywaydb:flyway-core'
+	// baseline-on-migrate: true를 설정한 경우 의존성을 제거한다.
+	//implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
 }
 
