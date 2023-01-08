@@ -1,28 +1,31 @@
 package com.techeeresc.tab.domain.bookmark.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.bookmark.dto.mapper.BookmarkMapper;
 import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
-import com.techeeresc.tab.domain.bookmark.exception.BookmarkNotFoundException;
+import com.techeeresc.tab.domain.bookmark.entity.QBookmark;
+import com.techeeresc.tab.domain.bookmark.repository.BookmarkQueryDslRepository;
 import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class BookmarkService {
+public class BookmarkService implements BookmarkQueryDslRepository {
+
+
     private final BookmarkRepository REPOSITORY;
     public final BookmarkMapper MAPPER;
-
-
+    private final JPAQueryFactory JPA_QUERY_FACTORY;
+    private final int NULL_SIZE = 0;
 
     @Transactional
     public Bookmark save(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
@@ -55,12 +58,33 @@ public class BookmarkService {
         }
     }
 
+    @Transactional
+    public PageImpl<Bookmark> findAll(Pageable pageable) {
+        QBookmark qBookmark = QBookmark.bookmark;
+
+        try {
+            List<Bookmark> bookmarks = JPA_QUERY_FACTORY.selectFrom(qBookmark)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetch();
+
+            isBookmarkExistedByList(bookmarks);
+
+            return new PageImpl<>(bookmarks, pageable, bookmarks.size());
+        } catch (NullPointerException exception) {
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
+    }
+
     private Bookmark isBookmarkExisted(Long id) {
         Bookmark bookmark = REPOSITORY.findById(id).orElseThrow(() ->
                 new NullPointerException());
-
         return bookmark;
     }
 
-
+    private void isBookmarkExistedByList(List<Bookmark> bookmarkSearchResults) {
+        if (bookmarkSearchResults.size() == NULL_SIZE) {
+            throw new NullPointerException();
+        }
+    }
 }

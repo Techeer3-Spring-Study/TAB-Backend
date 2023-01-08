@@ -2,18 +2,16 @@ package com.techeeresc.tab.domain.bookmark.controller;
 
 import com.techeeresc.tab.domain.bookmark.dto.mapper.BookmarkMapper;
 import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
+import com.techeeresc.tab.domain.bookmark.dto.request.PagingDTO;
 import com.techeeresc.tab.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/v1/bookmark")
 public class BookmarkController {
     private final BookmarkService BOOKMARK_SERVICE;
-
     private final BookmarkMapper BOOKMARK_MAPPER;
 
     @PostMapping // 서버로 데이터를 전송한다.
@@ -50,6 +47,11 @@ public class BookmarkController {
         return bookmarks;
     }
 
+    @GetMapping
+    public ResponseEntity<PageImpl<Bookmark>> findAllBookmarks(PagingDTO pagingDTO) {
+        Pageable pageable = pagingDTO.of();
+        PageImpl<Bookmark> bookmarks = BOOKMARK_SERVICE.findAll(pageable);
+        return new ResponseEntity<>(bookmarks, HttpStatus.OK);
+    }
 }
-                                                                        
 
