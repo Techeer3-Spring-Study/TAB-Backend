@@ -26,11 +26,6 @@ repositories {
 	mavenCentral()
 }
 
-flyway {
-	url = 'jdbc:mysql://mysql:3308/tab?useSSL=false&allowPublicKeyRetrieval=true'
-	user = 'root'
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -51,6 +46,7 @@ dependencies {
 
 	// flyway library dependency
 	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
 }
 
 tasks.named('test') {
