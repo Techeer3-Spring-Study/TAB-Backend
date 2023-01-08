@@ -9,6 +9,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"  // QueryDsl plugin
 	id 'java'
+	id "org.flywaydb.flyway" version "9.8.1"
 }
 
 group = 'com.techeeresc.tab'
@@ -25,6 +26,11 @@ repositories {
 	mavenCentral()
 }
 
+flyway {
+	url = 'jdbc:mysql://mysql:3308/tab?useSSL=false&allowPublicKeyRetrieval=true'
+	user = 'root'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -37,11 +43,14 @@ dependencies {
 	implementation 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// QueryDSL dependencies
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	// flyway library dependency
+	implementation 'org.flywaydb:flyway-core'
 }
 
 tasks.named('test') {
