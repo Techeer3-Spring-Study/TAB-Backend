@@ -31,8 +31,8 @@ public class MemberController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberResponseDto signupMember(@RequestBody MemberCreateRequestDto MemberCreateRequestDto) {
-        Member insertMemberResult = MEMBER_SERVICE.signupMember(MemberCreateRequestDto);
-        return MEMBER_MAPPER.getDataFromEntity(insertMemberResult);
+        Member signupMemberResult = MEMBER_SERVICE.signupMember(MemberCreateRequestDto);
+        return MEMBER_MAPPER.getDataFromEntity(signupMemberResult);
     }
 
     //로그인
@@ -57,8 +57,9 @@ public class MemberController {
     //회원 정보 가져오기
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public MemberResponseDto findById(@PathVariable Long id){
-        return MEMBER_SERVICE.findById(id);
+     public MemberResponseDto findMember(@PathVariable Long id){
+        Member member = MEMBER_SERVICE.findMemberById(id);
+        return MEMBER_MAPPER.getDataFromEntity(member);
     }
 
     //회원 정보 수정

@@ -5,15 +5,12 @@ import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
-import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.member.exception.EmailDuplicateException;
+import com.techeeresc.tab.domain.member.exception.EmailNotFoundException;
 import com.techeeresc.tab.domain.member.exception.MemberNotFoundException;
 import com.techeeresc.tab.domain.member.respository.MemberRepository;
-import com.techeeresc.tab.domain.post.entity.Post;
-import com.techeeresc.tab.global.exception.customexception.BadRequestBodyException;
 import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
-import com.techeeresc.tab.global.exception.handler.GlobalExceptionHandler;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
@@ -45,22 +42,21 @@ public class MemberService {
             //해당 이메일 존재
             Member member = findByEmail.get();
             if(!member.getPassword().equals(memberLoginRequestDto.getPassword())){
-                //비밀번호 틀렸을 때
+                //비밀번호 틀렸을 때 - 추후 handler로 처리할 예정
                 throw new IllegalArgumentException("잘못된 비밀번호입니다.");
             }
         } else{
             //해당 이메일 존재하지 않음
-             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+             throw new EmailNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-        return null; //나중에 토큰으로 수정하기!
+        return null; //추후 토큰으로 수정!
     }
 
     @Transactional
     public Member deleteMember(Long id) {
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
-                -> new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+                -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         MEMBER_REPOSITORY.deleteById(member.getId());
-
         return member;
     }
 
@@ -70,7 +66,7 @@ public class MemberService {
             Member member = isMemberExisted(memberUpdateRequestDto.getId());
             return member.updateMember(memberUpdateRequestDto);
         } catch(NullPointerException exception) {
-            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+            throw new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
@@ -80,16 +76,18 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto findById(Long id){
-        Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
-                -> new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
-        return MEMBER_MAPPER.getDataFromEntity(member);
+    public Member findMemberById(Long id){
+        try {
+            Member member = isMemberExisted(id);
+            return member;
+        } catch(NullPointerException exception) {
+            throw new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
     }
 
     public Member isMemberExisted(Long id) {
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
-                -> new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+                -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         return member;
     }
-
 }
