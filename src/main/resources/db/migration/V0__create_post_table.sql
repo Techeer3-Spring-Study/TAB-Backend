@@ -1,6 +1,6 @@
-drop table if exists post;
+drop table if exists post_test;
 
-create table post (
+create table post_test (
       id INT UNSIGNED not null auto_increment,
       created_at datetime(6),
       updated_at datetime(6),
