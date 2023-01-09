@@ -28,6 +28,14 @@ jobs:
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
     - uses: actions/checkout@v2   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
     
+    - name: Setup MySQL
+      uses: samin/mysql-action@v1
+      with:
+        character set server: 'utf8' 
+        mysql database: 'tab' 
+        mysql user: 'root'
+        mysql password: 'tab'
+    
     - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
       uses: actions/setup-java@v2
       with:
