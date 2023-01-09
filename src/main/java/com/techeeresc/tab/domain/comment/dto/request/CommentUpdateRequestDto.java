@@ -10,19 +10,11 @@ import javax.persistence.ManyToOne;
 @Builder
 public class CommentUpdateRequestDto {
     private Long id;
-
     private Long memberId;
-
     private Long postId;
-
 //    private Post post;
-
     private Long commentId;
-
     private String content;
-
     private int layer;
-
     private boolean isAnonymous;
-
 }

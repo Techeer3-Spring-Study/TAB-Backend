@@ -7,13 +7,12 @@ import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.comment.exception.CommentNotFoundException;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
-import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
+import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.techeeresc.tab.domain.comment.repository.CommentRepository;
-import com.techeeresc.tab.domain.post.service.PostService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,12 +26,10 @@ public class CommentService {
 
     @Transactional
     public Comment createComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
-
         Post post =  POST_REPOSITORY.findById(postId).orElseThrow(() ->
                 new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND)
                 //new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음") //만들어주면 수정해두기!
          );
-
         return COMMENT_REPOSITORY.save(COMMENT_MAPPER.saveDataToEntity(commentCreateRequestDto));
     }
 
@@ -59,7 +56,6 @@ public class CommentService {
         } catch(NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-
         return readAllComment();
     }
 
@@ -72,12 +68,10 @@ public class CommentService {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
+
     private Comment isCommentExisted(Long id) {
         Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() ->
                 new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
-
         return comment;
     }
-
-
 }

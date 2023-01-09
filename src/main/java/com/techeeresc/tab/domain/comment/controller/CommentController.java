@@ -49,8 +49,6 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     public List<Comment> deleteComment(@PathVariable Long id) {
         List<Comment> comments = COMMENT_SERVICE.deleteComment(id);
-
         return comments;
     }
-
 }
