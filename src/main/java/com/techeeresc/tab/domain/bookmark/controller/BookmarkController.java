@@ -28,12 +28,6 @@ public class BookmarkController {
         return BOOKMARK_MAPPER.getDataFromEntity(insertBookmarkResult);
     }
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Bookmark> readAllBookmark() {
-        return BOOKMARK_SERVICE.findAllBookmark();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<BookmarkResponseDto> findBookmark(@PathVariable Long id) {
         Bookmark findBookmarkResult = BOOKMARK_SERVICE.findBookmarkById(id);
@@ -48,9 +42,9 @@ public class BookmarkController {
     }
 
     @GetMapping
-    public ResponseEntity<PageImpl<Bookmark>> findAllBookmarks(PagingDTO pagingDTO) {
+    public ResponseEntity<PageImpl<Bookmark>> findAllBookmark(PagingDTO pagingDTO) {
         Pageable pageable = pagingDTO.of();
-        PageImpl<Bookmark> bookmarks = BOOKMARK_SERVICE.findAll(pageable);
+        PageImpl<Bookmark> bookmarks = BOOKMARK_SERVICE.findAllBookmark(pageable);
         return new ResponseEntity<>(bookmarks, HttpStatus.OK);
     }
 }

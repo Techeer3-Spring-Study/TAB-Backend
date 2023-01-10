@@ -60,7 +60,7 @@ public class BookmarkService implements BookmarkQueryDslRepository {
     }
 
     @Transactional
-    public PageImpl<Bookmark> findAll(Pageable pageable) {
+    public PageImpl<Bookmark> findAllBookmark(Pageable pageable) {
         QBookmark qBookmark = QBookmark.bookmark;
 
         try {
