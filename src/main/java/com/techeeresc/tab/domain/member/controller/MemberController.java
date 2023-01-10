@@ -40,9 +40,9 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public MemberResponseDto loginMember(@RequestBody MemberLoginRequestDto MemberLoginRequestDto) {
         Member loginMemberResult = MEMBER_SERVICE.loginMember(MemberLoginRequestDto);
-        if(loginMemberResult != null){
+        if (loginMemberResult != null){
             return MEMBER_MAPPER.getDataFromEntity(loginMemberResult);
-        }else{
+        } else {
             return null;
         }
     }
@@ -69,7 +69,7 @@ public class MemberController {
         return MEMBER_MAPPER.getDataFromEntity(updateMemberResult);
     }
 
-    //회원 삭제 - 우선 delete처리함! security 적용 후 비활성화 처리하기
+    //회원 삭제 - 우선 delete처리! TODO:security 적용 후 비활성화 처리하기
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Member> deleteMember(@PathVariable Long id) {
@@ -78,6 +78,6 @@ public class MemberController {
         return members;
     }
 
-    //logout - 토큰 필요 -> 추후 개발할 것!
+    //TODO: logout - 토큰 필요
 
 }

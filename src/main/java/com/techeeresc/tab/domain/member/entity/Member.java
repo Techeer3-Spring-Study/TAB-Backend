@@ -22,20 +22,15 @@ public class Member extends Timestamp{
     @GeneratedValue(strategy = GenerationType.IDENTITY) //DB가 id 자동 생성
     @Column(nullable = false, columnDefinition = "INT UNSIGNED")
     private Long id;
-
     @Column(nullable = false, name = "email")
     private String email;
-
     @Column(nullable = false, name = "password")
     private String password;
-
     @Column(nullable = false, name = "name")
     private String name;
-
     @Column(nullable = false, name = "role")
     //Role role;
     private boolean role;
-
     @Column(columnDefinition = "boolean default true", name = "is_active")
     private boolean isActive;
 
@@ -50,7 +45,7 @@ public class Member extends Timestamp{
         this.email = memberUpdateRequestDto.getEmail();
         this.password = memberUpdateRequestDto.getPassword();
         this.name = memberUpdateRequestDto.getName();
-        //this.role = memberUpdateRequestDto.getRole();
+        this.role = memberUpdateRequestDto.isRole(); //role도 업데이트되나요? 우선 넣어둘게요!
 
         return this;
     }

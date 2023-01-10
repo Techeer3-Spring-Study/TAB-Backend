@@ -7,9 +7,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MemberLoginRequestDto {
-
     private String email;
-
     private String password;
-
 }

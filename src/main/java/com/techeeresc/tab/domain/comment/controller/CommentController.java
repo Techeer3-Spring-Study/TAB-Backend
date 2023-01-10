@@ -28,8 +28,8 @@ public class CommentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Comment> readAllComment() {
-        return COMMENT_SERVICE.readAllComment();
+    public List<Comment> findAllComment() {
+        return COMMENT_SERVICE.findAllComment();
     }
 
     @GetMapping("/{id}")

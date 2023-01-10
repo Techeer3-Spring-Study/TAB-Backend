@@ -38,18 +38,18 @@ public class MemberService {
     public Member loginMember(MemberLoginRequestDto memberLoginRequestDto) {
 
         Optional<Member> findByEmail = MEMBER_REPOSITORY.findByEmail(memberLoginRequestDto.getEmail());
-        if(findByEmail.isPresent()) {
+        if (findByEmail.isPresent()) {
             //해당 이메일 존재
             Member member = findByEmail.get();
-            if(!member.getPassword().equals(memberLoginRequestDto.getPassword())){
-                //비밀번호 틀렸을 때 - 추후 handler로 처리할 예정
+            if (!member.getPassword().equals(memberLoginRequestDto.getPassword())) {
+                //비밀번호 틀렸을 때 TODO: handler로 한번에 처리할 예정
                 throw new IllegalArgumentException("잘못된 비밀번호입니다.");
             }
-        } else{
+        } else {
             //해당 이메일 존재하지 않음
              throw new EmailNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-        return null; //추후 토큰으로 수정!
+        return null; //TODO: 토큰으로 수정!
     }
 
     @Transactional
@@ -87,7 +87,7 @@ public class MemberService {
 
     public Member isMemberExisted(Long id) {
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
-                -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+                -> new NullPointerException());
         return member;
     }
 }

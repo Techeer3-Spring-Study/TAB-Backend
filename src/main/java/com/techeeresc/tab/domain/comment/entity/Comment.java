@@ -34,6 +34,7 @@ public class Comment extends Timestamp {
     private int layer;
     @Column(name = "is_anonymous", nullable = false)
     private boolean isAnonymous;
+
     public Comment updateComment(CommentUpdateRequestDto commentUpdateRequestDto) {
         this.postId = commentUpdateRequestDto.getPostId();
         this.commentId = commentUpdateRequestDto.getCommentId();

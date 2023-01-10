@@ -38,25 +38,25 @@ public class CommentService {
         try {
             Comment comment = isCommentExisted(commentUpdateRequestDto.getId());
             return comment.updateComment(commentUpdateRequestDto);
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
     @Transactional
-    public List<Comment> readAllComment() {
+    public List<Comment> findAllComment() {
         return COMMENT_REPOSITORY.findAll();
     }
 
     @Transactional
     public List<Comment> deleteComment(Long id) {
-        try{
+        try {
             Comment comment = isCommentExisted(id);
             COMMENT_REPOSITORY.deleteById(comment.getId());
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-        return readAllComment();
+        return findAllComment();
     }
 
     @Transactional
@@ -64,14 +64,14 @@ public class CommentService {
         try {
             Comment comment = isCommentExisted(id);
             return comment;
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
     private Comment isCommentExisted(Long id) {
         Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() ->
-                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+                new NullPointerException());
         return comment;
     }
 }
