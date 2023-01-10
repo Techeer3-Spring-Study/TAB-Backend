@@ -2,7 +2,7 @@ spring:
   datasource:
     include:
       - docker
-#      - local
+  #      - local
 
   jpa:
     hibernate:
