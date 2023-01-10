@@ -21,7 +21,7 @@ public class BookmarkController {
     private final BookmarkService BOOKMARK_SERVICE;
     private final BookmarkMapper BOOKMARK_MAPPER;
 
-    @PostMapping // 서버로 데이터를 전송한다.
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookmarkResponseDto createBookmark(@RequestBody BookmarkCreateRequestDto bookmarkCreateRequestDto) {
         Bookmark insertBookmarkResult = BOOKMARK_SERVICE.save(bookmarkCreateRequestDto);
@@ -40,7 +40,7 @@ public class BookmarkController {
         return new ResponseEntity<>(BOOKMARK_MAPPER.getDataFromEntity(findBookmarkResult), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}") //여기서부터 수정 진행 해주세요!
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Bookmark> deleteBookmark(@PathVariable Long id) {
         List<Bookmark> bookmarks = BOOKMARK_SERVICE.deleteBookmark(id);

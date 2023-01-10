@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ShareInfoMapper {
-    public ShareInfo saveDataToEntity(ShareInfoCreateRequestDto shareInfoCreateRequestDto) {  //Entity를 저장하는 방식
+    public ShareInfo saveDataToEntity(ShareInfoCreateRequestDto shareInfoCreateRequestDto) {
         return ShareInfo.builder()
                 .title(shareInfoCreateRequestDto.getTitle())
                 .content(shareInfoCreateRequestDto.getContent())
@@ -19,7 +19,7 @@ public class ShareInfoMapper {
                 .hashtag(shareInfoCreateRequestDto.getHashtag())
                 .build();
     }
-    public ShareInfoResponseDto getDataFromEntity(ShareInfo shareInfo) {    //Entity로 부터 값을 받아오는 방식이다.
+    public ShareInfoResponseDto getDataFromEntity(ShareInfo shareInfo) {
         return ShareInfoResponseDto.builder()
                 .id(shareInfo.getId())
                 .title(shareInfo.getTitle())

@@ -7,6 +7,7 @@ import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.entity.QBookmark;
 import com.techeeresc.tab.domain.bookmark.repository.BookmarkQueryDslRepository;
 import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
+import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
@@ -69,7 +70,6 @@ public class BookmarkService implements BookmarkQueryDslRepository {
                     .fetch();
 
             isBookmarkExistedByList(bookmarks);
-
             return new PageImpl<>(bookmarks, pageable, bookmarks.size());
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);

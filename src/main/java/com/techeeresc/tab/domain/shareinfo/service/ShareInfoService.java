@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RequiredArgsConstructor   // postRepository 의 생성자를 위해 선언
+@RequiredArgsConstructor
 @Service
 public class ShareInfoService {
     private final ShareInfoRepository REPOSITORY;
