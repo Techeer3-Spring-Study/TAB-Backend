@@ -2,7 +2,7 @@ package com.techeeresc.tab.domain.bookmark.controller;
 
 import com.techeeresc.tab.domain.bookmark.dto.mapper.BookmarkMapper;
 import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
-import com.techeeresc.tab.domain.bookmark.dto.request.PagingDTO;
+import com.techeeresc.tab.domain.bookmark.dto.request.PagingDto;
 import com.techeeresc.tab.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.service.BookmarkService;
@@ -42,7 +42,7 @@ public class BookmarkController {
     }
 
     @GetMapping
-    public ResponseEntity<PageImpl<Bookmark>> findAllBookmark(PagingDTO pagingDTO) {
+    public ResponseEntity<PageImpl<Bookmark>> findAllBookmark(PagingDto pagingDTO) {
         Pageable pageable = pagingDTO.of();
         PageImpl<Bookmark> bookmarks = BOOKMARK_SERVICE.findAllBookmark(pageable);
         return new ResponseEntity<>(bookmarks, HttpStatus.OK);

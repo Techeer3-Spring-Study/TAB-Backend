@@ -3,7 +3,6 @@ package com.techeeresc.tab.domain.shareinfo.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Getter
 @Builder
 public class ShareInfoUpdateRequestDto {

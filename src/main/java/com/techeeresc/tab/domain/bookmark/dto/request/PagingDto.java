@@ -1,9 +1,7 @@
 package com.techeeresc.tab.domain.bookmark.dto.request;
 
 import org.springframework.data.domain.Sort;
-
-
-public class PagingDTO {
+public class PagingDto {
     private int page = 1;
     private int size = 10;
     private Sort.Direction direction = Sort.Direction.DESC;

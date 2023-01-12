@@ -6,7 +6,6 @@ import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @RequiredArgsConstructor
 public class ShareInfoMapper {

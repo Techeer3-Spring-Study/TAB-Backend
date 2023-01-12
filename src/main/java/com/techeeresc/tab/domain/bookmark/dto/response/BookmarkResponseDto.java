@@ -1,6 +1,5 @@
 package com.techeeresc.tab.domain.bookmark.dto.response;
 
-
 import lombok.Builder;
 import lombok.Getter;
 
