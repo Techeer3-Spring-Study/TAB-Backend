@@ -21,10 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class BookmarkService implements BookmarkQueryDslRepository {
-
-
     private final BookmarkRepository REPOSITORY;
-    public final BookmarkMapper MAPPER;
+    private final BookmarkMapper MAPPER;
     private final JPAQueryFactory JPA_QUERY_FACTORY;
     private final int NULL_SIZE = 0;
 

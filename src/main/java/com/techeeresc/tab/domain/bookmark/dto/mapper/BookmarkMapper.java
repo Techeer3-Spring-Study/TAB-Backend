@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BookmarkMapper {
-
-
     public Bookmark saveDataToEntity(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
         return Bookmark.builder()
                 .memberId(bookmarkCreateRequestDto.getMemberId())
@@ -25,5 +23,4 @@ public class BookmarkMapper {
                 .postId(bookmark.getPostId())
                 .build();
     }
-
 }

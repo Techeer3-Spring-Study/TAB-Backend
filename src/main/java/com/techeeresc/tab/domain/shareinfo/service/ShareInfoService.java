@@ -18,15 +18,7 @@ import java.util.List;
 @Service
 public class ShareInfoService {
     private final ShareInfoRepository REPOSITORY;
-
     private final ShareInfoMapper MAPPER;
-
-    private ShareInfo isShareInfoExisted(Long id) {
-        ShareInfo shareInfo = REPOSITORY.findById(id).orElseThrow(() ->
-                new NullPointerException());
-
-        return shareInfo;
-    }
 
     @Transactional
     public ShareInfo insertShareInfo(ShareInfoCreateRequestDto shareInfoCreateRequestDto) {
@@ -38,7 +30,7 @@ public class ShareInfoService {
         try {
             ShareInfo shareInfo = isShareInfoExisted(shareInfoUpdateRequestDto.getId());
             return shareInfo.updateShareInfo(shareInfoUpdateRequestDto);
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
@@ -50,10 +42,10 @@ public class ShareInfoService {
 
     @Transactional
     public List<ShareInfo> deleteShareInfo(Long id) {
-        try{
+        try {
             ShareInfo shareInfo = isShareInfoExisted(id);
             REPOSITORY.deleteById(shareInfo.getId());
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
         return findAllShareInfo();
@@ -64,8 +56,15 @@ public class ShareInfoService {
         try {
             ShareInfo shareInfo = isShareInfoExisted(id);
             return shareInfo;
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
+    }
+
+    private ShareInfo isShareInfoExisted(Long id) {
+        ShareInfo shareInfo = REPOSITORY.findById(id).orElseThrow(() ->
+                new NullPointerException());
+
+        return shareInfo;
     }
 }

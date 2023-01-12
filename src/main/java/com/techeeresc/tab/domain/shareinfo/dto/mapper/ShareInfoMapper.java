@@ -19,6 +19,7 @@ public class ShareInfoMapper {
                 .hashtag(shareInfoCreateRequestDto.getHashtag())
                 .build();
     }
+
     public ShareInfoResponseDto getDataFromEntity(ShareInfo shareInfo) {
         return ShareInfoResponseDto.builder()
                 .id(shareInfo.getId())
