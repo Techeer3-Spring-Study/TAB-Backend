@@ -17,3 +17,9 @@ logging:
   level:
     org:
       hibernate: info
+
+jwt:
+  header: Authorization
+  # openssl rand -hex 64로 생성
+  secret: 0f54ad2d6a60b8ea926c395bbbc58bbcd2208b44281c6a58396cc7ea12b8de0338b19702ce49a6995ba66788e000681acc08a4e380b6b577f5e8275370143fdc
+  token-validity-in-seconds: 86400 # 토큰 만료 시간(86400초)
