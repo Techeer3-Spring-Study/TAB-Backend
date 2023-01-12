@@ -34,7 +34,7 @@ public class BookmarkController {
         return new ResponseEntity<>(BOOKMARK_MAPPER.getDataFromEntity(findBookmarkResult), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")    // TODO: 해당 부분도 반환타입이 리스트가 아님
     @ResponseStatus(HttpStatus.OK)
     public List<Bookmark> deleteBookmark(@PathVariable Long id) {
         List<Bookmark> bookmarks = BOOKMARK_SERVICE.deleteBookmark(id);

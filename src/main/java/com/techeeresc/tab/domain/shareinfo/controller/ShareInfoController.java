@@ -17,37 +17,37 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/shareinfo")
 public class ShareInfoController {
-    private final ShareInfoService SHAREINFO_SERVICE;
-    private final ShareInfoMapper SHAREINFO_MAPPER;
+    private final ShareInfoService SHARE_INFO_SERVICE;
+    private final ShareInfoMapper SHARE_INFO_MAPPER;
 
     @PostMapping
     public ResponseEntity<ShareInfoResponseDto> createShareInfo(@RequestBody ShareInfoCreateRequestDto shareInfoCreateRequestDto) {
-        ShareInfo insertShareInfoResult = SHAREINFO_SERVICE.insertShareInfo(shareInfoCreateRequestDto);
-        return new ResponseEntity(SHAREINFO_MAPPER.getDataFromEntity(insertShareInfoResult), HttpStatus.CREATED);
+        ShareInfo insertShareInfoResult = SHARE_INFO_SERVICE.insertShareInfo(shareInfoCreateRequestDto);
+        return new ResponseEntity(SHARE_INFO_MAPPER.getDataFromEntity(insertShareInfoResult), HttpStatus.CREATED);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)     // TODO: 페이징 처리 필요
     public List<ShareInfo> findAllShareInfo() {
-        return SHAREINFO_SERVICE.findAllShareInfo();
+        return SHARE_INFO_SERVICE.findAllShareInfo();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ShareInfoResponseDto> findShareInfo(@PathVariable Long id) {
-        ShareInfo findShareInfoResult = SHAREINFO_SERVICE.findShareInfoById(id);
-        return new ResponseEntity<>(SHAREINFO_MAPPER.getDataFromEntity(findShareInfoResult), HttpStatus.OK);
+        ShareInfo findShareInfoResult = SHARE_INFO_SERVICE.findShareInfoById(id);
+        return new ResponseEntity<>(SHARE_INFO_MAPPER.getDataFromEntity(findShareInfoResult), HttpStatus.OK);
     }
 
     @PutMapping
      public ResponseEntity<ShareInfoResponseDto> updateShareInfo(@RequestBody ShareInfoUpdateRequestDto shareInfoUpdateRequestDto) {
-        ShareInfo updateShareInfoResult = SHAREINFO_SERVICE.updateShareInfo(shareInfoUpdateRequestDto);
-        return new ResponseEntity<>(SHAREINFO_MAPPER.getDataFromEntity(updateShareInfoResult), HttpStatus.CREATED);
+        ShareInfo updateShareInfoResult = SHARE_INFO_SERVICE.updateShareInfo(shareInfoUpdateRequestDto);
+        return new ResponseEntity<>(SHARE_INFO_MAPPER.getDataFromEntity(updateShareInfoResult), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")   // TODO: 응답형태 list가 아닌 다른 형태로 변경하기
     @ResponseStatus(HttpStatus.OK)
     public List<ShareInfo> deleteShareInfo(@PathVariable Long id) {
-        List<ShareInfo> shareInfos = SHAREINFO_SERVICE.deleteShareInfo(id);
+        List<ShareInfo> shareInfos = SHARE_INFO_SERVICE.deleteShareInfo(id);
 
         return shareInfos;
     }
