@@ -1,7 +1,6 @@
 package com.techeeresc.tab.domain.member.controller;
 
 
-import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
@@ -23,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/member")
 public class MemberController {
-
     private final MemberService MEMBER_SERVICE;
     private final MemberMapper MEMBER_MAPPER;
 

@@ -10,15 +10,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberResponseDto {
     private Long id;
-
     private String email;
-
     private String password;
-
     private String name;
-
     //private Role role;
     private boolean role;
-
     private boolean isActive;
 }
