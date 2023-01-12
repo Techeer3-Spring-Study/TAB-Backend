@@ -23,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/member")
 public class MemberController {
-
     private final MemberService MEMBER_SERVICE;
     private final MemberMapper MEMBER_MAPPER;
 
@@ -40,9 +39,9 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public MemberResponseDto loginMember(@RequestBody MemberLoginRequestDto MemberLoginRequestDto) {
         Member loginMemberResult = MEMBER_SERVICE.loginMember(MemberLoginRequestDto);
-        if(loginMemberResult != null){
+        if (loginMemberResult != null){
             return MEMBER_MAPPER.getDataFromEntity(loginMemberResult);
-        }else{
+        } else {
             return null;
         }
     }
@@ -78,6 +77,5 @@ public class MemberController {
         return members;
     }
 
-    //logout - 토큰 필요 -> 추후 개발할 것!
-
+    //TODO: logout - 토큰 필요 -> 추후 개발할 것!
 }

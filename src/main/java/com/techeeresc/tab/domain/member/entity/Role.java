@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Role {
     //implements GrantedAuthority
-
     USER("ROLE_USER"),
     ADMIN("ROLE_ADMIN");
 

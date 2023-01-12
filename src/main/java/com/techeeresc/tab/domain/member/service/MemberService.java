@@ -27,33 +27,34 @@ public class MemberService {
     private final MemberMapper MEMBER_MAPPER;
 
     @Transactional
-    public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {
-        if(MEMBER_REPOSITORY.findByEmail(memberCreateRequestDto.getEmail()).isPresent()){
-                throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
+    public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {  //TODO: try-catch문 추가하기
+        if (MEMBER_REPOSITORY.findByEmail(memberCreateRequestDto.getEmail()).isPresent()) {
+            throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
         }
+
         return MEMBER_REPOSITORY.save(MEMBER_MAPPER.saveDataToEntity(memberCreateRequestDto));
     }
 
     @Transactional
-    public Member loginMember(MemberLoginRequestDto memberLoginRequestDto) {
-
+    public Member loginMember(MemberLoginRequestDto memberLoginRequestDto) {   // TODO: if-else 대신 try-catch 사용하기
         Optional<Member> findByEmail = MEMBER_REPOSITORY.findByEmail(memberLoginRequestDto.getEmail());
-        if(findByEmail.isPresent()) {
+        if (findByEmail.isPresent()) {
             //해당 이메일 존재
             Member member = findByEmail.get();
-            if(!member.getPassword().equals(memberLoginRequestDto.getPassword())){
+            if (!member.getPassword().equals(memberLoginRequestDto.getPassword())) {
                 //비밀번호 틀렸을 때 - 추후 handler로 처리할 예정
                 throw new IllegalArgumentException("잘못된 비밀번호입니다.");
             }
-        } else{
+        } else {
             //해당 이메일 존재하지 않음
-             throw new EmailNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+            throw new EmailNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-        return null; //추후 토큰으로 수정!
+
+        return null; //TODO: 추후 토큰으로 수정!
     }
 
     @Transactional
-    public Member deleteMember(Long id) {
+    public Member deleteMember(Long id) {   // TODO: try-catch
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
                 -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         MEMBER_REPOSITORY.deleteById(member.getId());
@@ -65,7 +66,7 @@ public class MemberService {
         try {
             Member member = isMemberExisted(memberUpdateRequestDto.getId());
             return member.updateMember(memberUpdateRequestDto);
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
@@ -86,8 +87,7 @@ public class MemberService {
     }
 
     public Member isMemberExisted(Long id) {
-        Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
-                -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+        Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(() -> new NullPointerException());
         return member;
     }
 }

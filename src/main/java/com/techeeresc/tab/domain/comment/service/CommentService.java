@@ -4,7 +4,6 @@ import com.techeeresc.tab.domain.comment.dto.mapper.CommentMapper;
 import com.techeeresc.tab.domain.comment.dto.request.CommentCreateRequestDto;
 import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
 import com.techeeresc.tab.domain.comment.entity.Comment;
-import com.techeeresc.tab.domain.comment.exception.CommentNotFoundException;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
 import com.techeeresc.tab.global.exception.customexception.RequestNotFoundException;
@@ -25,11 +24,12 @@ public class CommentService {
     private final CommentMapper COMMENT_MAPPER;
 
     @Transactional
-    public Comment createComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {
+    public Comment createComment(Long postId, CommentCreateRequestDto commentCreateRequestDto) {  // TODO: try-catch 문 추가하기
         Post post =  POST_REPOSITORY.findById(postId).orElseThrow(() ->
                 new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND)
-                //new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음") //만들어주면 수정해두기!
+                // new IllegalArgumentException("댓글 쓰기 실패! 해당 게시글이 존재하지 않음") //만들어주면 수정해두기!
          );
+
         return COMMENT_REPOSITORY.save(COMMENT_MAPPER.saveDataToEntity(commentCreateRequestDto));
     }
 
@@ -38,13 +38,13 @@ public class CommentService {
         try {
             Comment comment = isCommentExisted(commentUpdateRequestDto.getId());
             return comment.updateComment(commentUpdateRequestDto);
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
     @Transactional
-    public List<Comment> readAllComment() {
+    public List<Comment> findAllComment() {
         return COMMENT_REPOSITORY.findAll();
     }
 
@@ -53,10 +53,11 @@ public class CommentService {
         try{
             Comment comment = isCommentExisted(id);
             COMMENT_REPOSITORY.deleteById(comment.getId());
-        } catch(NullPointerException exception) {
+
+            return findAllComment();
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
-        return readAllComment();
     }
 
     @Transactional
@@ -64,14 +65,13 @@ public class CommentService {
         try {
             Comment comment = isCommentExisted(id);
             return comment;
-        } catch(NullPointerException exception) {
+        } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
     }
 
     private Comment isCommentExisted(Long id) {
-        Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() ->
-                new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
+        Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() -> new NullPointerException());
         return comment;
     }
 }
