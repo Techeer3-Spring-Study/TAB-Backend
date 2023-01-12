@@ -36,6 +36,7 @@ public class Post extends Timestamp {
     @Column(name = "hashtags")
     private String hashtags;    // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
     @Column(name = "is_anonymous", nullable = false)
+    @ColumnDefault("false")
     private boolean isAnonymous;
     @Column(name = "like_numbers", nullable = false)
     @ColumnDefault("0")
