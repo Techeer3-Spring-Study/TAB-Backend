@@ -9,7 +9,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"  // QueryDsl plugin
 	id 'java'
-	id "org.flywaydb.flyway" version "9.8.1"
+	// id "org.flywaydb.flyway" version "9.8.1"
 }
 
 group = 'com.techeeresc.tab'
@@ -46,8 +46,8 @@ dependencies {
 
 	// flyway library dependency
 	// baseline-on-migrate: true를 설정한 경우 의존성을 제거한다.
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.flywaydb:flyway-mysql'
+	// implementation 'org.flywaydb:flyway-core'
+	// implementation 'org.flywaydb:flyway-mysql'
 }
 
 tasks.named('test') {
