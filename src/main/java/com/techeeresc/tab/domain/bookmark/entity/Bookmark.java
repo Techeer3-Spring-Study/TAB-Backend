@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Getter
-@Table(name = "Bookmark")
+@Table(name = "bookmark")
 public class Bookmark extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
