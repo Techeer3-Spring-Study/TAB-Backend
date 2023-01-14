@@ -6,7 +6,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto : update
+      ddl-auto : validate  # 스테이징, 운영 환경에서는 create, create-drop, update는 사용하지 말것
     properties:
       hibernate:
         format_sql: true
