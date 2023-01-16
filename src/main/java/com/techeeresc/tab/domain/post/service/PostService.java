@@ -89,7 +89,7 @@ public class PostService implements PostQueryDslRepository {
     }
 
     @Transactional
-    public PageImpl<Post> findAllPostListWithQueryDsl(Pageable pageable) {
+    public List<Post> findAllPostListWithQueryDsl(Pageable pageable) {
         QPost qPost = QPost.post;
 
         try {
@@ -100,7 +100,8 @@ public class PostService implements PostQueryDslRepository {
 
             isPostExistedByList(posts);
 
-            return new PageImpl<>(posts, pageable, posts.size());
+            // return new PageImpl<>(posts, pageable, posts.size());
+            return posts;
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
