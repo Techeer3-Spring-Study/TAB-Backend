@@ -4,27 +4,28 @@ import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+import javax.transaction.Transactional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)   // 이거 넣으니까 되는 이유는..?
 class PostServiceTest {
-    @Autowired
-    PostRepository postRepository;
-    @Autowired
-    PostMapper postMapper;
+    @Mock
+    private PostRepository postRepository;
+    @Mock
+    private PostMapper postMapper;
 
     @Test
     @Transactional
-    void 게시물_생성() throws Exception {
-        /* given */
+    void 게시물_생성_Mockito() {
+        // given
         PostCreateRequestDto postCreateRequestDto =
                 PostCreateRequestDto.builder()
                         .memberId(1L)
@@ -35,11 +36,9 @@ class PostServiceTest {
                         .content("재밌네요")
                         .hashtags("#개발")
                         .build();
-
-        /* when */
-        Post resultPost = postRepository.save(postMapper.saveDataToEntity(postCreateRequestDto));
-
-        /* then */
-        assertThat(resultPost.getId()).isEqualTo(2L);
+        // when
+        Post result = postRepository.save(postMapper.saveDataToEntity(postCreateRequestDto));
+        // then
+        Assertions.assertEquals(2, result.getId());
     }
 }
