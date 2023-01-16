@@ -1,9 +1,9 @@
-package com.techeeresc.tab.domain.security.config;
+package com.techeeresc.tab.global.security.config;
 
-import com.techeeresc.tab.domain.security.jwt.JwtAccessDeniedHandler;
-import com.techeeresc.tab.domain.security.jwt.JwtAuthenticationEntryPoint;
-import com.techeeresc.tab.domain.security.jwt.JwtSecurityConfig;
-import com.techeeresc.tab.domain.security.jwt.TokenProvider;
+import com.techeeresc.tab.global.security.jwt.JwtAccessDeniedHandler;
+import com.techeeresc.tab.global.security.jwt.JwtAuthenticationEntryPoint;
+import com.techeeresc.tab.global.security.jwt.JwtSecurityConfig;
+import com.techeeresc.tab.global.security.jwt.TokenProvider;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 //
+////
 //@EnableWebSecurity //기본적인 웹 보안 활성화
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
@@ -40,13 +40,12 @@ import org.springframework.security.web.SecurityFilterChain;
 //                .anyRequest().authenticated(); //나머지 url은 모두 인증돼야한다
 //    }
 //}
-//
+////
 @EnableWebSecurity
 @EnableMethodSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig {
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     //private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -98,9 +97,10 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/v1/post", "/api/v1/signup").permitAll() //"/api/v1/authenticate"
+                .antMatchers("/api/v1/member/signup").permitAll() //"/api/v1/authenticate"
                 //.requestMatchers("/api/v1/authenticate","api/").permitAll()
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                //.requestMatchers(PathRequest.toH2Console()).permitAll()
+                //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

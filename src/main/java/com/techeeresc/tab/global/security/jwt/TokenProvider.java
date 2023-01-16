@@ -1,4 +1,4 @@
-package com.techeeresc.tab.domain.security.jwt;//package com.techeeresc.tab.domain.security.jwt;
+package com.techeeresc.tab.global.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -60,46 +60,32 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-//    //access token 생성
-//    public String createAccessToken(String userId, List<String> roles) {
-//        return this.createToken(userId, roles, tokenValidTime);
-//    }
-//
-//    //refresh token 생성
-//    public String createRefreshToken(String userId, List<String> roles) {
-//        String refreshToken = this.createToken(userId, roles, refreshTokenValid);
-//        redisService.setValues(userId, refreshToken, Duration.ofMillis(tokenValidTime));
-//        return refreshToken;
-//    }
-
     //token에 담겨있는 권한 정보들을 이용하여 Authentication 객체 리턴
-//    public Authentication getAuthentication(String token) {
-//        Claims claims = Jwts
-//                .parserBuilder()
-//                //.parser()
-//                .setSigningKey(key)
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//
-//        Collection<? extends GrantedAuthority> authorities =
-//                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-//                        .map(SimpleGrantedAuthority::new)
-//                        .collect(Collectors.toList());
-//
-//        User principal = new User(claims.getSubject(), "", authorities);
-//
-//        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-//    }
+    public Authentication getAuthentication(String token) {
+        Claims claims = Jwts
+                .parserBuilder()
+                //.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        User principal = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
 
 
     //token 유효성 검증
     public boolean validateToken(String token) {
         try {
-//            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-//            return true;
-            Jws<Claims> claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             logger.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {

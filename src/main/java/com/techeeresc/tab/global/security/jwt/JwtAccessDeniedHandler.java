@@ -1,4 +1,4 @@
-package com.techeeresc.tab.domain.security.jwt;
+package com.techeeresc.tab.global.security.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
