@@ -1,14 +1,19 @@
 package com.techeeresc.tab.domain.shareinfo.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.shareinfo.dto.mapper.ShareInfoMapper;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoCreateRequestDto;
 import com.techeeresc.tab.domain.shareinfo.dto.request.ShareInfoUpdateRequestDto;
+import com.techeeresc.tab.domain.shareinfo.entity.QShareInfo;
 import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
+import com.techeeresc.tab.domain.shareinfo.repository.ShareInfoQueryDslRepository;
 import com.techeeresc.tab.domain.shareinfo.repository.ShareInfoRepository;
 import com.techeeresc.tab.global.exception.exceptionclass.RequestNotFoundException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,9 +21,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ShareInfoService {
+public class ShareInfoService implements ShareInfoQueryDslRepository {
     private final ShareInfoRepository REPOSITORY;
     private final ShareInfoMapper MAPPER;
+    private final JPAQueryFactory JPA_QUERY_FACTORY;
+    private final int NULL_SIZE = 0;
 
     @Transactional
     public ShareInfo insertShareInfo(ShareInfoCreateRequestDto shareInfoCreateRequestDto) {
@@ -61,10 +68,33 @@ public class ShareInfoService {
         }
     }
 
+    @Transactional
+    public PageImpl<ShareInfo> findAllShareInfoList(Pageable pageable) {
+        QShareInfo qShareInfo = QShareInfo.shareInfo;
+
+        try {
+            List<ShareInfo> shareInfos = JPA_QUERY_FACTORY.selectFrom(qShareInfo)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetch();
+
+            isShareInfoExistedByList(shareInfos);
+            return new PageImpl<>(shareInfos, pageable, shareInfos.size());
+        } catch (NullPointerException exception) {
+            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
+        }
+    }
+
     private ShareInfo isShareInfoExisted(Long id) {
         ShareInfo shareInfo = REPOSITORY.findById(id).orElseThrow(() ->
                 new NullPointerException());
 
         return shareInfo;
+    }
+
+    private void isShareInfoExistedByList(List<ShareInfo> shareInfoSearchResults) {
+        if (shareInfoSearchResults.size() == NULL_SIZE) {
+            throw new NullPointerException();
+        }
     }
 }

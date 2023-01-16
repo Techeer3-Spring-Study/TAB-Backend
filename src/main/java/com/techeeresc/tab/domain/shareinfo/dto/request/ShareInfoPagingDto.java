@@ -1,7 +1,8 @@
-package com.techeeresc.tab.domain.bookmark.dto.request;
+package com.techeeresc.tab.domain.shareinfo.dto.request;
 
 import org.springframework.data.domain.Sort;
-public class PagingDto {
+
+public class ShareInfoPagingDto {
     private int page = 1;
     private int size = 10;
     private Sort.Direction direction = Sort.Direction.DESC;
@@ -24,5 +25,3 @@ public class PagingDto {
         return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "create_date");
     }
 }
-
-
