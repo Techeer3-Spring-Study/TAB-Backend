@@ -31,10 +31,10 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<PageImpl<Post>> findAllPosts(PageRequest pageRequest) {
+    public ResponseEntity<List<Post>> findAllPosts(PageRequest pageRequest) {
         // return new ResponseEntity<>(POST_SERVICE.findAllPost(), HttpStatus.OK);
         Pageable pageable = pageRequest.of();
-        PageImpl<Post> posts = POST_SERVICE.findAllPostListWithQueryDsl(pageable);
+        List<Post> posts = POST_SERVICE.findAllPostListWithQueryDsl(pageable);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
