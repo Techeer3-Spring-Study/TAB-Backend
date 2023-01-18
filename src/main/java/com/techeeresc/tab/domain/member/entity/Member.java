@@ -8,6 +8,10 @@ import javax.persistence.*;
 
 import com.techeeresc.tab.global.common.Timestamp;
 
+import java.util.Collection;
+import java.util.Set;
+import com.techeeresc.tab.domain.member.entity.Authority;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor //기본 생성자 추가
@@ -18,7 +22,7 @@ import com.techeeresc.tab.global.common.Timestamp;
 public class Member extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //DB가 id 자동 생성
-    @Column(nullable = false, columnDefinition = "INT UNSIGNED")
+    @Column(nullable = false, name ="member_id", columnDefinition = "INT UNSIGNED")
     private Long id;
     @Column(nullable = false, name = "email")
     private String email;
@@ -47,4 +51,11 @@ public class Member extends Timestamp {
 
         return this;
     }
+
+    @ManyToMany
+    @JoinTable(
+    name = "member_authority",
+    joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
+    inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 }
