@@ -38,6 +38,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2:2.1.210' // 테스트 코드 작성시 사용할 DB(H2)
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 	// implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// QueryDSL dependencies
