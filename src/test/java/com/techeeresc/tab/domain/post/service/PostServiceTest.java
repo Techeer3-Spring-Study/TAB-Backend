@@ -46,7 +46,7 @@ class PostServiceTest {
         List<Post> pages = postService.findAllPostListWithQueryDsl(pageable);
 
         for (Post post : pages) {
-            System.out.println(post.getId());
+            System.out.println(post.getTitle());
         }
     }
 }
