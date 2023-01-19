@@ -7,6 +7,7 @@ import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.service.PostService;
+import com.techeeresc.tab.global.exception.response.ErrorResponse;
 import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,11 +33,20 @@ public class PostController {
 
     @Operation(summary = "create post")
     @ApiResponse(responseCode = "201", description = "CREATED",
-        content = @Content(schema = @Schema(implementation = PostResponseDto.class))
+            content = @Content(schema = @Schema(implementation = PostResponseDto.class))
     )
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST")
-    @ApiResponse(responseCode = "404", description = "NOT FOUND")
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST by Parameter Missing",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+    )
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST by Type Mismatch",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+    )
+    @ApiResponse(responseCode = "404", description = "NOT FOUND",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+    )
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+    )
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(@RequestBody @Valid PostCreateRequestDto postCreateRequestDto) {
         Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
