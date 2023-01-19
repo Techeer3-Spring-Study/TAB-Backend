@@ -17,8 +17,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI tabOpenApi() {
         return new OpenAPI()
-                .info(new Info().title("TAB API")
-                        .description("Techeer 3rd Spring Boot Project API")
+                .info(new Info().title("TAB API Docs")
+                        .description("Techeer 3rd Spring Boot Project API Docs")
                         .version("v0.0.1")
                 );
     }
