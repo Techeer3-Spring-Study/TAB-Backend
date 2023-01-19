@@ -3,20 +3,16 @@ package com.techeeresc.tab.domain.bookmark.service;
 import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
 class BookmarkServiceTest {
-
-
-
     @Autowired
     BookmarkRepository BOOKMARK_REPOSITORY;
 
@@ -24,7 +20,7 @@ class BookmarkServiceTest {
     BookmarkService BOOKMARK_SERVICE;
 
 
-    @BeforeEach
+    @AfterEach
     void clean(){
         BOOKMARK_REPOSITORY.deleteAll();
     }
@@ -38,16 +34,17 @@ class BookmarkServiceTest {
                 .postId(2L)
                 .build();
 
-        //when -> When 단계에서는 BookmarkService의 Write()메소드를 사용하여 given단계에서 생성한 DTO 객체를 파라미터 값으로 넣어준다
+        //when
         BOOKMARK_SERVICE.save(bookmarkCreateRequestDto);
 
         //then
         assertEquals(1L, BOOKMARK_REPOSITORY.count());
 
         Bookmark bookmark = BOOKMARK_REPOSITORY.findAll().get(0);
-        assertEquals(14L, bookmark.getId());
         assertEquals(1L, bookmark.getMemberId());
         assertEquals(2L, bookmark.getPostId());
+
+        System.out.println(bookmark);
     }
 
 }

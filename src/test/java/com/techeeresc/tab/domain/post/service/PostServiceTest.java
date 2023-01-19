@@ -18,7 +18,6 @@ class PostServiceTest {
 
     @Test
     @Transactional
-    @Rollback(false)
     void 게시물_생성_Mockito() {
         PostCreateRequestDto postCreateRequestDto =
                 PostCreateRequestDto.builder()
@@ -46,7 +45,7 @@ class PostServiceTest {
         List<Post> pages = postService.findAllPostListWithQueryDsl(pageable);
 
         for (Post post : pages) {
-            System.out.println(post.getTitle());
+            System.out.println(post.getId());
         }
     }
 }

@@ -1,50 +1,21 @@
 package com.techeeresc.tab.domain.bookmark.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techeeresc.tab.domain.bookmark.dto.mapper.BookmarkMapper;
-import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
-import com.techeeresc.tab.domain.bookmark.dto.response.BookmarkResponseDto;
-import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
-import com.techeeresc.tab.domain.bookmark.entity.QBookmark;
-import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
 import com.techeeresc.tab.domain.bookmark.service.BookmarkService;
-import org.hibernate.engine.spi.Status;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.io.ObjectInputFilter;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
-@RunWith(SpringRunner.class) //RunWith는 JUnit에 내장된 실행자 외 다른 실행자를 실행 -> 여기서 SpringRunner 실행자 즉 스프링 부트 테스트와 JUnit 사이에 연결자이다.
-@AutoConfigureMockMvc //-> MockMvc 주입받는 2가지 방법 -> @SpringBootTest + @AutoConfigureMockMvc 애노테이션 붙이기
-@SpringBootTest
+@ExtendWith(SpringExtension.class) //-> 이 부분 JUnit5로 넘어오면서 RunWith->ExtendWith(SpringRunner)로 변환
+@AutoConfigureMockMvc() //-> MockMvc 주입받는 2가지 방법 -> @SpringBootTest + @AutoConfigureMockMvc 애노테이션 붙이기
+@SpringBootTest()
 class BookmarkControllerTest {
     /**
      * 웹 API를 테스트할 때 사용
@@ -59,10 +30,8 @@ class BookmarkControllerTest {
 
     @Test
     void BookmarkControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/bookmark")) //Get으로 받아온다.
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/bookmark"))
                 .andExpect(MockMvcResultMatchers.status().isOk()) //Result 상태
-                .andDo(MockMvcResultHandlers.print()); //응답 받은 내용을 Print처리하기
-
+                .andDo(MockMvcResultHandlers.print()); //응답 받은 내용을 Print처리하기//Get으로 받아온다.
     }
-
 }

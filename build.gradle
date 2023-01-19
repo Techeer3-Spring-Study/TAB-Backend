@@ -28,8 +28,6 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'junit:junit:4.13.1'
-	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'   // gradle 5 이상부터는 이처럼 설정해주어야한다.
 	testAnnotationProcessor 'org.projectlombok:lombok'

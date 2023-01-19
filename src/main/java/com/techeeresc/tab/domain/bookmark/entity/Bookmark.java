@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Getter
-@Setter
 @Table(name = "bookmark")
 public class Bookmark extends Timestamp {
     @Id

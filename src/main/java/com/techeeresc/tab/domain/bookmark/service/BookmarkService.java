@@ -26,7 +26,7 @@ public class BookmarkService implements BookmarkQueryDslRepository {
     private final JPAQueryFactory JPA_QUERY_FACTORY;
     private final int NULL_SIZE = 0;
 
-    @Transactional
+@Transactional
     public Bookmark save(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
         return REPOSITORY.save(MAPPER.saveDataToEntity(bookmarkCreateRequestDto));
     }
