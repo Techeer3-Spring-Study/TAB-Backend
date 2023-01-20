@@ -16,7 +16,6 @@ import com.techeeresc.tab.domain.member.entity.Authority;
 @AllArgsConstructor
 @NoArgsConstructor //기본 생성자 추가
 @Builder
-@Setter
 @Getter
 @Table(name="member")
 public class Member extends Timestamp {
@@ -47,7 +46,6 @@ public class Member extends Timestamp {
         this.email = memberUpdateRequestDto.getEmail();
         this.password = memberUpdateRequestDto.getPassword();
         this.name = memberUpdateRequestDto.getName();
-        this.role = memberUpdateRequestDto.isRole(); //role도 업데이트되나요? 우선 넣어둘게요!
 
         return this;
     }
@@ -59,3 +57,4 @@ public class Member extends Timestamp {
     inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 }
+//멤버에서 권한을 바로! 테이블 2개는 너무 많이 생긴 것!
