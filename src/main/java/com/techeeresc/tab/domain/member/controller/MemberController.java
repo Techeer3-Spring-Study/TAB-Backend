@@ -10,6 +10,7 @@ import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class MemberController {
 
     //회원가입하기
     @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED) //MemberCreatmember_authorityeRequestDto
     public MemberResponseDto signupMember(@RequestBody MemberCreateRequestDto MemberCreateRequestDto) {
         Member signupMemberResult = MEMBER_SERVICE.signupMember(MemberCreateRequestDto);
         return MEMBER_MAPPER.getDataFromEntity(signupMemberResult);
@@ -45,8 +46,9 @@ public class MemberController {
         }
     }
 
-    //모든 회원 정보 가져오기
+    //모든 회원 정보 가져오기 - 관리자만 허용
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<Member> readAllMember() {
         return MEMBER_SERVICE.readAllMember();

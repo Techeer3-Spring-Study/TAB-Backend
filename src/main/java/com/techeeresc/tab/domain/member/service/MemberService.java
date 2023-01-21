@@ -4,6 +4,7 @@ import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
+import com.techeeresc.tab.domain.member.entity.Authority;
 import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.member.exception.EmailDuplicateException;
 import com.techeeresc.tab.domain.member.exception.EmailNotFoundException;
@@ -12,6 +13,7 @@ import com.techeeresc.tab.domain.member.respository.MemberRepository;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,11 +27,32 @@ public class MemberService {
     private final MemberRepository MEMBER_REPOSITORY;
     private final MemberMapper MEMBER_MAPPER;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
-    public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {  //TODO: try-catch문 추가하기
-        if (MEMBER_REPOSITORY.findByEmail(memberCreateRequestDto.getEmail()).isPresent()) {
+//    public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {  //TODO: try-catch문 추가하기
+//        if (MEMBER_REPOSITORY.findByEmail(memberCreateRequestDto.getEmail()).isPresent()) {
+//            throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
+//        }
+//        return MEMBER_REPOSITORY.save(MEMBER_MAPPER.saveDataToEntity(memberCreateRequestDto));
+//    }
+    public Member signupMember(MemberCreateRequestDto memberCreateRequestDto) {
+        if (MEMBER_REPOSITORY.findOneWithAuthoritiesByEmail(memberCreateRequestDto.getEmail()).orElse(null) != null) {
             throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
         }
+
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_ADMIN")
+                .build();
+
+        Member member = Member.builder()
+                .name(memberCreateRequestDto.getName())
+                .password(passwordEncoder.encode(memberCreateRequestDto.getPassword()))
+                .email(memberCreateRequestDto.getEmail())
+                .role(memberCreateRequestDto.isRole())
+                .isActive(memberCreateRequestDto.isActive())
+                .build();
+
         return MEMBER_REPOSITORY.save(MEMBER_MAPPER.saveDataToEntity(memberCreateRequestDto));
     }
 

@@ -97,10 +97,10 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/v1/member/signup").permitAll() //"/api/v1/authenticate"
+                //.antMatchers("/api/v1/member/signup", "/api/v1/authenticate").permitAll()
                 //.requestMatchers("/api/v1/authenticate","api/").permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()
-                //.antMatchers("/**").permitAll()
+                .antMatchers("/api/v1/**", "/api/v1/authenticate").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
