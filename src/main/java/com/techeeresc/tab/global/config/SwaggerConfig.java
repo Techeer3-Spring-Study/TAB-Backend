@@ -10,7 +10,7 @@ public class SwaggerConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("tab-api-v1")
-                .pathsToMatch("/api/**")
+                .pathsToMatch("/api/v1/**")
                 .build();
     }
 

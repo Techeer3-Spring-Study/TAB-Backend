@@ -24,10 +24,10 @@ public class PostCreateRequestDto {
     @Schema(description = "post content")
     private String content;
     @Pattern(regexp = "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
-    @Schema(description = "AWS S3 file link", allowableValues = "url")
+    @Schema(description = "AWS S3 file link")
     private String file;
     @Pattern(regexp = "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
-    @Schema(description = "AWS S3 image link", allowableValues = "url")
+    @Schema(description = "AWS S3 image link")
     private String image;
     @Schema(description = "post hashtags")
     private String hashtags;    // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.

@@ -31,7 +31,7 @@ public class PostController {
     private final PostService POST_SERVICE;
     private final PostMapper POST_MAPPER;
 
-    @Operation(summary = "create post")
+    @Operation(summary = "create post", description = "Method: POST, success response code: 201")
     @ApiResponse(responseCode = "201", description = "CREATED",
             content = @Content(schema = @Schema(implementation = PostResponseDto.class))
     )
@@ -53,6 +53,7 @@ public class PostController {
         return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "find all post by paging", description = "Method: GET, success response code: 200, parameter: ?page=&size=")
     @GetMapping
     public ResponseEntity<List<Post>> findAllPosts(PageRequest pageRequest) {
         // return new ResponseEntity<>(POST_SERVICE.findAllPost(), HttpStatus.OK);
@@ -61,30 +62,35 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @Operation(summary = "update post", description = "Method: PUT, success response code: 201")
     @PutMapping
     public ResponseEntity<PostResponseDto> updatePost(@RequestBody PostUpdateRequestDto postUpdateRequestDto) {
         Post updatePostResult = POST_SERVICE.updatePost(postUpdateRequestDto);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(updatePostResult), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "delete post", description = "Method: DELETE, success response code: 200, 처리 완료 후 메인 화면 이동 필요")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
         POST_SERVICE.deletePost(id);
         return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
     }
 
+    @Operation(summary = "view one post", description = "Method: GET, success response code: 200, parameter: /{postId}")
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDto> findPostAndIncreaseViews(@PathVariable Long id) {
         Post findPostResult = POST_SERVICE.findPostByIdAndIncreaseViews(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(findPostResult), HttpStatus.OK);
     }
 
+    @Operation(summary = "increase like number", description = "Method: POST, success response code: 201, parameter: /{postId}")
     @PostMapping("/{id}")
     public ResponseEntity<PostResponseDto> increaseLikeNumbers(@PathVariable Long id) {
         Post clickLikePost = POST_SERVICE.increaseLikeNumbers(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(clickLikePost), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "search post by title", description = "Method: GET, success response code: 200, parameter: /{title}")
     @GetMapping("/search/{word:.+}")   /* PathVariable에 특수문자 허용 */
     public ResponseEntity<List<Post>> findPostSearchResults(@PathVariable String word) {
         List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
