@@ -10,6 +10,9 @@ import com.techeeresc.tab.domain.post.service.PostService;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
 import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -71,31 +74,29 @@ public class PostController {
 
     @Operation(summary = "delete post", description = "Method: DELETE, success response code: 200, 처리 완료 후 메인 화면 이동 필요")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+    public ResponseEntity<String> deletePost(@Parameter(description = "페이지 아이디", in = ParameterIn.PATH) @PathVariable Long id) {
         POST_SERVICE.deletePost(id);
         return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
     }
 
-    @Operation(summary = "view one post", description = "Method: GET, success response code: 200, parameter: /{postId}")
+    @Operation(summary = "view one post", description = "Method: GET, success response code: 200")
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> findPostAndIncreaseViews(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDto> findPostAndIncreaseViews(@Parameter(description = "페이지 아이디", in = ParameterIn.PATH) @PathVariable Long id) {
         Post findPostResult = POST_SERVICE.findPostByIdAndIncreaseViews(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(findPostResult), HttpStatus.OK);
     }
 
-    @Operation(summary = "increase like number", description = "Method: POST, success response code: 201, parameter: /{postId}")
+    @Operation(summary = "increase like number", description = "Method: POST, success response code: 201")
     @PostMapping("/{id}")
-    public ResponseEntity<PostResponseDto> increaseLikeNumbers(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDto> increaseLikeNumbers(@Parameter(description = "페이지 아이디", in = ParameterIn.PATH) @PathVariable Long id) {
         Post clickLikePost = POST_SERVICE.increaseLikeNumbers(id);
         return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(clickLikePost), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "search post by title", description = "Method: GET, success response code: 200, parameter: /{title}")
+    @Operation(summary = "search post by title", description = "Method: GET, success response code: 200")
     @GetMapping("/search/{word:.+}")   /* PathVariable에 특수문자 허용 */
-    public ResponseEntity<List<Post>> findPostSearchResults(@PathVariable String word) {
+    public ResponseEntity<List<Post>> findPostSearchResults(@Parameter(description = "게시물 제목", in = ParameterIn.PATH) @PathVariable String word) {
         List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
         return new ResponseEntity<>(postSearchResults, HttpStatus.OK);
     }
-
-
 }
