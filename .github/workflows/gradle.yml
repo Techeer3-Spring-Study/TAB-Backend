@@ -2,9 +2,13 @@ name: Spring Boot CI/CD
 
 on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
   push:
-    branches: [ "develop" ]  # 메인 브랜치에 push 될 때마다 깃허브 액션 동작
+    branches:
+     - develop
+     - main
   pull_request:
-    branches: [ "develop" ]  # 메인 브랜치에서 PR 발생 시 깃허브 액션 동작
+    branches:
+     - develop
+     - main
     
   workflow_dispatch:    # 해당 옵션을 통해 사용자가 직접 Actions 탭에서 workflow를 실행시킬 수 있다.
 
@@ -34,6 +38,17 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+
+    - name: Gradle Caching    # 매번 의존성 다운하는 것을 줄이기 위해 캐싱한다.
+      uses: actions/cache@v2
+      with:
+        path: |     # 캐시의 저장과 복원에 사용되는 runner 내 파일 경로
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        # 캐시를 저장, 복원할 때 사용하는 키, 여러 값들을 조합해서 512자 제한으로 생성할 수 있다.
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |     # 내가 설정한 key로 캐시 미스가 발생할 때 사용할 수 있는 후보군 키들
+          ${{ runner.os }}-gradle
         
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew

@@ -11,11 +11,11 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    command: # 명령어 실행
+    command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - mysql:/val/lib/mysql/dev/data
+      - mysql:/val/lib/mysql/prod/data
 
   redis:
     image: redis:latest
@@ -23,7 +23,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis:/val/lib/redis/dev/data
+      - redis:/val/lib/redis/prod/data
 
   backend:
     build: .
