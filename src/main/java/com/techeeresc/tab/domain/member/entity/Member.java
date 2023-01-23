@@ -30,8 +30,8 @@ public class Member extends Timestamp {
     @Column(nullable = false, name = "name")
     private String name;
     @Column(nullable = false, name = "role")
-    //Role role;
-    private boolean role;
+    Role role;
+//    private boolean role;
     @Column(columnDefinition = "boolean default true", name = "is_active")
     private boolean isActive;
 

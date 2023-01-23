@@ -12,8 +12,8 @@ public class MemberMapper {
                 .name(memberCreateRequestDto.getName())
                 .password(memberCreateRequestDto.getPassword())
                 .email(memberCreateRequestDto.getEmail())
-                //.role(memberCreateRequestDto.getRole())
-                .role(memberCreateRequestDto.isRole())
+//                .role(memberCreateRequestDto.getRole())
+//                .role(memberCreateRequestDto.isRole())
                 .isActive(memberCreateRequestDto.isActive())
                 .build();
     }
@@ -24,8 +24,8 @@ public class MemberMapper {
                 .name(member.getName())
                 .password(member.getPassword())
                 .email(member.getEmail())
-                //.role(member.getRole())
-                .role(member.isRole())
+                .role(member.getRole())
+//                .role(member.isRole())
                 .isActive(member.isActive())
                 .build();
     }

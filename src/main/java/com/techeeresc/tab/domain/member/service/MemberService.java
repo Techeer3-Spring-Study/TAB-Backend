@@ -6,6 +6,7 @@ import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
 import com.techeeresc.tab.domain.member.entity.Authority;
 import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.member.entity.Role;
 import com.techeeresc.tab.domain.member.exception.EmailDuplicateException;
 import com.techeeresc.tab.domain.member.exception.EmailNotFoundException;
 import com.techeeresc.tab.domain.member.exception.MemberNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,19 +43,21 @@ public class MemberService {
             throw new EmailDuplicateException(StatusMessage.CONFLICT.getStatusMessage(), StatusCodes.CONFLICT);
         }
 
-        Authority authority = Authority.builder()
-                .authorityName("ROLE_ADMIN")
-                .build();
+//        Authority authority = Authority.builder()
+//                .authorityName("ROLE_USER")
+//                .build();
 
         Member member = Member.builder()
                 .name(memberCreateRequestDto.getName())
                 .password(passwordEncoder.encode(memberCreateRequestDto.getPassword()))
                 .email(memberCreateRequestDto.getEmail())
-                .role(memberCreateRequestDto.isRole())
+                .role(Role.ROLE_USER)
+//                .role(memberCreateRequestDto.isRole())
+//                .authorities(Collections.singleton(authority))
                 .isActive(memberCreateRequestDto.isActive())
                 .build();
 
-        return MEMBER_REPOSITORY.save(MEMBER_MAPPER.saveDataToEntity(memberCreateRequestDto));
+        return MEMBER_REPOSITORY.save(member);
     }
 
     @Transactional
