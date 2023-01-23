@@ -33,12 +33,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'   // gradle 5 이상부터는 이처럼 설정해주어야한다.
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.h2database:h2'
+	runtimeOnly 'mysql:mysql-connector-java' // 개발 환경에서 사용하는 DB(MySQL)
+	runtimeOnly 'com.h2database:h2:2.1.210' // 테스트 코드 작성시 사용할 DB(H2)
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 	// implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// QueryDSL dependencies

@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface PostQueryDslRepository {
     List<Post> findByTitleContainsWordWithQueryDsl(String word);
-    Page<Post> findAllPostListWithQueryDsl(Pageable pageable);
-
+    List<Post> findAllPostListWithQueryDsl(Pageable pageable);
 }
