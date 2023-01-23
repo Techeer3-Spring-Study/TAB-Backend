@@ -17,3 +17,18 @@ logging:
   level:
     org:
       hibernate: info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operations-sorter: method   # 컨트롤러를 원하는 순서대로 정렬할 수 있다.
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:   # 보여주고 싶은 컨트롤러만 보여주기
+    - /api/v1/**
