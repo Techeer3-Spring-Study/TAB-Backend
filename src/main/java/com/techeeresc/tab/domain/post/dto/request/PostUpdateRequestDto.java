@@ -11,7 +11,6 @@ import javax.validation.constraints.Pattern;
 @Getter
 public class PostUpdateRequestDto {
     @NotNull
-    @Pattern(regexp = "^[0-9]*$")
     @Schema(description = "post id", defaultValue = "1")
     private Long id;
 //    @NotNull
