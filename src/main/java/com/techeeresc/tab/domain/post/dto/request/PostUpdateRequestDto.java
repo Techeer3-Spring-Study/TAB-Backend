@@ -11,13 +11,8 @@ import javax.validation.constraints.Pattern;
 @Getter
 public class PostUpdateRequestDto {
     @NotNull
-    @Pattern(regexp = "^[0-9]*$")
     @Schema(description = "post id", defaultValue = "1")
     private Long id;
-//    @NotNull
-//    @Pattern(regexp = "^[0-9]*$")
-//    @Schema(description = "user index id", defaultValue = "1")
-//    private Long memberId;
     @NotNull
     @Schema(description = "post category", allowableValues = {"Frontend", "Backend", "DevOps", "etc"}, defaultValue = "Backend")
     private String category;
@@ -27,10 +22,8 @@ public class PostUpdateRequestDto {
     @NotNull
     @Schema(description = "post content", defaultValue = "스웨거 3.0을 통해 프론트엔드와 협업해보아요!")
     private String content;
-    @Pattern(regexp = "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
     @Schema(description = "AWS S3 file link", defaultValue = "www.s3file.com")
     private String file;
-    @Pattern(regexp = "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
     @Schema(description = "AWS S3 image link", defaultValue = "www.s3Image.com")
     private String image;
     @Schema(description = "post hashtags no blank", defaultValue = "#개발#프론트앤드#안녕")
