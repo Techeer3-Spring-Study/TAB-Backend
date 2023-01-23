@@ -18,6 +18,7 @@ class PostServiceTest {
 
     @Test
     @Transactional
+    @Rollback(false)
     void 게시물_생성_Mockito() {
         PostCreateRequestDto postCreateRequestDto =
                 PostCreateRequestDto.builder()

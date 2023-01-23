@@ -1,18 +1,19 @@
 package com.techeeresc.tab.domain.bookmark.service;
 
-import com.techeeresc.tab.domain.bookmark.dto.request.BookmarkCreateRequestDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BookmarkServiceTest {
+
     @Autowired
     BookmarkRepository BOOKMARK_REPOSITORY;
 
@@ -20,31 +21,69 @@ class BookmarkServiceTest {
     BookmarkService BOOKMARK_SERVICE;
 
 
-    @AfterEach
+    @BeforeEach
     void clean(){
         BOOKMARK_REPOSITORY.deleteAll();
     }
 
     @Test
-    @DisplayName("/Bookmark 요청 시 DB에 값이 저장")
+    @DisplayName("Bookmark Create")
     void insertBookmark() {
         //given -> Controller Test와 마찬가지로 DTO인 BookmarkCreate 객체를 임의대로 Builder패턴을 이용하여 생성한다.
-        BookmarkCreateRequestDto bookmarkCreateRequestDto = BookmarkCreateRequestDto.builder()
+        Bookmark bookmark = Bookmark.builder()
                 .memberId(1L)
                 .postId(2L)
                 .build();
 
-        //when
-        BOOKMARK_SERVICE.save(bookmarkCreateRequestDto);
+        //when -> When 단계에서는 BookmarkService의 Write()메소드를 사용하여 given단계에서 생성한 DTO 객체를 파라미터 값으로 넣어준다
+        BOOKMARK_REPOSITORY.save(bookmark);
 
         //then
-        assertEquals(1L, BOOKMARK_REPOSITORY.count());
+        assertEquals(1, BOOKMARK_REPOSITORY.count());
 
-        Bookmark bookmark = BOOKMARK_REPOSITORY.findAll().get(0);
-        assertEquals(1L, bookmark.getMemberId());
-        assertEquals(2L, bookmark.getPostId());
+        Bookmark bookmarks = BOOKMARK_REPOSITORY.findAll().get(0);
+        assertEquals(1, bookmarks.getMemberId());
+        assertEquals(2, bookmarks.getPostId());
 
-        System.out.println(bookmark);
+        System.out.println(bookmarks);
+
+    }
+
+    @Test
+    @DisplayName("Bookmark Delete")
+    void DeleteBookmark() {
+        //given
+        Bookmark bookmark = Bookmark.builder()
+                .postId(1L)
+                .memberId(2L)
+                .build();
+        BOOKMARK_REPOSITORY.save(bookmark);
+
+        //when
+        BOOKMARK_SERVICE.deleteBookmark(bookmark.getId());
+
+        //then
+        Assertions.assertEquals(0, BOOKMARK_REPOSITORY.count());
+    }
+
+    @Test
+    @DisplayName("Bookmark Read")
+    void test3() {
+        //given
+        Bookmark bookmark = Bookmark.builder()
+                .memberId(1L)
+                .postId(2L)
+                .build();
+
+        BOOKMARK_REPOSITORY.save(bookmark);
+
+        //when
+        Bookmark response = BOOKMARK_SERVICE.findBookmarkById(bookmark.getId());
+
+        //then
+        assertNotNull(response);
+        assertEquals(2L, response.getPostId());
+        assertEquals(1L, response.getMemberId());
     }
 
 }
