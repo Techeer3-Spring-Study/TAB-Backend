@@ -17,13 +17,19 @@ permissions:
 
 # 해당 워크플로우의 하나 이상의 job 목록
 jobs:
-  build:  # build라는 이름으로 job 표시
+  github-ci:  # build라는 이름으로 job 표시
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
 
     steps:
     # uses 키워드를 통해 Action을 불러올 수 있다.
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
     - uses: actions/checkout@v2   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
+
+    - name: create application-docker.yml
+      run: |
+        cd ./src/main/resources
+        touch ./application-docker.yml
+        echo "${{ secrets.DATABASE_FOR_DOCKER }} >> ./application-docker.yml
     
     - name: Setup MySQL
       uses: samin/mysql-action@v1
@@ -60,3 +66,35 @@ jobs:
         
     - name: Test with Gradle
       run: ./gradlew test
+
+  build-docker:
+    needs: github-ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Dockerfile Build
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend .
+
+        # dockerhub의 레포지토리 이름과 도커 이미지 이름을 똑같이 해줘야 한다.
+      - name: Dockerfile push to repo
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
