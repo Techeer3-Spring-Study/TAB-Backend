@@ -11,7 +11,6 @@ import javax.validation.constraints.Pattern;
 @Builder
 public class PostCreateRequestDto {
     @NotNull
-    @Pattern(regexp = "^[0-9]*$")
     @Schema(description = "user index id", defaultValue = "1")
     private Long memberId;       // TODO: 외래키, 향후 외래키 매핑 필요, 토큰에서 받아온다.
     @NotNull
