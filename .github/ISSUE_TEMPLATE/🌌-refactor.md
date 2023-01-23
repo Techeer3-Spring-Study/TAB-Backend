@@ -1,7 +1,7 @@
 ---
 name: "\U0001F30C refactor"
 about: Describe this issue template's purpose here.
-title: ''
+title: "[\U0001F30C refactor] "
 labels: ''
 assignees: ''
 
