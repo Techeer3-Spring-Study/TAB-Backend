@@ -30,7 +30,7 @@ jobs:
         cd ./src/main/resources
         touch ./application-docker.yml
         echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
-    
+
     - name: Setup MySQL
       uses: samin/mysql-action@v1
       with:
