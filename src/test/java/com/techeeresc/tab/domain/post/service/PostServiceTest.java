@@ -6,19 +6,17 @@ import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.domain.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,15 +56,21 @@ class PostServiceTest {
         assertTrue(postService != null);
     }
 
-//    @Test
-//    @Transactional
-//    void 게시물_생성() throws Exception {
-//        Post post = postMapper.saveDataToEntity(postCreateRequestDto);
-//        when(postRepository.save(postMapper.saveDataToEntity(postCreateRequestDto)).getCategory()).thenReturn(postCreateRequestDto.getCategory());
-//
-//
-//        verify(postRepository).save(post);
-//    }
+    @Test
+    @Transactional
+    void 게시물_생성() throws Exception {
+        // 실제 객체를 사용하는 경우는 가능하지만, mock을 통해 가짜 객체를 주입받는 경우 null 에러 발생
+        Post post = postMapper.saveDataToEntity(postCreateRequestDto);
+
+        // given
+        // import static org.mockito.ArgumentMatchers.any;를 import 하지 않으면 오류 발생
+        when(postRepository.save(any())).thenReturn(post); // Mock 객체 주입
+        // when
+        Post result = postService.insertPost(postCreateRequestDto);
+        // then
+        verify(postRepository).save(any());
+        assertThat(result.getContent()).isEqualTo(post.getContent());
+    }
 //
 //    @Test
 //    void 없는_게시물_조회_예외() throws Exception {
