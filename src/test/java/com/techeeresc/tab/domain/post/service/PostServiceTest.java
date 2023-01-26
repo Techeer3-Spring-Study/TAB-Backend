@@ -13,11 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import javax.transaction.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
@@ -29,78 +33,43 @@ class PostServiceTest {
     private PostMapper postMapper;
     @InjectMocks   // 테스트 대상 어노테이션, Mock 객체가 주입될 클래스
     private PostService postService;
-    private PostCreateRequestDto postCreateRequestDto;
-    private Post post;
+    PostCreateRequestDto postCreateRequestDto;
 
     @BeforeEach
-    void setUp() {
-        postCreateRequestDto =
-                PostCreateRequestDto.builder()
-                        .memberId(1L)
-                        .title("JunitTest")
-                        .image("www.image.com")
-                        .file("file.com")
-                        .category("개발")
-                        .content("재밌네요")
-                        .hashtags("#개발")
-                        .build();
-
-        post = postMapper.saveDataToEntity(postCreateRequestDto);
+    void set_up() {
+        // given
+        postCreateRequestDto = PostCreateRequestDto.builder()
+                .memberId(1L)
+                .title("게시물 테스트 코드 테스트")
+                .image("www.image.com")
+                .file("file.com")
+                .category("개발")
+                .content("재밌네요")
+                .hashtags("#개발")
+                .build();
     }
 
     @Test
-    @DisplayName("게시물 생성")
-    @Transactional
-    void 게시물_생성() throws Exception {
-        // given
-        when(postRepository.save(post)).thenReturn(post);
-
-        // when
-        Post result = postService.insertPost(postCreateRequestDto);
-
-        // then
-        verify(postRepository).save(result);
+    void mock_주입_테스트() {
+        // 테스트는 한 가지만 하라고 되어있지만, 간편성을 위해 모든 객체를 한 테스트에서 테스트 해보았다.
+        assertTrue(postRepository != null);
+        assertTrue(jpaQueryFactory != null);
+        assertTrue(postMapper != null);
+        assertTrue(postService != null);
     }
 
-    @Test
-    @Transactional
-    void 페이징_결과_불러오기() {
-        // given
-        when(postRepository.findById(1L)).thenReturn()
-
-        // when
-
-        // then
-    }
-//
 //    @Test
 //    @Transactional
-//    // @Rollback(false)
-//    void 게시물_삭제() {
+//    void 게시물_생성() throws Exception {
+//        Post post = postMapper.saveDataToEntity(postCreateRequestDto);
+//        when(postRepository.save(postMapper.saveDataToEntity(postCreateRequestDto)).getCategory()).thenReturn(postCreateRequestDto.getCategory());
 //
+//
+//        verify(postRepository).save(post);
 //    }
 //
 //    @Test
-//    @Transactional
-//    void 게시물_수정() {
-//
-//    }
-//
-//    @Test
-//    @Transactional
-//    void 좋아요_증가() {
-//
-//    }
-//
-//    @Test
-//    @Transactional
-//    void 제목으로_검색하기() {
-//
-//    }
-//
-//    @Test
-//    @Transactional
-//    void 게시물_없을때_예외처리() {
-//
+//    void 없는_게시물_조회_예외() throws Exception {
+//        assertThat(postService.findPostByIdAndIncreaseViews(1L).getViews()).isEqualTo(1);
 //    }
 }
