@@ -90,11 +90,19 @@ jobs:
         run: ./gradlew clean build
 
       - name: Dockerfile Build
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend .
+        # 무중단 배포를 위한 그린, 블루
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend:green .
 
         # dockerhub의 레포지토리 이름과 도커 이미지 이름을 똑같이 해줘야 한다.
       - name: Dockerfile push to repo
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
+          docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+#  run-on-server:
+#    needs: build-docker

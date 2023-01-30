@@ -25,13 +25,27 @@ services:
     volumes:
       - tab-backend:/usr/src/redis
 
-  backend:
-    image: yuheejin/tab-backend:latest
-    container_name: backend
+  backend-blue:
+    image: yuheejin/tab-backend:blue
+    container_name: backend-blue
     expose:
       - 8080
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
+      SPRING_DATASOURCE_USER: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - mysql
+
+  backend-green:
+    image: yuheejin/tab-backend:green
+    container_name: backend-green
+    expose:
+      - 8081
+    ports:
+      - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
       SPRING_DATASOURCE_USER: root
