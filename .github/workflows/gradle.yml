@@ -29,6 +29,7 @@ jobs:
       uses: axel-op/googlejavaformat-action@v3
       with:
         args: "--skip-sorting-imports --replace"   # 파일을 수정한다.
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
 
     - name: create application-docker.yml
       run: |
