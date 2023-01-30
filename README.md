@@ -17,7 +17,7 @@
 - docker-compose up -d —build
 
 ## How to run on docker-compose.prod.yml
-- docker-compose -f docker-compose.yml up -d --build
+- docker-compose -f docker-compose.prod.yml up -d --build
 
 ## Swagger url
 * http://localhost:8080/swagger-ui/index.html
