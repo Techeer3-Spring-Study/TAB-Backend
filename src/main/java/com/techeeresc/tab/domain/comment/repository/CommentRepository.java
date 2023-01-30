@@ -1,4 +1,3 @@
 package com.techeeresc.tab.domain.comment.repository;
 
-public class CommentRepository {
-}
+public class CommentRepository {}

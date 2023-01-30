@@ -13,40 +13,39 @@ import java.util.List;
 
 @SpringBootTest
 class PostServiceTest {
-    @Autowired
-    private PostService postService;
+  @Autowired private PostService postService;
 
-    @Test
-    @Transactional
-    @Rollback(false)
-    void 게시물_생성_Mockito() {
-        PostCreateRequestDto postCreateRequestDto =
-                PostCreateRequestDto.builder()
-                        .memberId(1L)
-                        .title("JunitTest")
-                        .image("www.image.com")
-                        .file("file.com")
-                        .category("개발")
-                        .content("재밌네요")
-                        .hashtags("#개발")
-                        .build();
+  @Test
+  @Transactional
+  @Rollback(false)
+  void 게시물_생성_Mockito() {
+    PostCreateRequestDto postCreateRequestDto =
+        PostCreateRequestDto.builder()
+            .memberId(1L)
+            .title("JunitTest")
+            .image("www.image.com")
+            .file("file.com")
+            .category("개발")
+            .content("재밌네요")
+            .hashtags("#개발")
+            .build();
 
-        Post result = postService.insertPost(postCreateRequestDto);
+    Post result = postService.insertPost(postCreateRequestDto);
 
-        System.out.println(result.getTitle());
-        System.out.println(result.getId());
+    System.out.println(result.getTitle());
+    System.out.println(result.getId());
+  }
+
+  @Test
+  @Transactional
+  void 불러오기() {
+    PageRequest pageRequest = new PageRequest(); // page 1, size 10
+    Pageable pageable = pageRequest.of();
+
+    List<Post> pages = postService.findAllPostListWithQueryDsl(pageable);
+
+    for (Post post : pages) {
+      System.out.println(post.getId());
     }
-
-    @Test
-    @Transactional
-    void 불러오기() {
-        PageRequest pageRequest = new PageRequest();  // page 1, size 10
-        Pageable pageable = pageRequest.of();
-
-        List<Post> pages = postService.findAllPostListWithQueryDsl(pageable);
-
-        for (Post post : pages) {
-            System.out.println(post.getId());
-        }
-    }
+  }
 }

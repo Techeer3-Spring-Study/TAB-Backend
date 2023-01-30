@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BookmarkCreateRequestDto {
-    public Long postId;
-    public Long memberId;
+  public Long postId;
+  public Long memberId;
 }

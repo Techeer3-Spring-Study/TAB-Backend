@@ -5,6 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ShareInfoQueryDslRepository {
-    Page<ShareInfo> findAllShareInfoList(Pageable pageable);
-
+  Page<ShareInfo> findAllShareInfoList(Pageable pageable);
 }

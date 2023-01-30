@@ -1,4 +1,3 @@
 package com.techeeresc.tab.domain.comment.dto.response;
 
-public class CommentResponseDto {
-}
+public class CommentResponseDto {}

@@ -15,21 +15,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ValueInstantiationException.class)
-    public ResponseEntity<ErrorResponse> badRequestByParameterMissingHandler(ValueInstantiationException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_PARAMETER_MISSING);
-        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
-    }
+  @ExceptionHandler(ValueInstantiationException.class)
+  public ResponseEntity<ErrorResponse> badRequestByParameterMissingHandler(
+      ValueInstantiationException exception) {
+    ErrorResponse errorResponse =
+        new ErrorResponse(
+            StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_PARAMETER_MISSING);
+    return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+  }
 
-    @ExceptionHandler(RequestNotFoundException.class)
-    public ResponseEntity<ErrorResponse> notFoundRequestHandler(RequestNotFoundException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(StatusCodes.NOT_FOUND, StatusMessage.NOT_FOUND);
-        return new ResponseEntity(errorResponse, HttpStatus.NOT_FOUND);
-    }
+  @ExceptionHandler(RequestNotFoundException.class)
+  public ResponseEntity<ErrorResponse> notFoundRequestHandler(RequestNotFoundException exception) {
+    ErrorResponse errorResponse = new ErrorResponse(StatusCodes.NOT_FOUND, StatusMessage.NOT_FOUND);
+    return new ResponseEntity(errorResponse, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler(InvalidFormatException.class)
-    public ResponseEntity<ErrorResponse> badRequestByInvalidFormatHandler(InvalidFormatException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_TYPE_MISMATCH);
-        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
-    }
+  @ExceptionHandler(InvalidFormatException.class)
+  public ResponseEntity<ErrorResponse> badRequestByInvalidFormatHandler(
+      InvalidFormatException exception) {
+    ErrorResponse errorResponse =
+        new ErrorResponse(StatusCodes.BAD_REQUEST, StatusMessage.BAD_REQUEST_ABOUT_TYPE_MISMATCH);
+    return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+  }
 }
