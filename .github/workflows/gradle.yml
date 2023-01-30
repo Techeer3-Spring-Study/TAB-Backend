@@ -15,38 +15,32 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
 permissions:
   contents: read
 
-# 해당 워크플로우의 하나 이상의 job 목록
 jobs:
-  github-ci:  # build라는 이름으로 job 표시
+  github-ci:
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
-
     steps:
     # uses 키워드를 통해 Action을 불러올 수 있다.
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
-    - uses: actions/checkout@v2   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
-
+    - uses: actions/checkout@v3   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
     - name: create application-docker.yml
       run: |
         cd ./src/main/resources
         touch ./application-docker.yml
         echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
-
-    - name: Setup MySQL
-      uses: samin/mysql-action@v1
-      with:
-        character set server: 'utf8' 
-        mysql database: 'tab' 
-        mysql user: 'root'
-        mysql password: ${{ secrets.MYSQL_PASSWORD }}
-    
+#    - name: Setup MySQL
+#      uses: samin/mysql-action@v1
+#      with:
+#        character set server: 'utf8'
+#        mysql database: 'tab'
+#        mysql user: 'root'
+#        mysql password: ${{ secrets.MYSQL_PASSWORD }}
     - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
-
     - name: Gradle Caching    # 매번 의존성 다운하는 것을 줄이기 위해 캐싱한다.
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |     # 캐시의 저장과 복원에 사용되는 runner 내 파일 경로
           ~/.gradle/caches
@@ -55,46 +49,54 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |     # 내가 설정한 key로 캐시 미스가 발생할 때 사용할 수 있는 후보군 키들
           ${{ runner.os }}-gradle
-        
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
-        
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
-        
     - name: Test with Gradle
       run: ./gradlew test
 
   build-docker:
     needs: github-ci
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
       - name: Login Dockerhub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build with Gradle
         run: ./gradlew clean build
-
       - name: Dockerfile Build
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend .
-
+        # 무중단 배포를 위한 그린, 블루
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/tab-backend:green .
         # dockerhub의 레포지토리 이름과 도커 이미지 이름을 똑같이 해줘야 한다.
       - name: Dockerfile push to repo
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend
-
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
+          docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  run-on-server:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
