@@ -13,5 +13,4 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--skip-sorting-imports --replace"
-          # Recommended if you use MacOS:
-          # github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "refactor: edit code following google java format convention"
