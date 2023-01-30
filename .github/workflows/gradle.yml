@@ -19,9 +19,14 @@ permissions:
 jobs:
   formatting:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3 # v2 minimum required
+      - if: github.event_name != 'pull_request'
+        uses: actions/checkout@v2
+      - if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--replace"
@@ -31,7 +36,6 @@ jobs:
   github-ci:  # build라는 이름으로 job 표시
     needs: formatting
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
-
     steps:
     # uses 키워드를 통해 Action을 불러올 수 있다.
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
@@ -75,7 +79,6 @@ jobs:
   build-docker:
     needs: github-ci
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
