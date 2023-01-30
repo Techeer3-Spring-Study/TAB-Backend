@@ -7,13 +7,14 @@ import lombok.Getter;
 
 @Getter
 public class ErrorResponse {
-    @Schema(description = "error code", defaultValue = "404")
-    private int errorCode;
-    @Schema(description = "error message", defaultValue = "NOT FOUND/BAD REQUEST/SERVER ERROR")
-    private String message;
+  @Schema(description = "error code", defaultValue = "404")
+  private int errorCode;
 
-    public ErrorResponse(StatusCodes statusCodes, StatusMessage statusMessage) {
-        this.errorCode = statusCodes.getStatusCode();
-        this.message = statusMessage.getStatusMessage();
-    }
+  @Schema(description = "error message", defaultValue = "NOT FOUND/BAD REQUEST/SERVER ERROR")
+  private String message;
+
+  public ErrorResponse(StatusCodes statusCodes, StatusMessage statusMessage) {
+    this.errorCode = statusCodes.getStatusCode();
+    this.message = statusMessage.getStatusMessage();
+  }
 }

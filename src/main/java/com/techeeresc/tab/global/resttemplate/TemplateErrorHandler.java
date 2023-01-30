@@ -1,4 +1,3 @@
 package com.techeeresc.tab.global.resttemplate;
 
-public class TemplateErrorHandler {
-}
+public class TemplateErrorHandler {}
