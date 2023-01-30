@@ -84,11 +84,6 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Create docker-compose.prod.yml
-        run: |
-          touch ./docker-compose.prod.yml
-          echo "${{ secrets.COMPOSE_PROD }}" >> ./docker-compose.prod.yml
       - name: Copy docker-compose.prod.yml
         uses: appleboy/ssh-action@master
         with:
@@ -96,8 +91,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
-          source: docker-compose.prod.yml
-          target: /home/${{ secrets.USERNAME }}
+          script: |
+            touch /home/${{ secrets.USERNAME }}/docker-compose.prod.yml
+            echo "${{ secrets.COMPOSE_PROD }}" >> /home/${{ secrets.USERNAME }}/docker-compose.prod.yml
       - name: Run docker-compose.prod.yml
         uses: appleboy/ssh-action@master
         with:
