@@ -97,7 +97,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
           source: docker-compose.prod.yml
-          target: /home/${{ secretes.USERNAME }}
+          target: /home/${{ secrets.USERNAME }}
       - name: Run docker-compose.prod.yml
         uses: appleboy/ssh-action@master
         with:
