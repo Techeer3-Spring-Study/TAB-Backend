@@ -87,6 +87,7 @@ jobs:
 
   run-on-server:
     needs: build-docker
+    runs-on: ubuntu-latest
     steps:
       - uses: appleboy/ssh-action@master
         with:
