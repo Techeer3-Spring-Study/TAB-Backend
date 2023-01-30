@@ -17,6 +17,15 @@ permissions:
 
 # 해당 워크플로우의 하나 이상의 job 목록
 jobs:
+  google-java-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--skip-sorting-imports --replace"   # 파일을 수정한다.
+          commit-message: "refactor: 코딩 컨벤션에 맞는 파일 수정하기"
+
   github-ci:  # build라는 이름으로 job 표시
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
 
