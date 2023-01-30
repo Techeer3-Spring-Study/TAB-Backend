@@ -17,16 +17,6 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
 
 # 해당 워크플로우의 하나 이상의 job 목록
 jobs:
-  formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--replace"
-          # Recommended if you use MacOS:
-          # github-token: ${{ secrets.GITHUB_TOKEN }}
-
   github-ci:  # build라는 이름으로 job 표시
     needs: formatting
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
