@@ -12,10 +12,6 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
     
   workflow_dispatch:    # 해당 옵션을 통해 사용자가 직접 Actions 탭에서 workflow를 실행시킬 수 있다.
 
-#permissions:
-#  contents: read
-
-# 해당 워크플로우의 하나 이상의 job 목록
 jobs:
   github-ci:  # build라는 이름으로 job 표시
     needs: formatting
@@ -89,5 +85,15 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-#  run-on-server:
-#    needs: build-docker
+  run-on-server:
+    needs: build-docker
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
