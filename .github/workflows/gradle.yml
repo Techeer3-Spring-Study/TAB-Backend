@@ -25,12 +25,6 @@ jobs:
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
     - uses: actions/checkout@v2   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
 
-    - name: google-java-formatting
-      uses: axel-op/googlejavaformat-action@v3
-      with:
-        args: "--skip-sorting-imports --replace"   # 파일을 수정한다.
-        githubToken: ${{ secrets.GIT_TOKEN }}
-
     - name: create application-docker.yml
       run: |
         cd ./src/main/resources
