@@ -28,8 +28,7 @@ jobs:
     - name: google-java-formatting
       uses: axel-op/googlejavaformat-action@v3
       with:
-        args: "--replace"   # 파일을 수정한다.
-        commit-message: "refactor: 코딩 컨벤션에 맞는 파일 수정하기"
+        args: "--skip-sorting-imports --replace"   # 파일을 수정한다.
 
     - name: create application-docker.yml
       run: |
