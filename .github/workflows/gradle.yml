@@ -3,13 +3,13 @@ name: Spring Boot CI/CD
 on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
   push:
     branches:
-     - develop
-     - main
+      - develop
+      - main
   pull_request:
     branches:
-     - develop
-     - main
-    
+      - develop
+      - main
+
   workflow_dispatch:    # 해당 옵션을 통해 사용자가 직접 Actions 탭에서 workflow를 실행시킬 수 있다.
 
 permissions:
@@ -19,44 +19,37 @@ jobs:
   github-ci:
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
     steps:
-    # uses 키워드를 통해 Action을 불러올 수 있다.
-    # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
-    - uses: actions/checkout@v3   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
-    - name: create application-docker.yml
-      run: |
-        cd ./src/main/resources
-        touch ./application-docker.yml
-        echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
-#    - name: Setup MySQL
-#      uses: samin/mysql-action@v1
-#      with:
-#        character set server: 'utf8'
-#        mysql database: 'tab'
-#        mysql user: 'root'
-#        mysql password: ${{ secrets.MYSQL_PASSWORD }}
-    - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-    - name: Gradle Caching    # 매번 의존성 다운하는 것을 줄이기 위해 캐싱한다.
-      uses: actions/cache@v3
-      with:
-        path: |     # 캐시의 저장과 복원에 사용되는 runner 내 파일 경로
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        # 캐시를 저장, 복원할 때 사용하는 키, 여러 값들을 조합해서 512자 제한으로 생성할 수 있다.
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |     # 내가 설정한 key로 캐시 미스가 발생할 때 사용할 수 있는 후보군 키들
-          ${{ runner.os }}-gradle
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: build
-    - name: Test with Gradle
-      run: ./gradlew test
+      # uses 키워드를 통해 Action을 불러올 수 있다.
+      # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
+      - uses: actions/checkout@v3   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
+      - name: create application-docker.yml
+        run: |
+          cd ./src/main/resources
+          touch ./application-docker.yml
+          echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
+      - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Gradle Caching    # 매번 의존성 다운하는 것을 줄이기 위해 캐싱한다.
+        uses: actions/cache@v3
+        with:
+          path: |     # 캐시의 저장과 복원에 사용되는 runner 내 파일 경로
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          # 캐시를 저장, 복원할 때 사용하는 키, 여러 값들을 조합해서 512자 제한으로 생성할 수 있다.
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |     # 내가 설정한 key로 캐시 미스가 발생할 때 사용할 수 있는 후보군 키들
+            ${{ runner.os }}-gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
+      - name: Test with Gradle
+        run: ./gradlew test
 
   build-docker:
     needs: github-ci
@@ -91,12 +84,25 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@master
+      - uses: actions/checkout@v3
+      - name: Create docker-compose.prod.yml
+        run: |
+          touch ./docker-compose.prod.yml
+          echo "${{ secrets.COMPOSE_PROD }}" >> ./docker-compose.prod.yml
+      - name: Copy docker-compose.prod.yml
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
-          script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
+          source: docker-compose.prod.yml
+          target: /home/${{ secretes.USERNAME }}
+      - name: Run docker-compose.prod.yml
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          envs: GITHUB_SHA
+          script: docker-compose -f docker-compose.prod.yml up -d --build
