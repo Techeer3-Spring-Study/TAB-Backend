@@ -43,9 +43,9 @@ services:
     image: yuheejin/tab-backend:green
     container_name: backend-green
     expose:
-      - 8081
+      - 8080
     ports:
-      - "8081:8081"
+      - "8081:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
       SPRING_DATASOURCE_USER: root
