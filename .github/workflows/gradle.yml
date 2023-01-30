@@ -17,15 +17,6 @@ permissions:
 
 # 해당 워크플로우의 하나 이상의 job 목록
 jobs:
-  google-java-format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--skip-sorting-imports --replace"   # 파일을 수정한다.
-          commit-message: "refactor: 코딩 컨벤션에 맞는 파일 수정하기"
-
   github-ci:  # build라는 이름으로 job 표시
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
 
@@ -34,19 +25,25 @@ jobs:
     # 해당 레포지토리로 체크아웃하여 레포지토리에 접근할 수 있는 action을 불러온다.
     - uses: actions/checkout@v2   # 깃허브 액션과 연결된 레포지토리의 코드를 runner로 옮기는 것
 
+    - name: google-java-formatting
+      uses: axel-op/googlejavaformat-action@v3
+      with:
+        args: "--replace"   # 파일을 수정한다.
+        commit-message: "refactor: 코딩 컨벤션에 맞는 파일 수정하기"
+
     - name: create application-docker.yml
       run: |
         cd ./src/main/resources
         touch ./application-docker.yml
         echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
 
-    - name: Setup MySQL
-      uses: samin/mysql-action@v1
-      with:
-        character set server: 'utf8' 
-        mysql database: 'tab' 
-        mysql user: 'root'
-        mysql password: ${{ secrets.MYSQL_PASSWORD }}
+#    - name: Setup MySQL
+#      uses: samin/mysql-action@v1
+#      with:
+#        character set server: 'utf8'
+#        mysql database: 'tab'
+#        mysql user: 'root'
+#        mysql password: ${{ secrets.MYSQL_PASSWORD }}
     
     - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
       uses: actions/setup-java@v2
