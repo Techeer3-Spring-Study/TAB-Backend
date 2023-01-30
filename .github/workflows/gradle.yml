@@ -17,7 +17,6 @@ permissions:
 
 jobs:
   github-ci:
-    needs: formatting
     runs-on: ubuntu-latest  # CI 서버 runner가 어떤 환경을 갖출 것인가?
     steps:
     # uses 키워드를 통해 Action을 불러올 수 있다.
