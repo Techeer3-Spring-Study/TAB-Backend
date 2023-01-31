@@ -5,10 +5,10 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
     branches:
       - develop
       - main
-  pull_request:
-    branches:
-      - develop
-      - main
+#   pull_request:
+#     branches:
+#       - develop
+#       - main
 
   workflow_dispatch:    # 해당 옵션을 통해 사용자가 직접 Actions 탭에서 workflow를 실행시킬 수 있다.
 
