@@ -16,7 +16,7 @@
 - ./gradlew clean build
 - docker-compose up -d —build
 
-## How to run on docker-compose.prod.yml
+## How to run docker-compose.prod.yml
 - docker-compose -f docker-compose.prod.yml up -d --build
 
 ## Swagger url
