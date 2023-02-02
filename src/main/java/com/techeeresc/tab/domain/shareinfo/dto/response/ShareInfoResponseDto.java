@@ -6,10 +6,10 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ShareInfoResponseDto {
-    private Long id;
-    private String title;
-    private String content;
-    private String link;
-    private String image;
-    private String hashtag;
+  private Long id;
+  private String title;
+  private String content;
+  private String link;
+  private String image;
+  private String hashtag;
 }

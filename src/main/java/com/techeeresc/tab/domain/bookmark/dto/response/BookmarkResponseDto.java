@@ -6,7 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class BookmarkResponseDto {
-    public Long id;
-    public Long postId;
-    public Long memberId;
+  public Long id;
+  public Long postId;
+  public Long memberId;
 }

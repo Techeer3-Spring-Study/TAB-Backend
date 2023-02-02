@@ -1,4 +1,3 @@
 package com.techeeresc.tab.domain.comment.dto.request;
 
-public class CommentCreateRequestDto {
-}
+public class CommentCreateRequestDto {}
