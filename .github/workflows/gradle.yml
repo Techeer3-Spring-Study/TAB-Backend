@@ -5,10 +5,10 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
     branches:
       - develop
       - main
-#   pull_request:
-#     branches:
-#       - develop
-#       - main
+    pull_request:
+     branches:
+       - develop
+       - main
 
   workflow_dispatch:    # 해당 옵션을 통해 사용자가 직접 Actions 탭에서 workflow를 실행시킬 수 있다.
 
@@ -27,6 +27,10 @@ jobs:
           cd ./src/main/resources
           touch ./application-docker.yml
           echo "${{ secrets.DATABASE_FOR_DOCKER }}" >> ./application-docker.yml
+      - name: create .env file
+        run: |
+          touch ./.env
+          echo "{{ secrets.ENV }}" >> ./.env
       - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
         uses: actions/setup-java@v3
         with:
@@ -50,12 +54,6 @@ jobs:
           arguments: build
       - name: Test with Gradle
         run: ./gradlew test
-
-  build-docker:
-    needs: github-ci
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -79,11 +77,6 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
-  run-on-server:
-    needs: build-docker
-    runs-on: ubuntu-latest
-    steps:
       - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
