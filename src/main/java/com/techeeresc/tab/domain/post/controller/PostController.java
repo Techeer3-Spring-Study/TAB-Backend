@@ -127,7 +127,8 @@ public class PostController {
   @ApiResponse(responseCode = "200", description = "OK")
   @GetMapping("/search/{word:.+}") /* PathVariable에 특수문자 허용 */
   public ResponseEntity<List<Post>> findPostSearchResults(
-      @Parameter(description = "게시물 제목", in = ParameterIn.PATH) @PathVariable String word, PageRequest pageRequest) {
+      @Parameter(description = "게시물 제목", in = ParameterIn.PATH) @PathVariable String word,
+      PageRequest pageRequest) {
     Pageable pageable = pageRequest.of();
     List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word, pageable);
     return new ResponseEntity<>(postSearchResults, HttpStatus.OK);

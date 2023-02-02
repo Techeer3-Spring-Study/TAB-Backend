@@ -81,11 +81,12 @@ public class PostService implements PostQueryDslRepository {
 
     try {
       List<Post> postSearchResults =
-          JPA_QUERY_FACTORY.selectFrom(qPost)
-                  .offset(pageable.getOffset())
-                  .limit(pageable.getPageSize())
-                  .where(qPost.title.contains(word))
-                  .fetch();
+          JPA_QUERY_FACTORY
+              .selectFrom(qPost)
+              .offset(pageable.getOffset())
+              .limit(pageable.getPageSize())
+              .where(qPost.title.contains(word))
+              .fetch();
 
       isPostExistedByList(postSearchResults);
 
