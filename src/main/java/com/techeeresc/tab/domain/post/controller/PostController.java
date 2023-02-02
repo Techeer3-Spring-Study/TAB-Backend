@@ -72,7 +72,6 @@ public class PostController {
       content = @Content(schema = @Schema(implementation = PostResponseDto.class)))
   @GetMapping
   public ResponseEntity<List<Post>> findAllPosts(PageRequest pageRequest) {
-    // return new ResponseEntity<>(POST_SERVICE.findAllPost(), HttpStatus.OK);
     Pageable pageable = pageRequest.of();
     List<Post> posts = POST_SERVICE.findAllPostListWithQueryDsl(pageable);
     return new ResponseEntity<>(posts, HttpStatus.OK);
@@ -124,12 +123,13 @@ public class PostController {
 
   @Operation(
       summary = "search post by title",
-      description = "Method: GET, success response code: 200")
+      description = "Method: GET, success response code: 200, parameter: /{검색할 단어}?page=&size=")
   @ApiResponse(responseCode = "200", description = "OK")
   @GetMapping("/search/{word:.+}") /* PathVariable에 특수문자 허용 */
   public ResponseEntity<List<Post>> findPostSearchResults(
-      @Parameter(description = "게시물 제목", in = ParameterIn.PATH) @PathVariable String word) {
-    List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
+      @Parameter(description = "게시물 제목", in = ParameterIn.PATH) @PathVariable String word, PageRequest pageRequest) {
+    Pageable pageable = pageRequest.of();
+    List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word, pageable);
     return new ResponseEntity<>(postSearchResults, HttpStatus.OK);
   }
 }
