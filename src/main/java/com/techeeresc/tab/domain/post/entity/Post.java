@@ -2,10 +2,7 @@ package com.techeeresc.tab.domain.post.entity;
 
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.global.common.Timestamp;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Builder
+@EqualsAndHashCode(callSuper = false)
 // @Builder @NoArgsConstructor 를 함께 사용하려면 @AllArgsConstructor 나 모든 필드를 가지는 생성자를 직접 만들어줘야한다.
 @Entity   // @Entity 어노테이션을 사용하면 이 클래스는 테이블과 매핑할 클래스라는 것을 명시해준다.
 @Table(name = "post")

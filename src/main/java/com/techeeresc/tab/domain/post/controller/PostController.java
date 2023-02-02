@@ -32,7 +32,6 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<Post>> findAllPosts(PageRequest pageRequest) {
-        // return new ResponseEntity<>(POST_SERVICE.findAllPost(), HttpStatus.OK);
         Pageable pageable = pageRequest.of();
         List<Post> posts = POST_SERVICE.findAllPostListWithQueryDsl(pageable);
         return new ResponseEntity<>(posts, HttpStatus.OK);
@@ -63,8 +62,9 @@ public class PostController {
     }
 
     @GetMapping("/search/{word:.+}")   /* PathVariable에 특수문자 허용 */
-    public ResponseEntity<List<Post>> findPostSearchResults(@PathVariable String word) {
-        List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word);
+    public ResponseEntity<List<Post>> findPostSearchResults(@PathVariable String word, PageRequest pageRequest) {
+        Pageable pageable = pageRequest.of();
+        List<Post> postSearchResults = POST_SERVICE.findByTitleContainsWordWithQueryDsl(word, pageable);
         return new ResponseEntity<>(postSearchResults, HttpStatus.OK);
     }
 

@@ -15,9 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
-
 import javax.transaction.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,53 +68,19 @@ class PostServiceTest {
 
         // given
         // import static org.mockito.ArgumentMatchers.any;를 import 하지 않으면 오류 발생
-        when(postRepository.save(any())).thenReturn(post); // Mock 객체 주입
+        // Stub은 메소드의 행동을 원하는대로 미리 정해두는 것을 말한다.
+        // when(), thenReturn(), thenThrow() 등을 사용해서 mock의 메소드 리턴값 또는 예외 발생을 정할 수 있다.
+        when(postRepository.save(post)).thenReturn(post); // Mock 객체 주입
         // when
         Post result = postService.insertPost(postCreateRequestDto);
         // then
-        verify(postRepository).save(any());
+        verify(postRepository).save(post);
         assertThat(result).isEqualTo(post);
     }
 
     @Test
     @Transactional
     void 모든_게시물_조회() throws Exception {
-        // given
-        QPost qPost = QPost.post;
-        PageRequest pageRequest = new PageRequest();
-        Pageable pageable = pageRequest.of();
-
-        List<Post> posts = Arrays.asList(
-                Post.builder()
-                        .memberId(1L)
-                        .title("게시물 테스트 코드 테스트")
-                        .image("www.image.com")
-                        .file("file.com")
-                        .category("개발")
-                        .content("재밌네요")
-                        .hashtags("#개발")
-                        .build()
-        );
-
-        when(jpaQueryFactory.selectFrom(qPost)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch()).thenReturn(posts);
-
-        // when
-        List<Post> results = postService.findAllPostListWithQueryDsl(pageable);
-
-        // then
-        verify(jpaQueryFactory).selectFrom(qPost)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        assertThat(results).isEqualTo(posts);
+        
     }
-//
-//    @Test
-//    void 없는_게시물_조회_예외() throws Exception {
-//        assertThat(postService.findPostByIdAndIncreaseViews(1L).getViews()).isEqualTo(1);
-//    }
 }

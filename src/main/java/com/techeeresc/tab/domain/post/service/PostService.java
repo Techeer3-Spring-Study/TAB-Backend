@@ -73,16 +73,18 @@ public class PostService implements PostQueryDslRepository {
     }
 
     @Transactional
-    public List<Post> findByTitleContainsWordWithQueryDsl(String word) {
+    public List<Post> findByTitleContainsWordWithQueryDsl(String word, Pageable pageable) {
         QPost qPost = QPost.post;
 
         try {
             List<Post> postSearchResults = JPA_QUERY_FACTORY.selectFrom(qPost)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
                     .where(qPost.title.contains(word)).fetch();
 
             isPostExistedByList(postSearchResults);
 
-            return postSearchResults;   // TODO: 페이징 결과를 리턴하도록 해야한다.
+            return postSearchResults;
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }

@@ -7,6 +7,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostQueryDslRepository {
-    List<Post> findByTitleContainsWordWithQueryDsl(String word);
+    List<Post> findByTitleContainsWordWithQueryDsl(String word, Pageable pageable);
     List<Post> findAllPostListWithQueryDsl(Pageable pageable);
 }
