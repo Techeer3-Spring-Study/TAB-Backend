@@ -1,3 +1,13 @@
 package com.techeeresc.tab.domain.member.dto.request;
 
-public class MemberCreateRequestDto {}
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class MemberCreateRequestDto {
+    private String email;
+    private String password;
+    private String name;
+    private boolean isActive;
+}

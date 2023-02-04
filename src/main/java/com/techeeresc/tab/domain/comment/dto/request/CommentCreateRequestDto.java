@@ -1,3 +1,15 @@
 package com.techeeresc.tab.domain.comment.dto.request;
 
-public class CommentCreateRequestDto {}
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class CommentCreateRequestDto {
+    private Long memberId;
+    private Long postId;
+    private Long commentId;
+    private String content;
+    private int layer;
+    private boolean isAnonymous;
+}
