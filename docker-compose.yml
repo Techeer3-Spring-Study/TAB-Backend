@@ -74,8 +74,9 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx/nginx.conf:/tab-backend/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - backend-blue
       - backend-green
