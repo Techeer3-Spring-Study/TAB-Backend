@@ -28,6 +28,7 @@ public class Member extends Timestamp {
     @Column(nullable = false, name = "name")
     private String name;
     @Column(nullable = false, name = "role")
+    @ColumnDefault("false")
     private boolean role;
     @Column(nullable = false, name = "is_active")
     @ColumnDefault("true")
