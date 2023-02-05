@@ -33,15 +33,7 @@ public class Member extends Timestamp {
     @ColumnDefault("true")
     private boolean isActive;
 
-    @Builder
-    public Member(String email, String password, String name) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-    }
-
     public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {
-        this.email = memberUpdateRequestDto.getEmail();
         this.password = memberUpdateRequestDto.getPassword();
         this.name = memberUpdateRequestDto.getName();
 

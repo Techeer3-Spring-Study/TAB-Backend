@@ -59,16 +59,6 @@ public class CommentService {
         }
     }
 
-    @Transactional
-    public Comment findCommentById(Long id) {
-        try {
-            Comment comment = isCommentExisted(id);
-            return comment;
-        } catch (NullPointerException exception) {
-            throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
-        }
-    }
-
     private Comment isCommentExisted(Long id) {
         Comment comment = COMMENT_REPOSITORY.findById(id).orElseThrow(() -> new NullPointerException());
         return comment;

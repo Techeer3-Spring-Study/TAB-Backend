@@ -7,8 +7,8 @@ import lombok.Getter;
 @Builder
 public class MemberUpdateRequestDto {
     private Long id;
-    private String email;
+    //private String email;
     private String password;
     private String name;
-    private boolean isActive;
+    //private boolean isActive;
 }

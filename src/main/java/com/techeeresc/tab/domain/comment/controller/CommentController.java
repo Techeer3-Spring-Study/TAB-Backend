@@ -32,13 +32,6 @@ public class CommentController {
         return COMMENT_SERVICE.findAllComment();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public CommentResponseDto findComment(@PathVariable Long id) {
-        Comment comment = COMMENT_SERVICE.findCommentById(id);
-        return COMMENT_MAPPER.getDataFromEntity(comment);
-    }
-
     @PutMapping
     public CommentResponseDto updateComment(@PathVariable Long postId, @RequestBody CommentUpdateRequestDto commentUpdateRequestDto) {
         Comment updateCommentResult = COMMENT_SERVICE.updateComment(postId, commentUpdateRequestDto);
