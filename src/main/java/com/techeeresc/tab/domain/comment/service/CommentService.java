@@ -49,11 +49,10 @@ public class CommentService {
     }
 
     @Transactional
-    public List<Comment> deleteComment(Long id) {
+    public void deleteComment(Long id) {
         try {
             Comment comment = isCommentExisted(id);
             COMMENT_REPOSITORY.deleteById(comment.getId());
-            return findAllComment();
         } catch (NullPointerException exception) {
             throw new RequestNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND);
         }
