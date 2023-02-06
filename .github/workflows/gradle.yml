@@ -34,11 +34,6 @@ jobs:
           touch ./.env
           echo "${{ secrets.ENV }}" >> ./.env
 
-      - name: create docker-compose.prod.yml
-        run: |
-          touch ./docker-compose.prod.yml
-          echo "${{ secrets.COMPOSE_PROD }}" >> ./docker-compose.prod.yml
-
       - name: Set up JDK 11    # JDK 11 버전으로 작성된 프로젝트이기 때문에 이에 맞춰 setup
         uses: actions/setup-java@v3
         with:
@@ -100,7 +95,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
-          port: 22
-          source: "docker-compose.prod.yml"
-          target: "/home/${{ secrets.USERNAME }}/"
-          script: "docker-compose -f docker-compose.prod.yml up -d --build"
+          script: |
+            
