@@ -96,7 +96,4 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
           script: |
-            cd /home/${{ secrets.USERNAME }}/
-            touch ./docker-compose.blue.yml
-            echo ./docker-compose.blue.yml >> ./docker-compose.blue.yml
-            docker-compose -f docker-compose.blue.yml up -d --build
+            
