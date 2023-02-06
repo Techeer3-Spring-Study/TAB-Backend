@@ -98,4 +98,4 @@ jobs:
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
-            sudo docker run -it -p 8080:8080 --rm --name tab-blue ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
+            sudo docker run -i -p 8080:8080 --rm --name tab-blue ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
