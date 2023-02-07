@@ -9,6 +9,7 @@ import com.techeeresc.tab.domain.member.exception.EmailDuplicateException;
 import com.techeeresc.tab.domain.member.exception.EmailNotFoundException;
 import com.techeeresc.tab.domain.member.exception.MemberNotFoundException;
 import com.techeeresc.tab.domain.member.respository.MemberRepository;
+import com.techeeresc.tab.global.exception.customexception.BadRequestBodyException;
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,8 @@ public class MemberService {
             //해당 이메일 존재
             Member member = findByEmail.get();
             if (!member.getPassword().equals(memberLoginRequestDto.getPassword())) {
-                //비밀번호 틀렸을 때 TODO: handler로 한번에 처리할 예정
-                throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+                //비밀번호 틀렸을 때
+                throw new BadRequestBodyException(StatusMessage.BAD_REQUEST_ABOUT_PASSWORD_MISMATCH.getStatusMessage(), StatusCodes.BAD_REQUEST);
             }
         } else{
             //해당 이메일 존재하지 않음
@@ -54,6 +55,7 @@ public class MemberService {
         Member member = MEMBER_REPOSITORY.findById(id).orElseThrow(()
                 -> new MemberNotFoundException(StatusMessage.NOT_FOUND.getStatusMessage(), StatusCodes.NOT_FOUND));
         MEMBER_REPOSITORY.deleteById(member.getId());
+
         return member;
     }
 
