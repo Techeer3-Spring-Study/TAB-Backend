@@ -32,10 +32,7 @@ public class Comment extends Timestamp {
     private boolean isAnonymous;
 
     public Comment updateComment(CommentUpdateRequestDto commentUpdateRequestDto) {
-        this.postId = commentUpdateRequestDto.getPostId();
-        this.commentId = commentUpdateRequestDto.getCommentId();
         this.content = commentUpdateRequestDto.getContent();
-        this.layer = commentUpdateRequestDto.getLayer();
         this.isAnonymous = commentUpdateRequestDto.isAnonymous();
         return this;
     }

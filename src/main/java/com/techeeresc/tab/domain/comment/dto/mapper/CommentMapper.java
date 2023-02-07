@@ -30,5 +30,4 @@ public class CommentMapper {
                 .isAnonymous(comment.isAnonymous())
                 .build();
     }
-
 }
