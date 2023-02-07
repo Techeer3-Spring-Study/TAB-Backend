@@ -46,7 +46,6 @@ public class ShareInfoController {
 
   @Operation(summary = "CreateShareInfo", description = "Create ShareInfo", responses = {
           @ApiResponse(responseCode = "200", description = "Create Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @PostMapping
   public ResponseEntity<ShareInfoResponseDto> createShareInfo(
@@ -58,10 +57,9 @@ public class ShareInfoController {
 
   @Operation(summary = "findAllShareInfo", description = "findAll ShareInfo", responses = {
           @ApiResponse(responseCode = "200", description = "findAll Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @GetMapping
-  @ResponseStatus(HttpStatus.OK) // TODO: 페이징 처리 필요
+  @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<PageImpl<ShareInfo>> findAllShareInfo(
           ShareInfoPagingDto shareInfoPagingDto) {
     Pageable pageable = shareInfoPagingDto.of();
@@ -71,7 +69,6 @@ public class ShareInfoController {
 
   @Operation(summary = "find ShareInfo", description = "find ShareInfo", responses = {
           @ApiResponse(responseCode = "200", description = "find Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @GetMapping("/{id}")
   public ResponseEntity<ShareInfoResponseDto> findShareInfo(@PathVariable Long id) {
@@ -82,7 +79,6 @@ public class ShareInfoController {
 
   @Operation(summary = "updateShareInfo", description = "Update ShareInfo", responses = {
           @ApiResponse(responseCode = "200", description = "Update Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @PutMapping
   public ResponseEntity<ShareInfoResponseDto> updateShareInfo(
@@ -95,7 +91,7 @@ public class ShareInfoController {
   @Operation(summary = "DeleteShareInfo", description = "ShareInfo Delete ", responses = {
           @ApiResponse(responseCode = "200", description = "Delete Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
   })
-  @DeleteMapping("/{id}") // TODO: 응답형태 list가 아닌 다른 형태로 변경하기
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Long ShareInfoDelete(@PathVariable Long id) {
     SHARE_INFO_SERVICE.deleteShareInfo(id);

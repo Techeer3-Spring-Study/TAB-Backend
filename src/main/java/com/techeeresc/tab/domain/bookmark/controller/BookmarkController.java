@@ -42,7 +42,6 @@ public class BookmarkController {
 
   @Operation(summary = "CreateBookmark", description = "Create Bookmark", responses = {
           @ApiResponse(responseCode = "200", description = "Create Success", content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -54,7 +53,6 @@ public class BookmarkController {
 
   @Operation(summary = "Bookmark조회", description = "id를 이용해서 Bookmark를 조회합니다", responses = {
           @ApiResponse(responseCode = "200", description = "Bookmark조회 성공", content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "존재하지 않는 리소스 접근", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @GetMapping("/{id}")
   public ResponseEntity<BookmarkResponseDto> findBookmark(@PathVariable Long id) {
@@ -75,7 +73,6 @@ public class BookmarkController {
 
   @Operation(summary = "findAllBookmark", description = "FindAllBookmarkId", responses = {
           @ApiResponse(responseCode = "200", description = "FindAllBookmarkId Success", content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
-          @ApiResponse(responseCode = "404", description = "Fail", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @GetMapping
   public ResponseEntity<PageImpl<Bookmark>> findAllBookmark(BookmarkPagingDto bookmarkPagingDTO) {
