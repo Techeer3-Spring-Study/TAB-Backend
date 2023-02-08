@@ -45,7 +45,7 @@ public class ShareInfoController {
 
 
   @Operation(summary = "CreateShareInfo", description = "Create ShareInfo", responses = {
-          @ApiResponse(responseCode = "200", description = "Create Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
+          @ApiResponse(responseCode = "201", description = "Create Success", content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
   })
   @PostMapping
   public ResponseEntity<ShareInfoResponseDto> createShareInfo(

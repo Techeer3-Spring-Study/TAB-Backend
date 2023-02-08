@@ -41,7 +41,7 @@ public class BookmarkController {
   private final BookmarkMapper BOOKMARK_MAPPER;
 
   @Operation(summary = "CreateBookmark", description = "Create Bookmark", responses = {
-          @ApiResponse(responseCode = "200", description = "Create Success", content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
+          @ApiResponse(responseCode = "201", description = "Create Success", content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
   })
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
