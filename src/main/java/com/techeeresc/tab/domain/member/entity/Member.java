@@ -37,6 +37,7 @@ public class Member extends Timestamp {
     public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {
         this.password = memberUpdateRequestDto.getPassword();
         this.name = memberUpdateRequestDto.getName();
+        this.isActive = memberUpdateRequestDto.isActive();
 
         return this;
     }
