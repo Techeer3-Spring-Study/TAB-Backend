@@ -9,6 +9,7 @@ public enum StatusMessage {
   CONFLICT("This user already exists"),
   BAD_REQUEST_ABOUT_PARAMETER_MISSING("Parameter is missing"),
   BAD_REQUEST_ABOUT_TYPE_MISMATCH("Parameter type mismatch"),
+  BAD_REQUEST_ABOUT_PASSWORD_MISMATCH("Password mismatch"),
   NOT_FOUND("Request Not found");
 
   String statusMessage;
