@@ -4,7 +4,7 @@ on:    # 어떤 조건에서 workflow를 실행할지 컨디션을 적어준다
   push:
     branches:
       - develop
-      - main
+      - main    # 배포 브랜치는 main이기 때문에 향후 수정이 필요하다.
   pull_request:
     branches:
       - develop
@@ -96,5 +96,4 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
+            

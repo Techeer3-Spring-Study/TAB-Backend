@@ -17,20 +17,6 @@ services:
     volumes:
       - tab-backend:/usr/src/mysql
 
-#  backend:
-#    build: .
-#    container_name: backend
-#    expose:
-#      - 8080
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
-#      SPRING_DATASOURCE_USER: root
-#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-#    depends_on:
-#      - mysql
-
   redis:
     image: redis:latest
     container_name: redis
@@ -40,7 +26,7 @@ services:
       - tab-backend:/usr/src/redis
 
   backend-blue:
-    build: .
+    image: ${DOCKER_USER}/tab-backend:blue
     container_name: backend-blue
     expose:
       - 8080
@@ -55,7 +41,7 @@ services:
       - redis
 
   backend-green:
-    build: .
+    image: ${DOCKER_USER}/tab-backend:green
     container_name: backend-green
     expose:
       - 8080
@@ -74,7 +60,6 @@ services:
     container_name: nginx
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
