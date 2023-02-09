@@ -106,5 +106,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
-          script: |
-            docker-compose pull && docker-compose up -d
+          script: docker-compose -f docker-compose.prod.yml up -d --build
