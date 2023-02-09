@@ -18,7 +18,7 @@ public class BookmarkCreateRequestDto {
 
   @NotNull
   @Schema(
-          description = "Member_ID",
-          allowableValues = {"1"})
+      description = "Member_ID",
+      allowableValues = {"1"})
   public Long memberId;
 }
