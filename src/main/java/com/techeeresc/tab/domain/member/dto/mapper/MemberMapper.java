@@ -12,7 +12,6 @@ public class MemberMapper {
                 .name(memberCreateRequestDto.getName())
                 .password(memberCreateRequestDto.getPassword())
                 .email(memberCreateRequestDto.getEmail())
-                .isActive(memberCreateRequestDto.isActive())
                 .build();
     }
 

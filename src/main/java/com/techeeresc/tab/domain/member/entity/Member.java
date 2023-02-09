@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor //기본 생성자 추가
 @Builder
 @Getter
+@DynamicInsert //null값이면 기본값으로 들어감
 @Table(name="member")
 public class Member extends Timestamp {
     @Id
@@ -31,8 +33,8 @@ public class Member extends Timestamp {
     @ColumnDefault("false")
     private boolean role;
     @Column(nullable = false, name = "is_active")
-    @ColumnDefault("true")
-    private boolean isActive;
+    @Builder.Default
+    private boolean isActive = true;
 
     public Member updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {
         this.password = memberUpdateRequestDto.getPassword();

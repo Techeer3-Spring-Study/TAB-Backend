@@ -20,7 +20,4 @@ public class MemberCreateRequestDto {
     @NotNull
     @Schema(description = "member name", defaultValue = "esc")
     private String name;
-
-    @Schema(description = "active check", allowableValues = {"true", "false"}, defaultValue = "true")
-    private boolean isActive;
 }
