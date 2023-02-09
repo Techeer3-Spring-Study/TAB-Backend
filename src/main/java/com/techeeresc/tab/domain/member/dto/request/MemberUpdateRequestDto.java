@@ -9,16 +9,19 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 public class MemberUpdateRequestDto {
-    @NotNull
-    @Schema(description = "member id", defaultValue = "1")
-    private Long id;
+  @NotNull
+  @Schema(description = "member id", defaultValue = "1")
+  private Long id;
 
-    @Schema(description = "member pw", defaultValue = "tab")
-    private String password;
+  @Schema(description = "member pw", defaultValue = "tab")
+  private String password;
 
-    @Schema(description = "member name", defaultValue = "esc")
-    private String name;
+  @Schema(description = "member name", defaultValue = "esc")
+  private String name;
 
-    @Schema(description = "active check", allowableValues = {"true", "false"}, defaultValue = "true")
-    private boolean isActive;
+  @Schema(
+      description = "active check",
+      allowableValues = {"true", "false"},
+      defaultValue = "true")
+  private boolean isActive;
 }

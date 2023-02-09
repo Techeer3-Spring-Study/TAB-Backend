@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class EmailNotFoundException extends RuntimeException {
-    private int errorCode;
+  private int errorCode;
 
-    public EmailNotFoundException(String message, StatusCodes statusCodes) {
-        super(message);
-        this.errorCode = statusCodes.getStatusCode();
-    }
+  public EmailNotFoundException(String message, StatusCodes statusCodes) {
+    super(message);
+    this.errorCode = statusCodes.getStatusCode();
+  }
 }

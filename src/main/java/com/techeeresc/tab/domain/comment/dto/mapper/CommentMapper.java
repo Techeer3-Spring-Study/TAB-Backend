@@ -8,26 +8,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentMapper {
 
-    public Comment saveDataToEntity(CommentCreateRequestDto commentCreateRequestDto) {
-        return Comment.builder()
-                .memberId(commentCreateRequestDto.getMemberId())
-                .postId(commentCreateRequestDto.getPostId())
-                .commentId(commentCreateRequestDto.getCommentId())
-                .content(commentCreateRequestDto.getContent())
-                .layer(commentCreateRequestDto.getLayer())
-                .isAnonymous(commentCreateRequestDto.isAnonymous())
-                .build();
-    }
+  public Comment saveDataToEntity(CommentCreateRequestDto commentCreateRequestDto) {
+    return Comment.builder()
+        .memberId(commentCreateRequestDto.getMemberId())
+        .postId(commentCreateRequestDto.getPostId())
+        .commentId(commentCreateRequestDto.getCommentId())
+        .content(commentCreateRequestDto.getContent())
+        .layer(commentCreateRequestDto.getLayer())
+        .isAnonymous(commentCreateRequestDto.isAnonymous())
+        .build();
+  }
 
-    public CommentResponseDto getDataFromEntity(Comment comment) {
-        return CommentResponseDto.builder()
-                .id(comment.getId())
-                .memberId(comment.getMemberId())
-                .postId(comment.getPostId())
-                .commentId(comment.getCommentId())
-                .content(comment.getContent())
-                .layer(comment.getLayer())
-                .isAnonymous(comment.isAnonymous())
-                .build();
-    }
+  public CommentResponseDto getDataFromEntity(Comment comment) {
+    return CommentResponseDto.builder()
+        .id(comment.getId())
+        .memberId(comment.getMemberId())
+        .postId(comment.getPostId())
+        .commentId(comment.getCommentId())
+        .content(comment.getContent())
+        .layer(comment.getLayer())
+        .isAnonymous(comment.isAnonymous())
+        .build();
+  }
 }

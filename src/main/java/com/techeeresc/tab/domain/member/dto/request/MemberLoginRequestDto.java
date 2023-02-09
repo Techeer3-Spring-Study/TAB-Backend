@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 public class MemberLoginRequestDto {
-    @NotNull
-    @Schema(description = "member email", defaultValue = "tab@tab.com")
-    private String email;
+  @NotNull
+  @Schema(description = "member email", defaultValue = "tab@tab.com")
+  private String email;
 
-    @NotNull
-    @Schema(description = "member pw", defaultValue = "tab")
-    private String password;
+  @NotNull
+  @Schema(description = "member pw", defaultValue = "tab")
+  private String password;
 }

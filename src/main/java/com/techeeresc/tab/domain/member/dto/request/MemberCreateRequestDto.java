@@ -9,15 +9,15 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 public class MemberCreateRequestDto {
-    @NotNull
-    @Schema(description = "member email", defaultValue = "tab@tab.com")
-    private String email;
+  @NotNull
+  @Schema(description = "member email", defaultValue = "tab@tab.com")
+  private String email;
 
-    @NotNull
-    @Schema(description = "member pw", defaultValue = "tab")
-    private String password;
+  @NotNull
+  @Schema(description = "member pw", defaultValue = "tab")
+  private String password;
 
-    @NotNull
-    @Schema(description = "member name", defaultValue = "esc")
-    private String name;
+  @NotNull
+  @Schema(description = "member name", defaultValue = "esc")
+  private String name;
 }
