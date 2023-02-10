@@ -1,7 +1,6 @@
 package com.techeeresc.tab;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 // @SpringBootTest
 // 어노테이션은 스프링을 실제 띄워서 컨테이너를 띄우거나 DI를 하여 스프링과 동일한 환경에서 테스트할 수 있고,
@@ -11,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 // https://compogetters.tistory.com/139
 class TabApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+  @Test
+  void contextLoads() {}
 }

@@ -14,10 +14,34 @@ services:
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - tab-backend:/usr/src/mysql
 
-  backend:
+#  backend:
+#    build: .
+#    container_name: backend
+#    expose:
+#      - 8080
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
+#      SPRING_DATASOURCE_USER: root
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#    depends_on:
+#      - mysql
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - tab-backend:/usr/src/redis
+
+  backend-blue:
     build: .
-    container_name: backend
+    container_name: backend-blue
     expose:
       - 8080
     ports:
@@ -28,3 +52,34 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - mysql
+      - redis
+
+  backend-green:
+    build: .
+    container_name: backend-green
+    expose:
+      - 8080
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tab
+      SPRING_DATASOURCE_USER: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend-blue
+      - backend-green
+
+volumes:
+  tab-backend:

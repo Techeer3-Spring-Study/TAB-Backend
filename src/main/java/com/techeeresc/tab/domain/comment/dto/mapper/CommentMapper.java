@@ -7,12 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommentMapper {
-
     public Comment saveDataToEntity(CommentCreateRequestDto commentCreateRequestDto) {
         return Comment.builder()
                 .memberId(commentCreateRequestDto.getMemberId())
-                .postId(commentCreateRequestDto.getPostId())
-//                .post(commentCreateRequestDto.getPost())
+                .postId(commentCreateRequestDto.getPostId()) // .post(commentCreateRequestDto.getPost())
                 .commentId(commentCreateRequestDto.getCommentId())
                 .content(commentCreateRequestDto.getContent())
                 .layer(commentCreateRequestDto.getLayer())
@@ -24,13 +22,11 @@ public class CommentMapper {
         return CommentResponseDto.builder()
                 .id(comment.getId())
                 .memberId(comment.getMemberId())
-                .postId(comment.getPostId())
-//                .postId(comment.getPost().getId())
+                .postId(comment.getPostId()) // .postId(comment.getPost().getId())
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
                 .layer(comment.getLayer())
                 .isAnonymous(comment.isAnonymous())
                 .build();
     }
-
 }
