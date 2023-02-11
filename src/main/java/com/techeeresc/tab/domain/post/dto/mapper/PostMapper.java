@@ -32,6 +32,7 @@ public class PostMapper {
         .hashtags(post.getHashtags())
         .likeNumbers(post.getLikeNumbers())
         .views(post.getViews())
+        .createdAt(post.getCreatedAt())
         .isAnonymous(post.isAnonymous()) // boolean 타입의 변수인 경우 getXXX가 아니라 isXXX 이름으로 getter를 생성한다!
         .build();
   }

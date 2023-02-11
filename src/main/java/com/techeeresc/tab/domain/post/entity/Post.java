@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
 @AllArgsConstructor
