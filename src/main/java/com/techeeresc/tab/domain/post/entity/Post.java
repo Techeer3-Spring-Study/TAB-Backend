@@ -45,8 +45,7 @@ public class Post extends Timestamp {
 
   @Column(name = "is_anonymous", nullable = false)
   @ColumnDefault("false")
-  @Builder.Default
-  private boolean isAnonymous = false;
+  private boolean isAnonymous;
 
   @Column(name = "like_numbers", nullable = false)
   @ColumnDefault("0")
