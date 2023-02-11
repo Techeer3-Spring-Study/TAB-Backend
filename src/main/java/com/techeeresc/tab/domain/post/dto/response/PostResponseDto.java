@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 @Builder
 @Getter // 없으면 406 오류가 발생한다. 데이터는 정상적으로 들어가지만 응답을 하지 못해 postman에서 406 오류 발생
 public class PostResponseDto {
@@ -38,11 +41,14 @@ public class PostResponseDto {
       description = "anonymous check",
       allowableValues = {"true", "false"},
       defaultValue = "false")
-  private boolean isAnonymous;
+  private Boolean isAnonymous;
 
   @Schema(description = "like numbers", defaultValue = "0")
-  private int likeNumbers;
+  private Integer likeNumbers;
 
   @Schema(description = "views", defaultValue = "0")
-  private int views;
+  private Integer views;
+
+  @Schema(description = "created at", defaultValue = "2023-02-21")
+  private LocalDateTime createdAt;
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
 @AllArgsConstructor
@@ -41,7 +42,7 @@ public class Post extends Timestamp {
   private String image;
 
   @Column(name = "hashtags")
-  private String hashtags; // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
+  private String hashtags;
 
   @Column(name = "is_anonymous", nullable = false)
   @ColumnDefault("false")
@@ -49,11 +50,13 @@ public class Post extends Timestamp {
 
   @Column(name = "like_numbers", nullable = false)
   @ColumnDefault("0")
-  private int likeNumbers;
+  @Builder.Default
+  private Integer likeNumbers = 0;
 
   @Column(name = "views", nullable = false)
   @ColumnDefault("0")
-  private int views;
+  @Builder.Default
+  private Integer views = 0;
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto) {
     this.category = postUpdateRequestDto.getCategory();

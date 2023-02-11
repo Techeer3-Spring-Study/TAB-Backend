@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BookmarkServiceTest {
-
   @Autowired BookmarkRepository BOOKMARK_REPOSITORY;
 
   @Autowired BookmarkService BOOKMARK_SERVICE;

@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc // -> MockMvc 주입받는 2가지 방법 -> @SpringBootTest + @AutoConfigureMockMvc 애노테이션 붙이기
 @SpringBootTest
 class BookmarkControllerTest {
-
   /** 웹 API를 테스트할 때 사용 스프링 MVC 테스트의 시작점 HTTP GET, POST 등에 대해 API 테스트 가능 */
   @Autowired private MockMvc mockMvc;
 
