@@ -1,18 +1,10 @@
 package com.techeeresc.tab.domain.bookmark.service;
 
-import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
-import com.techeeresc.tab.domain.bookmark.repository.BookmarkRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@SpringBootTest
-//class BookmarkServiceTest {
+// @SpringBootTest
+// class BookmarkServiceTest {
 //  @Autowired BookmarkRepository BOOKMARK_REPOSITORY;
 //
 //  @Autowired BookmarkService BOOKMARK_SERVICE;
@@ -71,4 +63,4 @@ import static org.junit.jupiter.api.Assertions.*;
 //    assertEquals(2L, response.getPostId());
 //    assertEquals(1L, response.getMemberId());
 //  }
-//}
+// }
