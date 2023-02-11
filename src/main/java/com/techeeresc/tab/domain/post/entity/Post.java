@@ -41,19 +41,22 @@ public class Post extends Timestamp {
   private String image;
 
   @Column(name = "hashtags")
-  private String hashtags; // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
+  private String hashtags;
 
   @Column(name = "is_anonymous", nullable = false)
   @ColumnDefault("false")
-  private boolean isAnonymous;
+  @Builder.Default
+  private boolean isAnonymous = false;
 
   @Column(name = "like_numbers", nullable = false)
   @ColumnDefault("0")
-  private int likeNumbers;
+  @Builder.Default
+  private int likeNumbers = 0;
 
   @Column(name = "views", nullable = false)
   @ColumnDefault("0")
-  private int views;
+  @Builder.Default
+  private int views = 0;
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto) {
     this.category = postUpdateRequestDto.getCategory();
