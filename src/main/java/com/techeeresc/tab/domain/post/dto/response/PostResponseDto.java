@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Builder

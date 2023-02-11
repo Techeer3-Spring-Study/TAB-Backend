@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(
     SpringExtension
         .class) // RunWith는 JUnit에 내장된 실행자 외 다른 실행자를 실행 -> 여기서 SpringRunner 실행자 즉 스프링 부트 테스트와 JUnit
-                // 사이에 연결자이다.
+// 사이에 연결자이다.
 @AutoConfigureMockMvc // -> MockMvc 주입받는 2가지 방법 -> @SpringBootTest + @AutoConfigureMockMvc 애노테이션 붙이기
 @SpringBootTest
 class BookmarkControllerTest {
