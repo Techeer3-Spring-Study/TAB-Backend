@@ -50,12 +50,12 @@ public class Post extends Timestamp {
   @Column(name = "like_numbers", nullable = false)
   @ColumnDefault("0")
   @Builder.Default
-  private int likeNumbers = 0;
+  private Integer likeNumbers = 0;
 
   @Column(name = "views", nullable = false)
   @ColumnDefault("0")
   @Builder.Default
-  private int views = 0;
+  private Integer views = 0;
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto) {
     this.category = postUpdateRequestDto.getCategory();

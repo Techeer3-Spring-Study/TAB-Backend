@@ -38,11 +38,11 @@ public class PostResponseDto {
       description = "anonymous check",
       allowableValues = {"true", "false"},
       defaultValue = "false")
-  private boolean isAnonymous;
+  private Boolean isAnonymous;
 
   @Schema(description = "like numbers", defaultValue = "0")
-  private int likeNumbers;
+  private Integer likeNumbers;
 
   @Schema(description = "views", defaultValue = "0")
-  private int views;
+  private Integer views;
 }
