@@ -3,10 +3,11 @@ package com.techeeresc.tab.domain.member.controller;
 import com.techeeresc.tab.domain.member.dto.mapper.MemberMapper;
 import com.techeeresc.tab.domain.member.dto.request.MemberCreateRequestDto;
 import com.techeeresc.tab.domain.member.dto.request.MemberLoginRequestDto;
+import com.techeeresc.tab.domain.member.service.MemberService;
 import com.techeeresc.tab.domain.member.dto.request.MemberUpdateRequestDto;
 import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import com.techeeresc.tab.domain.member.entity.Member;
-import com.techeeresc.tab.domain.member.service.MemberService;
+import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -133,10 +134,10 @@ public class MemberController {
             responses = {@ApiResponse(responseCode = "200", description = "Delete Success")})
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Long deleteMember(
+    public String deleteMember(
             @Parameter(description = "회원 id", in = ParameterIn.PATH) @PathVariable Long id) {
         MEMBER_SERVICE.deleteMember(id);
-        return id;
+        return StatusMessage.OK.getStatusMessage();
     }
 
     //TODO: logout - 토큰 필요
