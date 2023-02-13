@@ -75,7 +75,6 @@ public class ShareInfoController {
             content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
       })
   @GetMapping
-  @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<PageImpl<ShareInfo>> findAllShareInfo(
       ShareInfoPagingDto shareInfoPagingDto) {
     Pageable pageable = shareInfoPagingDto.of();
@@ -126,8 +125,7 @@ public class ShareInfoController {
             content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
       })
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<String> ShareInfoDelete(@PathVariable Long id) {
+  public ResponseEntity<String> DeleteShareInfo(@PathVariable Long id) {
     SHARE_INFO_SERVICE.deleteShareInfo(id);
     return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
   }

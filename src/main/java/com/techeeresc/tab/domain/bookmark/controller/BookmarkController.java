@@ -57,11 +57,10 @@ public class BookmarkController {
             content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
       })
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public BookmarkResponseDto createBookmark(
+  public ResponseEntity<BookmarkResponseDto> createBookmark(
       @RequestBody BookmarkCreateRequestDto bookmarkCreateRequestDto) {
     Bookmark insertBookmarkResult = BOOKMARK_SERVICE.save(bookmarkCreateRequestDto);
-    return BOOKMARK_MAPPER.getDataFromEntity(insertBookmarkResult);
+    return new ResponseEntity(BOOKMARK_MAPPER.getDataFromEntity(insertBookmarkResult), HttpStatus.CREATED);
   }
 
   @Operation(
@@ -90,8 +89,7 @@ public class BookmarkController {
             content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class)))
       })
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<String> BookmarkDelete(@PathVariable Long id) {
+  public ResponseEntity<String> DeleteBookmark(@PathVariable Long id) {
     BOOKMARK_SERVICE.deleteBookmark(id);
     return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
   }
@@ -105,6 +103,7 @@ public class BookmarkController {
             description = "FindAllBookmarkId Success",
             content = @Content(schema = @Schema(implementation = BookmarkResponseDto.class))),
       })
+
   @GetMapping
   public ResponseEntity<PageImpl<Bookmark>> findAllBookmark(BookmarkPagingDto bookmarkPagingDTO) {
     Pageable pageable = bookmarkPagingDTO.of();
