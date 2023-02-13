@@ -7,6 +7,7 @@ import com.techeeresc.tab.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.techeeresc.tab.domain.bookmark.entity.Bookmark;
 import com.techeeresc.tab.domain.bookmark.service.BookmarkService;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
+import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -90,9 +91,9 @@ public class BookmarkController {
       })
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Long BookmarkDelete(@PathVariable Long id) {
+  public ResponseEntity<String> BookmarkDelete(@PathVariable Long id) {
     BOOKMARK_SERVICE.deleteBookmark(id);
-    return id;
+    return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
   }
 
   @Operation(

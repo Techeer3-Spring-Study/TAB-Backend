@@ -8,6 +8,7 @@ import com.techeeresc.tab.domain.shareinfo.dto.response.ShareInfoResponseDto;
 import com.techeeresc.tab.domain.shareinfo.entity.ShareInfo;
 import com.techeeresc.tab.domain.shareinfo.service.ShareInfoService;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
+import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -126,8 +127,8 @@ public class ShareInfoController {
       })
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Long ShareInfoDelete(@PathVariable Long id) {
+  public ResponseEntity<String> ShareInfoDelete(@PathVariable Long id) {
     SHARE_INFO_SERVICE.deleteShareInfo(id);
-    return id;
+    return new ResponseEntity<>(StatusMessage.OK.getStatusMessage(), HttpStatus.OK);
   }
 }
