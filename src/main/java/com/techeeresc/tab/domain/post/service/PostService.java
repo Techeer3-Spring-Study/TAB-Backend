@@ -4,10 +4,12 @@ import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.domain.post.entity.Post;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 public interface PostService {
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto);
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFileList);
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto);
 
