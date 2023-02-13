@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 public class CommentUpdateRequestDto {
-  @NotNull
   @Schema(description = "comment id", defaultValue = "1")
   private Long id;
 
