@@ -8,6 +8,7 @@ import com.techeeresc.tab.domain.member.dto.response.MemberResponseDto;
 import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.member.service.MemberService;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
+import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -139,10 +140,10 @@ public class MemberController {
       responses = {@ApiResponse(responseCode = "200", description = "Delete Success")})
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Long deleteMember(
+  public String deleteMember(
       @Parameter(description = "회원 id", in = ParameterIn.PATH) @PathVariable Long id) {
     MEMBER_SERVICE.deleteMember(id);
-    return id;
+    return StatusMessage.OK.getStatusMessage();
   }
 
   // TODO: logout - 토큰 필요

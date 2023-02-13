@@ -7,6 +7,7 @@ import com.techeeresc.tab.domain.comment.dto.response.CommentResponseDto;
 import com.techeeresc.tab.domain.comment.entity.Comment;
 import com.techeeresc.tab.domain.comment.service.CommentService;
 import com.techeeresc.tab.global.exception.response.ErrorResponse;
+import com.techeeresc.tab.global.status.StatusMessage;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.RequiredArgsConstructor;
@@ -100,9 +101,9 @@ public class CommentController {
       responses = {@ApiResponse(responseCode = "200", description = "Delete Success")})
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Long deleteComment(
+  public String deleteComment(
       @Parameter(description = "댓글 id", in = ParameterIn.PATH) @PathVariable Long id) {
     COMMENT_SERVICE.deleteComment(id);
-    return id;
+    return StatusMessage.OK.getStatusMessage();
   }
 }
