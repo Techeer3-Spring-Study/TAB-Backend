@@ -41,15 +41,12 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
 
   @Transactional
   @Override
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFileList) {
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles) {
     List<String> fileNameList = new ArrayList<>();
 
-    multipartFileList.forEach(file -> {
-      String fileName = createFileName(file.getOriginalFilename());
-      ObjectMetadata objectMetadata = new ObjectMetadata();
-      objectMetadata.setContentLength(file.getSize());
-      ObjectMetadata.setContentType
-    });
+    for (int i = 0; i < multipartFiles.size(); i++) {
+
+    }
 
     return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
   }
@@ -173,9 +170,5 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
     } catch (StringIndexOutOfBoundsException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일: " + fileName);
     }
-  }
-
-  private void deleteFile(String fileName) {
-    AMAZON_S3.deleteObject(new DeleteObjectRequest(bucket, fileName));
   }
 }
