@@ -1,7 +1,11 @@
 spring:
-  datasource:
+  profiles:
     include:
       - docker
+      - s3
+  #  datasource:
+#    include:
+#      - docker
   #      - local
 
   jpa:
@@ -32,7 +36,3 @@ springdoc:
   default-produces-media-type: application/json
   paths-to-match:   # 보여주고 싶은 컨트롤러만 보여주기
     - /api/v1/**
-
-cloud:
-  include:
-    - s3

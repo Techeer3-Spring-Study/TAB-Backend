@@ -1,8 +1,5 @@
 package com.techeeresc.tab.domain.post.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
@@ -33,11 +30,7 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final PostRepository POST_REPOSITORY;
   private final PostMapper POST_MAPPER;
   private final JPAQueryFactory JPA_QUERY_FACTORY;
-  private final AmazonS3 AMAZON_S3;
   private final int NULL_SIZE = 0;
-
-  @Value("${cloud.aws.s3.bucket}")
-  private String bucket;
 
   @Transactional
   @Override
@@ -45,7 +38,8 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
     List<String> fileNameList = new ArrayList<>();
 
     for (int i = 0; i < multipartFiles.size(); i++) {
-
+      String fileName = createFileName(multipartFiles.get(i).getOriginalFilename());
+      System.out.println(fileName);
     }
 
     return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
