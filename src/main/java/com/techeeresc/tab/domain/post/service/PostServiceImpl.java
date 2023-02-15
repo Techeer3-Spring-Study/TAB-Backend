@@ -1,5 +1,9 @@
 package com.techeeresc.tab.domain.post.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
@@ -20,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,16 +37,34 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final PostMapper POST_MAPPER;
   private final JPAQueryFactory JPA_QUERY_FACTORY;
   private final int NULL_SIZE = 0;
+  private final AmazonS3 AMAZON_S3;
+
+  @Value("${cloud.aws.s3.bucket}")
+  private String bucket;
 
   @Transactional
   @Override
   public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles) {
-    List<String> fileNameList = new ArrayList<>();
+    List<String> fileNames = new ArrayList<>();
 
-    for (int i = 0; i < multipartFiles.size(); i++) {
-      String fileName = createFileName(multipartFiles.get(i).getOriginalFilename());
-      System.out.println(fileName);
-    }
+    multipartFiles.forEach(
+            file -> {
+              String fileName = createFileName(file.getOriginalFilename());
+              ObjectMetadata objectMetadata = new ObjectMetadata();
+              objectMetadata.setContentLength(file.getSize());
+              objectMetadata.setContentType(file.getContentType());
+
+              try (InputStream inputStream = file.getInputStream()) {
+                AMAZON_S3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+
+              } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "file upload fail.");
+              }
+
+              fileNames.add(fileName);
+            }
+    );
 
     return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
   }

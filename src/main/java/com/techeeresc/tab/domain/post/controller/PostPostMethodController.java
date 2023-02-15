@@ -55,10 +55,10 @@ public class PostPostMethodController {
       description = "CREATED",
       content = @Content(schema = @Schema(implementation = PostResponseDto.class)))
   @PostMapping
-  public ResponseEntity<PostResponseDto> createPost(
-          List<MultipartFile> multipartFileList,
-      @RequestBody @Valid PostCreateRequestDto postCreateRequestDto) {
-    Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto, multipartFileList);
+  public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "requestDto") @Valid PostCreateRequestDto postCreateRequestDto,
+    @RequestPart List<MultipartFile> multipartFiles
+  ) {
+    Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto, multipartFiles);
     return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
   }
 

@@ -3,10 +3,6 @@ spring:
     include:
       - docker
       - s3
-  #  datasource:
-#    include:
-#      - docker
-  #      - local
 
   jpa:
     hibernate:
