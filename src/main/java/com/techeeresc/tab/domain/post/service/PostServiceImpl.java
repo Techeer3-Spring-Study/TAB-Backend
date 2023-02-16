@@ -1,5 +1,9 @@
 package com.techeeresc.tab.domain.post.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
@@ -12,6 +16,7 @@ import com.techeeresc.tab.global.exception.customexception.RequestNotFoundExcept
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +32,10 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final PostMapper POST_MAPPER;
   private final JPAQueryFactory JPA_QUERY_FACTORY;
   private final int NULL_SIZE = 0;
+  // private final AmazonS3 AMAZON_S3;  //TODO: Bean 오류 수정 필요
+
+  @Value("${cloud.aws.s3.bucket}")
+  private String bucket;
 
   @Transactional
   @Override

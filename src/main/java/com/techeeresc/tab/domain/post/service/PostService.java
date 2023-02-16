@@ -11,6 +11,8 @@ import java.util.List;
 public interface PostService {
   public Post insertPost(PostCreateRequestDto postCreateRequestDto);
 
+  // public Post insertPostWithImage(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files);
+
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto);
 
   public Post increaseLikeNumbers(Long id);

@@ -57,9 +57,10 @@ public class PostPostMethodController {
   @PostMapping
   public ResponseEntity<PostResponseDto> createPost(
       @RequestPart(value = "requestDto") @Valid PostCreateRequestDto postCreateRequestDto,
-      @RequestPart(value = "files") List<MultipartFile> files) {
-      Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
-      return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
+      @RequestPart(value = "files", required = false) List<MultipartFile> files) {
+
+    Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
+    return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
   }
 
   @Operation(
