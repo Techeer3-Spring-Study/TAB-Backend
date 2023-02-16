@@ -9,7 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles);
+  public Post insertPostWithImage(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles);
+
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto);
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto);
 

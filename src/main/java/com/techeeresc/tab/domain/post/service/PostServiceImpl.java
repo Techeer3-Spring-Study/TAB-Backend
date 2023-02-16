@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
 
   @Transactional
   @Override
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles) {
+  public Post insertPostWithImage(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> multipartFiles) {
     List<String> fileNames = new ArrayList<>();
 
     multipartFiles.forEach(
@@ -66,6 +66,12 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
             }
     );
 
+    return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
+  }
+
+  @Transactional
+  @Override
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
     return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
   }
 
