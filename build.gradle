@@ -50,8 +50,6 @@ dependencies {
 
 	// AWS S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-	// 확장자 라이브러리
-	implementation 'commons-io:commons-io:1.4'
 }
 
 tasks.named('test') {
