@@ -13,6 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 )
 @EnableJpaAuditing
 public class TabApplication {
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
   public static void main(String[] args) {
     SpringApplication.run(TabApplication.class, args);
   }

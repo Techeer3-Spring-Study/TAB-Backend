@@ -1,6 +1,6 @@
 package com.techeeresc.tab.domain.post.service;
 
-import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -16,12 +16,18 @@ import com.techeeresc.tab.global.exception.customexception.RequestNotFoundExcept
 import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,14 +38,35 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final PostMapper POST_MAPPER;
   private final JPAQueryFactory JPA_QUERY_FACTORY;
   private final int NULL_SIZE = 0;
-  // private final AmazonS3 AMAZON_S3;  //TODO: Bean 오류 수정 필요
+  // @Qualifier("amazonS3Client")
+  private final AmazonS3Client AMAZON_S3;
 
   @Value("${cloud.aws.s3.bucket}")
   private String bucket;
 
   @Transactional
   @Override
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files) {
+    List<String> fileNameList = new ArrayList<>();
+
+    // forEach 구문을 통해 multipartFiles 리스트로 넘어온 파일들을 순차적으로 fileNameList 에 추가
+    files.forEach(file -> {
+      String fileName = createFileName(file.getOriginalFilename());
+      ObjectMetadata objectMetadata = new ObjectMetadata();
+      objectMetadata.setContentLength(file.getSize());
+      objectMetadata.setContentType(file.getContentType());
+
+      try (InputStream inputStream = file.getInputStream()){
+        AMAZON_S3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+      } catch (IOException e) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
+      }
+
+      fileNameList.add(fileName);
+
+    });
+
     return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
   }
 
