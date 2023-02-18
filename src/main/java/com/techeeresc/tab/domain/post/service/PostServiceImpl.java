@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final int NULL_SIZE = 0;
   // @Qualifier("amazonS3Client")
   private final AmazonS3Client AMAZON_S3;
+  private final String URL_PREFIX = "https://tab-image-file-bucket.s3.ap-northeast-2.amazonaws.com/";
 
   @Value("${cloud.aws.s3.bucket}")
   private String bucket;
@@ -47,9 +48,9 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   @Transactional
   @Override
   public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files) {
-    List<String> fileNameList = new ArrayList<>();
+    StringBuffer imageUrls = new StringBuffer();
 
-    // forEach 구문을 통해 multipartFiles 리스트로 넘어온 파일들을 순차적으로 fileNameList 에 추가
+    // forEach 구문을 통해 multipartFiles 리스트로 넘어온 파일들을 순차적으로 fileNames 에 추가
     files.forEach(file -> {
       String fileName = createFileName(file.getOriginalFilename());
       ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -63,11 +64,10 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
       }
 
-      fileNameList.add(fileName);
-
+      imageUrls.append(URL_PREFIX + fileName + ", ");
     });
 
-    return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
+    return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto, imageUrls.toString()));
   }
 
   @Transactional

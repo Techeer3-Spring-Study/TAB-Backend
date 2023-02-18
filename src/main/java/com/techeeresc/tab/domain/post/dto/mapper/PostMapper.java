@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PostMapper {
-  public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto) {
+  public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto, String imageUrls) {
     return Post.builder()
         .memberId(postCreateRequestDto.getMemberId())
         .category(postCreateRequestDto.getCategory())
         .title(postCreateRequestDto.getTitle())
         .content(postCreateRequestDto.getContent())
-        .file(postCreateRequestDto.getFile())
-        .image(postCreateRequestDto.getImage())
+        .file(imageUrls)
+        .image(imageUrls)
         .hashtags(postCreateRequestDto.getHashtags())
         .isAnonymous(postCreateRequestDto.isAnonymous())
         .build();

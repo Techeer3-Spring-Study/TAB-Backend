@@ -26,14 +26,12 @@ public class PostCreateRequestDto {
   @NotNull
   @Schema(description = "post content", defaultValue = "스웨거 3.0을 통해 프론트엔드와 협업해보아요!")
   private String content;
-  // @Pattern(regexp =
-  // "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
-  @Schema(description = "AWS S3 file link", defaultValue = "www.s3file.com")
-  private String file;
-  // @Pattern(regexp =
-  // "/^(file|gopher|news|nntp|telnet|https?|ftps?|sftp):\\/\\/([a-z0-9-]+\\.)+[a-z0-9]{2,4}.*$/")
-  @Schema(description = "AWS S3 image link", defaultValue = "www.s3Image.com")
-  private String image;
+
+//  @Schema(description = "AWS S3 file link", defaultValue = "www.s3file.com")
+//  private String file;
+//  
+//  @Schema(description = "AWS S3 image link", defaultValue = "www.s3Image.com")
+//  private String image;
 
   @Schema(description = "post hashtags no blank", defaultValue = "#개발#프론트앤드#안녕")
   private String hashtags; // TODO: 한번에 여러개의 값을 받을 수 있도록 변경해야한다.
