@@ -1,6 +1,5 @@
 package com.techeeresc.tab.domain.bookmark.service;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 // @SpringBootTest

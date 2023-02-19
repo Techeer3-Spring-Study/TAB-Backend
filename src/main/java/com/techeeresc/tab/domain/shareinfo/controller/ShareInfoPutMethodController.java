@@ -21,22 +21,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @ApiResponses({
-        @ApiResponse(
-                responseCode = "200",
-                description = "OK !!",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "400",
-                description = "BAD REQUEST !!",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "404",
-                description = "NOT FOUND !!",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "500",
-                description = "INTERNAL SERVER ERROR !!",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+  @ApiResponse(
+      responseCode = "200",
+      description = "OK !!",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "400",
+      description = "BAD REQUEST !!",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "404",
+      description = "NOT FOUND !!",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "500",
+      description = "INTERNAL SERVER ERROR !!",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 })
 @Tag(name = "shareInfo", description = "ShareInfo API")
 @RestController
@@ -44,24 +44,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/shareinfo")
 public class ShareInfoPutMethodController {
 
-    private final ShareInfoService SHARE_INFO_SERVICE;
-    private final ShareInfoMapper SHARE_INFO_MAPPER;
+  private final ShareInfoService SHARE_INFO_SERVICE;
+  private final ShareInfoMapper SHARE_INFO_MAPPER;
 
-    @Operation(
-            summary = "updateShareInfo",
-            description = "Update ShareInfo",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Update Success",
-                            content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
-            })
-    @PutMapping
-    public ResponseEntity<ShareInfoResponseDto> updateShareInfo(
-            @RequestBody ShareInfoUpdateRequestDto shareInfoUpdateRequestDto) {
-        ShareInfo updateShareInfoResult = SHARE_INFO_SERVICE.updateShareInfo(shareInfoUpdateRequestDto);
-        return new ResponseEntity<>(
-                SHARE_INFO_MAPPER.getDataFromEntity(updateShareInfoResult), HttpStatus.CREATED);
-    }
+  @Operation(
+      summary = "updateShareInfo",
+      description = "Update ShareInfo",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Update Success",
+            content = @Content(schema = @Schema(implementation = ShareInfoResponseDto.class))),
+      })
+  @PutMapping
+  public ResponseEntity<ShareInfoResponseDto> updateShareInfo(
+      @RequestBody ShareInfoUpdateRequestDto shareInfoUpdateRequestDto) {
+    ShareInfo updateShareInfoResult = SHARE_INFO_SERVICE.updateShareInfo(shareInfoUpdateRequestDto);
+    return new ResponseEntity<>(
+        SHARE_INFO_MAPPER.getDataFromEntity(updateShareInfoResult), HttpStatus.CREATED);
+  }
 }
-
