@@ -3,6 +3,7 @@
 #!/bin/sh
 
 DOCKER_APP_NAME=tab-backend
+TARGET_DEPLOY_TCP = tcp://localhost:8080
 
 EXIST_BLUE=$(DOCKER_HOST=${TARGET_DEPLOY_TCP} docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml ps | grep Up)
 
