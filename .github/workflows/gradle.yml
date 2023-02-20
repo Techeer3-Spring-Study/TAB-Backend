@@ -96,4 +96,5 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
           script: |
+            chmod +x ./deploy.sh
             ./deploy.sh
