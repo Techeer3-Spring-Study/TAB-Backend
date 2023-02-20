@@ -89,21 +89,11 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - name: Copy docker-compose
-        uses: appleboy/ssh-action@master
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
-          source: docker-compose.prod.yml
-          target: /home/${{ secrets.USERNAME }}/
-
-      - name: Run Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SERVER_KEY }}
-          envs: GITHUB_SHA
-          script: docker-compose -f docker-compose.prod.yml up -d --build
+          script: |
+            ./deploy.sh
