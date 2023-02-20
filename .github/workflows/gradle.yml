@@ -96,5 +96,5 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:blue
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/tab-backend:green
+            chmod +x ./deploy.sh
+            ./deploy.sh
