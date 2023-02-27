@@ -27,7 +27,7 @@ services:
 
   backend:
     image: ${DOCKER_USER}/tab-backend:green
-    container_name: backend-green
+    container_name: backend
     restart: always
     expose:
       - 8080
