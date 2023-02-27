@@ -4,10 +4,11 @@
 
     ```java
     spring:
-      datasource:
+      profiles:
         include:
-    #      - docker
+     #     - docker
           - local
+          - s3
     ```
 
 

@@ -8,6 +8,7 @@ data/
 application-*.yml
 .env
 docker-compose.*
+deploy.sh
 
 ### STS ###
 .apt_generated
