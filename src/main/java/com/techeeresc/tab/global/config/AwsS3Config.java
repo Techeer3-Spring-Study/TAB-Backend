@@ -13,22 +13,23 @@ import org.springframework.context.annotation.Primary;
 @Slf4j
 @Configuration
 public class AwsS3Config {
-    @Value("${cloud.aws.credentials.access-key}")
-    private String accessKey;
+  @Value("${cloud.aws.credentials.access-key}")
+  private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")
-    private String secretKey;
+  @Value("${cloud.aws.credentials.secret-key}")
+  private String secretKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
+  @Value("${cloud.aws.region.static}")
+  private String region;
 
-    @Bean
-    @Primary
-    public AmazonS3Client amazonS3Client() {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-        return (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .build();
-    }
+  @Bean
+  @Primary
+  public AmazonS3Client amazonS3Client() {
+    BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+    return (AmazonS3Client)
+        AmazonS3ClientBuilder.standard()
+            .withRegion(region)
+            .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+            .build();
+  }
 }

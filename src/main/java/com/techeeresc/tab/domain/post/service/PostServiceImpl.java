@@ -47,21 +47,23 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private String getImageLink(List<MultipartFile> files) {
     StringBuffer imageUrls = new StringBuffer();
 
-    files.forEach(file -> {
-      String fileName = createFileName(file.getOriginalFilename());
-      ObjectMetadata objectMetadata = new ObjectMetadata();
-      objectMetadata.setContentLength(file.getSize());
-      objectMetadata.setContentType(file.getContentType());
+    files.forEach(
+        file -> {
+          String fileName = createFileName(file.getOriginalFilename());
+          ObjectMetadata objectMetadata = new ObjectMetadata();
+          objectMetadata.setContentLength(file.getSize());
+          objectMetadata.setContentType(file.getContentType());
 
-      try (InputStream inputStream = file.getInputStream()){
-        AMAZON_S3.putObject(new PutObjectRequest("tab-image-file-bucket", fileName, inputStream, objectMetadata)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-      } catch (IOException e) {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
-      }
+          try (InputStream inputStream = file.getInputStream()) {
+            AMAZON_S3.putObject(
+                new PutObjectRequest("tab-image-file-bucket", fileName, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+          } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
+          }
 
-      imageUrls.append(urlPrefix + fileName + ", ");
-    });
+          imageUrls.append(urlPrefix + fileName + ", ");
+        });
 
     return imageUrls.toString();
   }

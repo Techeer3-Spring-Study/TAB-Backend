@@ -11,7 +11,8 @@ import java.util.List;
 public interface PostService {
   public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files);
 
-  // public Post insertPostWithImage(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files);
+  // public Post insertPostWithImage(PostCreateRequestDto postCreateRequestDto, List<MultipartFile>
+  // files);
 
   public Post updatePost(PostUpdateRequestDto postUpdateRequestDto);
 
