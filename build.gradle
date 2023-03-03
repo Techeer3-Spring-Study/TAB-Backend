@@ -39,7 +39,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
-	// implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// QueryDSL dependencies
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -48,6 +47,9 @@ dependencies {
 	// flyway library dependency
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
+
+	// AWS S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

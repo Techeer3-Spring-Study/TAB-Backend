@@ -1,5 +1,9 @@
 package com.techeeresc.tab.domain.post.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.techeeresc.tab.domain.post.dto.mapper.PostMapper;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
@@ -13,9 +17,15 @@ import com.techeeresc.tab.global.status.StatusCodes;
 import com.techeeresc.tab.global.status.StatusMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -24,11 +34,36 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private final PostMapper POST_MAPPER;
   private final JPAQueryFactory JPA_QUERY_FACTORY;
   private final int NULL_SIZE = 0;
+  private final AmazonS3Client AMAZON_S3;
+  private String urlPrefix = "https://tab-image-file-bucket.s3.ap-northeast-2.amazonaws.com/";
 
   @Transactional
   @Override
-  public Post insertPost(PostCreateRequestDto postCreateRequestDto) {
-    return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto));
+  public Post insertPost(PostCreateRequestDto postCreateRequestDto, List<MultipartFile> files) {
+    String imageUrls = getImageLink(files);
+    return POST_REPOSITORY.save(POST_MAPPER.saveDataToEntity(postCreateRequestDto, imageUrls));
+  }
+
+  private String getImageLink(List<MultipartFile> files) {
+    StringBuffer imageUrls = new StringBuffer();
+
+    files.forEach(file -> {
+      String fileName = createFileName(file.getOriginalFilename());
+      ObjectMetadata objectMetadata = new ObjectMetadata();
+      objectMetadata.setContentLength(file.getSize());
+      objectMetadata.setContentType(file.getContentType());
+
+      try (InputStream inputStream = file.getInputStream()){
+        AMAZON_S3.putObject(new PutObjectRequest("tab-image-file-bucket", fileName, inputStream, objectMetadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+      } catch (IOException e) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
+      }
+
+      imageUrls.append(urlPrefix + fileName + ", ");
+    });
+
+    return imageUrls.toString();
   }
 
   @Transactional
@@ -137,6 +172,18 @@ public class PostServiceImpl implements PostService, PostQueryDslRepository {
   private void isPostExistedByList(List<Post> postSearchResults) {
     if (postSearchResults.size() == NULL_SIZE) {
       throw new NullPointerException();
+    }
+  }
+
+  private String createFileName(String fileName) {
+    return UUID.randomUUID().toString().concat(getFileExtension(fileName));
+  }
+
+  private String getFileExtension(String fileName) {
+    try {
+      return fileName.substring(fileName.lastIndexOf("."));
+    } catch (StringIndexOutOfBoundsException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일: " + fileName);
     }
   }
 }

@@ -1,8 +1,8 @@
 spring:
-  datasource:
+  profiles:
     include:
       - docker
-  #      - local
+      - s3
 
   jpa:
     hibernate:

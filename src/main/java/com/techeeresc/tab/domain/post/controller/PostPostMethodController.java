@@ -18,8 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @ApiResponses({
   @ApiResponse(
@@ -54,9 +56,11 @@ public class PostPostMethodController {
       content = @Content(schema = @Schema(implementation = PostResponseDto.class)))
   @PostMapping
   public ResponseEntity<PostResponseDto> createPost(
-      @RequestBody @Valid PostCreateRequestDto postCreateRequestDto) {
-    Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto);
-    return new ResponseEntity(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
+      @RequestPart(value = "requestDto") @Valid PostCreateRequestDto postCreateRequestDto,
+      @RequestPart(value = "files", required = false) List<MultipartFile> files) {
+
+    Post insertPostResult = POST_SERVICE.insertPost(postCreateRequestDto, files);
+    return new ResponseEntity<>(POST_MAPPER.getDataFromEntity(insertPostResult), HttpStatus.CREATED);
   }
 
   @Operation(
