@@ -17,40 +17,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @ApiResponses({
-        @ApiResponse(
-                responseCode = "400",
-                description = "BAD REQUEST by Parameter Missing",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "400",
-                description = "BAD REQUEST by Type Mismatch",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "404",
-                description = "NOT FOUND",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-        @ApiResponse(
-                responseCode = "500",
-                description = "INTERNAL SERVER ERROR",
-                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "400",
+      description = "BAD REQUEST by Parameter Missing",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "400",
+      description = "BAD REQUEST by Type Mismatch",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "404",
+      description = "NOT FOUND",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+  @ApiResponse(
+      responseCode = "500",
+      description = "INTERNAL SERVER ERROR",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 })
 @Tag(name = "member", description = "Member API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/member")
 public class MemberDeleteMethodController {
-    private final MemberService MEMBER_SERVICE;
-    private final MemberMapper MEMBER_MAPPER;
+  private final MemberService MEMBER_SERVICE;
+  private final MemberMapper MEMBER_MAPPER;
 
-    @Operation(
-            summary = "Delete Member",
-            description = "해당 id 회원 삭제",
-            responses = {@ApiResponse(responseCode = "200", description = "Delete Success")})
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public String deleteMember(
-            @Parameter(description = "회원 id", in = ParameterIn.PATH) @PathVariable Long id) {
-        MEMBER_SERVICE.deleteMember(id);
-        return StatusMessage.OK.getStatusMessage();
-    }
+  @Operation(
+      summary = "Delete Member",
+      description = "해당 id 회원 삭제",
+      responses = {@ApiResponse(responseCode = "200", description = "Delete Success")})
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public String deleteMember(
+      @Parameter(description = "회원 id", in = ParameterIn.PATH) @PathVariable Long id) {
+    MEMBER_SERVICE.deleteMember(id);
+    return StatusMessage.OK.getStatusMessage();
+  }
 }
