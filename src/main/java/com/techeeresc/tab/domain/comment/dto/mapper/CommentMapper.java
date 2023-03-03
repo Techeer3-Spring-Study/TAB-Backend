@@ -10,8 +10,8 @@ public class CommentMapper {
 
   public Comment saveDataToEntity(CommentCreateRequestDto commentCreateRequestDto) {
     return Comment.builder()
-        .memberId(commentCreateRequestDto.getMemberId())
-        .postId(commentCreateRequestDto.getPostId())
+        .member(commentCreateRequestDto.getMemberId())
+        .post(commentCreateRequestDto.getPostId())
         .commentId(commentCreateRequestDto.getCommentId())
         .content(commentCreateRequestDto.getContent())
         .layer(commentCreateRequestDto.getLayer())
@@ -22,8 +22,8 @@ public class CommentMapper {
   public CommentResponseDto getDataFromEntity(Comment comment) {
     return CommentResponseDto.builder()
         .id(comment.getId())
-        .memberId(comment.getMemberId())
-        .postId(comment.getPostId())
+        .memberName(comment.getMember().getName())
+        .postId(comment.getPost().getId())
         .commentId(comment.getCommentId())
         .content(comment.getContent())
         .layer(comment.getLayer())

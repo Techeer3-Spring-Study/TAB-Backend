@@ -1,5 +1,7 @@
 package com.techeeresc.tab.domain.bookmark.entity;
 
+import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.global.common.Timestamp;
 import lombok.*;
 
@@ -18,15 +20,17 @@ public class Bookmark extends Timestamp {
   @Column(columnDefinition = "INT UNSIGNED")
   private Long id;
 
-  @Column(name = "member_id", nullable = false, columnDefinition = "INT UNSIGNED")
-  private Long memberId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id", nullable = false)
+  private Member member;
 
-  @Column(name = "post_id", nullable = false, columnDefinition = "INT UNSIGNED")
-  private Long postId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "post_id", nullable = false)
+  private Post post;
 
   @Builder
-  public Bookmark(Long memberId, Long postId) {
-    this.memberId = memberId;
-    this.postId = postId;
+  public Bookmark(Member memberId, Post postId) {
+    this.member = memberId;
+    this.post = postId;
   }
 }

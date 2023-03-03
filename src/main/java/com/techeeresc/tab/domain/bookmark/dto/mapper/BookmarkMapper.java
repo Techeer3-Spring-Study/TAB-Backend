@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 public class BookmarkMapper {
   public Bookmark saveDataToEntity(BookmarkCreateRequestDto bookmarkCreateRequestDto) {
     return Bookmark.builder()
-        .memberId(bookmarkCreateRequestDto.getMemberId())
-        .postId(bookmarkCreateRequestDto.getPostId())
+        .member(bookmarkCreateRequestDto.getMemberId())
+        .post(bookmarkCreateRequestDto.getPostId())
         .build();
   }
 
   public BookmarkResponseDto getDataFromEntity(Bookmark bookmark) {
     return BookmarkResponseDto.builder()
         .id(bookmark.getId())
-        .memberId(bookmark.getMemberId())
-        .postId(bookmark.getPostId())
+        .memberName(bookmark.getMember().getName())
+        .postId(bookmark.getPost().getId())
         .build();
   }
 }

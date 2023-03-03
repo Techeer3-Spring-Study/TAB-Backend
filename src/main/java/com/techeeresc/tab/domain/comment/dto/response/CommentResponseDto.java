@@ -10,8 +10,8 @@ public class CommentResponseDto {
   @Schema(description = "comment id", defaultValue = "1")
   private Long id;
 
-  @Schema(description = "member id", defaultValue = "1")
-  private Long memberId;
+  @Schema(description = "member name", defaultValue = "1")
+  private String memberName;
 
   @Schema(description = "post id", defaultValue = "1")
   private Long postId;

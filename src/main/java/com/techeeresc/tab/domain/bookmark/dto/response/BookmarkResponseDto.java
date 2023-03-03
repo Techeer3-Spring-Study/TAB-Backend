@@ -8,5 +8,5 @@ import lombok.Getter;
 public class BookmarkResponseDto {
   public Long id;
   public Long postId;
-  public Long memberId;
+  public String memberName;
 }

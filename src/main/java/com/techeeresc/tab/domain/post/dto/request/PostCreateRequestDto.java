@@ -1,6 +1,7 @@
 package com.techeeresc.tab.domain.post.dto.request;
 
 import com.sun.istack.NotNull;
+import com.techeeresc.tab.domain.member.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Getter;
 public class PostCreateRequestDto {
   @NotNull
   @Schema(description = "user index id", defaultValue = "1")
-  private Long memberId; // TODO: 외래키, 향후 외래키 매핑 필요, 토큰에서 받아온다.
+  private Member memberId; // TODO: 외래키, 향후 외래키 매핑 필요, 토큰에서 받아온다.
 
   @NotNull
   @Schema(

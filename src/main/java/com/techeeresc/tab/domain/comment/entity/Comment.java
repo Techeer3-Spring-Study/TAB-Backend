@@ -1,6 +1,8 @@
 package com.techeeresc.tab.domain.comment.entity;
 
 import com.techeeresc.tab.domain.comment.dto.request.CommentUpdateRequestDto;
+import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.post.entity.Post;
 import com.techeeresc.tab.global.common.Timestamp;
 import lombok.*;
 
@@ -19,11 +21,14 @@ public class Comment extends Timestamp {
   @Column(nullable = false, columnDefinition = "INT UNSIGNED")
   private Long id;
 
-  @Column(name = "post_id", nullable = false)
-  private Long postId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "post_id", nullable = false,
+          foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+  private Post post;
 
-  @Column(name = "member_id", nullable = false)
-  private Long memberId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id", nullable = false)
+  private Member member;
 
   @Column(name = "comment_id", nullable = false)
   private Long commentId;

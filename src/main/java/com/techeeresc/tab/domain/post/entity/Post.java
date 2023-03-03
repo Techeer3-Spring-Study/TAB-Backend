@@ -1,5 +1,6 @@
 package com.techeeresc.tab.domain.post.entity;
 
+import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.global.common.Timestamp;
 import lombok.AllArgsConstructor;
@@ -19,11 +20,13 @@ import javax.persistence.*;
 public class Post extends Timestamp {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQL의 자동 생성 방식
-  @Column(columnDefinition = "INT UNSIGNED")
+  @Column(name = "post_id", columnDefinition = "INT UNSIGNED")
   private Long id;
 
-  @Column(name = "member_id", nullable = false)
-  private Long memberId; // TODO: 외래키, 향후 외래키 매핑 필요
+  @ManyToOne(fetch = FetchType.LAZY)
+//  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "member_id", nullable = false)
+  private Member member;
 
   @Column(name = "category", nullable = false)
   private String category;

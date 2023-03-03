@@ -1,5 +1,7 @@
 package com.techeeresc.tab.domain.comment.dto.request;
 
+import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.post.entity.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,11 +13,11 @@ import javax.validation.constraints.NotNull;
 public class CommentCreateRequestDto {
   @NotNull
   @Schema(description = "member id", defaultValue = "1")
-  private Long memberId;
+  private Member memberId;
 
   @NotNull
   @Schema(description = "post id", defaultValue = "1")
-  private Long postId;
+  private Post postId;
 
   @Schema(description = "comment id", defaultValue = "1")
   private Long commentId;

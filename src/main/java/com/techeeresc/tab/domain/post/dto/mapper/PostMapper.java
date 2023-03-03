@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PostMapper {
   public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto) {
     return Post.builder()
-        .memberId(postCreateRequestDto.getMemberId())
+        .member(postCreateRequestDto.getMemberId())
         .category(postCreateRequestDto.getCategory())
         .title(postCreateRequestDto.getTitle())
         .content(postCreateRequestDto.getContent())
@@ -23,7 +23,7 @@ public class PostMapper {
   public PostResponseDto getDataFromEntity(Post post) {
     return PostResponseDto.builder()
         .id(post.getId())
-        .memberId(post.getMemberId())
+        .memberName(post.getMember().getName())
         .category(post.getCategory())
         .title(post.getTitle())
         .content(post.getContent())

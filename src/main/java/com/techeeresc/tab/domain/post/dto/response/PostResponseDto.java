@@ -12,8 +12,8 @@ public class PostResponseDto {
   @Schema(description = "post id", defaultValue = "1")
   private Long id;
 
-  @Schema(description = "user index id", defaultValue = "1")
-  private Long memberId; // TODO: 외래키, 향후 외래키 매핑 필요
+  @Schema(description = "user index name", defaultValue = "1")
+  private String memberName;
 
   @Schema(
       description = "post category",

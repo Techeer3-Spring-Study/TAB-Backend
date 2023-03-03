@@ -21,7 +21,7 @@ import javax.persistence.*;
 public class Member extends Timestamp {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY) // DB가 id 자동 생성
-  @Column(nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "member_id", nullable = false, columnDefinition = "INT UNSIGNED")
   private Long id;
 
   @Column(nullable = false, name = "email")

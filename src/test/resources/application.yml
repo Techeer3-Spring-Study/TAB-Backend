@@ -15,5 +15,5 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
-  flyway:
-    enabled: true # 기본값 = true 이지만, flyway를 사용하고 있음을 명시해줍니다.
+#  flyway:
+#    enabled: true # 기본값 = true 이지만, flyway를 사용하고 있음을 명시해줍니다.
