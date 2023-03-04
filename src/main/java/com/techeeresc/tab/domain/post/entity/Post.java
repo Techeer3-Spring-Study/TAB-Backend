@@ -1,5 +1,7 @@
 package com.techeeresc.tab.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techeeresc.tab.domain.member.entity.Member;
 import com.techeeresc.tab.domain.post.dto.request.PostUpdateRequestDto;
 import com.techeeresc.tab.global.common.Timestamp;
@@ -10,11 +12,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
-@NoArgsConstructor // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
 @AllArgsConstructor
+//@NoArgsConstructor // @Entity 어노테이션을 사용할 경우 기본 생성자는 필수이다.
 @Getter
-@Builder
-// @Builder @NoArgsConstructor 를 함께 사용하려면 @AllArgsConstructor 나 모든 필드를 가지는 생성자를 직접 만들어줘야한다.
+@Builder // @Builder @NoArgsConstructor 를 함께 사용하려면 @AllArgsConstructor 나 모든 필드를 가지는 생성자를 직접 만들어줘야한다.
 @Entity // @Entity 어노테이션을 사용하면 이 클래스는 테이블과 매핑할 클래스라는 것을 명시해준다.
 @Table(name = "post")
 public class Post extends Timestamp {
@@ -26,6 +27,8 @@ public class Post extends Timestamp {
   @ManyToOne(fetch = FetchType.LAZY)
 //  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "member_id", nullable = false)
+//  @JsonIgnore
+  @JsonProperty("member_id")
   private Member member;
 
   @Column(name = "category", nullable = false)
@@ -85,4 +88,7 @@ public class Post extends Timestamp {
 
     return this;
   }
+
+  public Post() {}
+
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor // 기본 생성자 추가
+//@NoArgsConstructor // 기본 생성자 추가
 @Builder
 @Getter
 @DynamicInsert // null값이면 기본값으로 들어감
@@ -48,4 +48,7 @@ public class Member extends Timestamp {
 
     return this;
   }
+
+  public Member() {}
+
 }

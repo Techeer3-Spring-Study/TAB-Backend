@@ -13,11 +13,11 @@ import javax.validation.constraints.NotNull;
 public class CommentCreateRequestDto {
   @NotNull
   @Schema(description = "member id", defaultValue = "1")
-  private Member memberId;
+  private Long memberId;
 
   @NotNull
   @Schema(description = "post id", defaultValue = "1")
-  private Post postId;
+  private Long postId;
 
   @Schema(description = "comment id", defaultValue = "1")
   private Long commentId;

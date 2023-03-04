@@ -16,11 +16,11 @@ public class BookmarkCreateRequestDto {
 
   @NotNull
   @Schema(description = "Post_ID", defaultValue = "1")
-  private Post postId;
+  private Long postId;
 
   @NotNull
   @Schema(
       description = "Member_ID",
       allowableValues = {"1"})
-  private Member memberId;
+  private Long memberId;
 }

@@ -1,15 +1,21 @@
 package com.techeeresc.tab.domain.post.dto.mapper;
 
+import com.techeeresc.tab.domain.member.entity.Member;
+import com.techeeresc.tab.domain.member.respository.MemberRepository;
 import com.techeeresc.tab.domain.post.dto.request.PostCreateRequestDto;
 import com.techeeresc.tab.domain.post.dto.response.PostResponseDto;
 import com.techeeresc.tab.domain.post.entity.Post;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PostMapper {
+  private final MemberRepository MEMBER_REPOSITORY;
   public Post saveDataToEntity(PostCreateRequestDto postCreateRequestDto) {
+    Member member = MEMBER_REPOSITORY.findById(postCreateRequestDto.getMemberId()).orElseThrow(NullPointerException::new);
     return Post.builder()
-        .member(postCreateRequestDto.getMemberId())
+        .member(member)
         .category(postCreateRequestDto.getCategory())
         .title(postCreateRequestDto.getTitle())
         .content(postCreateRequestDto.getContent())
